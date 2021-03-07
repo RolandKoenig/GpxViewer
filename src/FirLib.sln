@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{7CAD234E
 		..\LICENSE = ..\LICENSE
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirLib.Tests", "FirLib.Tests\FirLib.Tests.csproj", "{D72E9830-428C-4EDF-9CF9-624355922F94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{F5222B15-78F4-4BF4-BFA0-26AD1E8E431D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5222B15-78F4-4BF4-BFA0-26AD1E8E431D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5222B15-78F4-4BF4-BFA0-26AD1E8E431D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D72E9830-428C-4EDF-9CF9-624355922F94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D72E9830-428C-4EDF-9CF9-624355922F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D72E9830-428C-4EDF-9CF9-624355922F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D72E9830-428C-4EDF-9CF9-624355922F94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
