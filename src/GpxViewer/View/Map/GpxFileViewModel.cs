@@ -15,6 +15,7 @@ namespace GpxViewer.View.Map
     {
         private MapViewModel _mapViewModel;
         private bool _hasChanged;
+        private bool _isSelected;
 
         [Browsable(false)]
         public GpxFile GpxFile { get; }
@@ -87,6 +88,20 @@ namespace GpxViewer.View.Map
         }
 
         [Browsable(false)]
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                if(_isSelected != value)
+                {
+                    _isSelected = value;
+                    this.UpdateTrackColor();
+                }
+            }
+        }
+
+        [Browsable(false)]
         public bool IsVisible
         {
             get => _mapViewModel.ContainsGpxFile(this);
@@ -137,21 +152,22 @@ namespace GpxViewer.View.Map
 
         private void UpdateTrackColor()
         {
+            var lineWidth = this.IsSelected ? 8.0 : 4.0;
             switch (this.State)
             {
                 case GpxTrackState.Unknown:
                     this.GpxMapLayer.Color = Colors.Gray;
-                    this.GpxMapLayer.LineWidth = 4.0;
+                    this.GpxMapLayer.LineWidth = lineWidth;
                     break;
 
                 case GpxTrackState.Planned:
                     this.GpxMapLayer.Color = Colors.Yellow;
-                    this.GpxMapLayer.LineWidth = 4.0;
+                    this.GpxMapLayer.LineWidth = lineWidth;
                     break;
 
                 case GpxTrackState.Succeeded:
                     this.GpxMapLayer.Color = Colors.Green;
-                    this.GpxMapLayer.LineWidth = 4.0;
+                    this.GpxMapLayer.LineWidth = lineWidth;
                     break;
             }
         }

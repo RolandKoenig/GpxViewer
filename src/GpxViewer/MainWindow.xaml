@@ -6,8 +6,10 @@
         xmlns:maps="clr-namespace:Mapsui.UI.Wpf;assembly=Mapsui.UI.Wpf"
         xmlns:prop="http://propertytools.org/wpf"
         xmlns:mvvm="http://www.rolandk.de/firlib/patterns/mvvm"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:GpxViewer"
         xmlns:localMap="clr-namespace:GpxViewer.View.Map"
+        xmlns:localBeh="clr-namespace:GpxViewer.View.Behaviors"
         mc:Ignorable="d"
         Title="{Binding Path=Title}" Height="450" Width="800">
     <Window.DataContext>
@@ -54,8 +56,12 @@
 
                 <ListBox Grid.Row="0" 
                          x:Name="CtrlFileList"
-                         SelectionMode="Extended"
-                         ItemsSource="{Binding Path=LoadedGpxFiles}" >
+                         ItemsSource="{Binding Path=LoadedGpxFiles}"
+                         SelectionMode="Extended">
+                    <behaviors:Interaction.Behaviors>
+                        <localBeh:ListBoxSelectionToViewModelBehavior />
+                    </behaviors:Interaction.Behaviors>
+
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

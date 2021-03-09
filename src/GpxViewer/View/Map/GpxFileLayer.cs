@@ -39,7 +39,7 @@ namespace GpxViewer.View.Map
             {
                 Fill = null,
                 Outline = null,
-                Line = { Color = Mapsui.Styles.Color.Blue, Width = 4}
+                Line = { Color = Mapsui.Styles.Color.Black, Width = 4 }
             };
 
             this.DataSource = new MemoryProvider(new Feature {Geometry = lineString});
