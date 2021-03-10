@@ -8,16 +8,33 @@ namespace FirLib.Core.Infrastructure
     {
         public static FirLibApplication? Current { get; private set; }
 
+        public static FirLibApplicationLoader Loader { get; } = new();
+
         public static bool IsInitialized => Current != null;
 
-        public static void Initialize()
+        private FirLibApplicationContext _context;
+
+        internal static void Load(FirLibApplicationLoader loader)
         {
             if (Current != null)
             {
-                throw new FirLibException($"{nameof(FirLibApplication)} is already initialized!");
+                throw new FirLibException($"{nameof(FirLibApplication)} is already loaded!");
             }
 
-            Current = new FirLibApplication();
+            Current = new FirLibApplication(loader.GetContext());
+        }
+
+        internal FirLibApplication(FirLibApplicationContext context)
+        {
+            _context = context;
+
+            if(_context.StartupActions != null)
+            {
+                foreach(var actStartupAction in _context.StartupActions)
+                {
+                    actStartupAction();
+                }
+            }
         }
     }
 }

@@ -7,14 +7,14 @@ namespace FirLib.Core.Patterns.ErrorAnalysis
 {
     public class ExceptionInfoNode : IComparable<ExceptionInfoNode>
     {
-        private Exception? m_exception;
+        public Exception? Exception { get; }
 
         /// <summary>
         /// Gets a collection containing all child nodes.
         /// </summary>
         public List<ExceptionInfoNode> ChildNodes { get; } = new();
 
-        public bool IsExceptionNode => m_exception != null;
+        public bool IsExceptionNode => this.Exception != null;
 
         public string PropertyName { get; }
 
@@ -27,7 +27,7 @@ namespace FirLib.Core.Patterns.ErrorAnalysis
         {
             ex.EnsureNotNull(nameof(ex));
 
-            m_exception = ex;
+            this.Exception = ex;
 
             this.PropertyName = ex.GetType().GetTypeInfo().Name;
             this.PropertyValue = ex.Message;
@@ -46,11 +46,11 @@ namespace FirLib.Core.Patterns.ErrorAnalysis
             if (other == null) { return -1; }
             if(this.IsExceptionNode != other.IsExceptionNode)
             {
-                if (this.IsExceptionNode) { return -1; }
-                else { return 1; }
+                if (this.IsExceptionNode) { return 1; }
+                else { return -1; }
             }
 
-            return string.Compare(this.PropertyName, other.PropertyName, StringComparison.Ordinal);
+            return 0;
         }
 
         public override string ToString()
