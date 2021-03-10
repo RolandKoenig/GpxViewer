@@ -36,7 +36,7 @@ namespace FirLib.Core.Patterns.ErrorAnalysis
         {
             exceptionAnalyzers ??= CreateDefaultAnalyzers();
 
-            this.MainMessage = "Unhandled Exception";
+            this.MainMessage = "Unexpected Error";
             this.Description = ex.Message;
 
             // Analyze the given exception 
@@ -84,6 +84,17 @@ namespace FirLib.Core.Patterns.ErrorAnalysis
                     foreach (Exception actInnerException in innerExceptions)
                     {
                         if (actInnerException == null) { continue; }
+
+                        var exceptionExists = false;
+                        foreach (var actExistingExInfo in targetNode.ChildNodes)
+                        {
+                            if (actExistingExInfo.Exception == actInnerException)
+                            {
+                                exceptionExists = true;
+                                break;
+                            }
+                        }
+                        if (exceptionExists) { continue; }
 
                         ExceptionInfoNode actInfoNode = new(actInnerException);
                         AnalyzeException(actInnerException, actInfoNode, exceptionAnalyzers);

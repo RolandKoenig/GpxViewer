@@ -24,6 +24,8 @@ namespace FirLib.Core.Patterns.ErrorAnalysis.Analyzers
                     "SourceMethod.Type", 
                     sourceMethod.DeclaringType?.FullName ?? string.Empty);
             }
+
+            yield return new ExceptionProperty("StackTrace", ex.StackTrace ?? string.Empty);
         }
 
         /// <inheritdoc />
