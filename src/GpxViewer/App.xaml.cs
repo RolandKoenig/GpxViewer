@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using FirLib.Core;
 using FirLib.Core.Infrastructure;
 using GpxViewer.GpxExtensions;
 using FirLib.Formats.Gpx;
@@ -19,7 +20,9 @@ namespace GpxViewer
             base.OnStartup(e);
 
             // Initialize base application logic
-            FirLibApplication.Initialize();
+            FirLibApplication.Loader
+                .AttachToWpfEnvironment()
+                .Load();
 
             // Register GpxFile extensions
             GpxFile.RegisterExtensionType(typeof(TrackExtension));
