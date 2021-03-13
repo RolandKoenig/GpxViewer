@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using FirLib.Core.Patterns.Messaging;
 
@@ -13,6 +14,7 @@ namespace FirLib.Core.Patterns.Mvvm
 
         public event EventHandler<ViewServiceRequestEventArgs>? ViewServiceRequest;
 
+        [Browsable(false)]
         public object? AssociatedView
         {
             get => _associatedView;
@@ -35,6 +37,7 @@ namespace FirLib.Core.Patterns.Mvvm
             }
         }
 
+        [Browsable(false)]
         public bool IsViewAttached => this.AssociatedView != null;
 
         protected void CloseWindow(object? dialogResult)
