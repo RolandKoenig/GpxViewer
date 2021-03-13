@@ -1,14 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FirLib.Core.Patterns.Messaging;
 
 namespace FirLib.Core.Patterns.Mvvm
 {
     public class ViewModelBase : PropertyChangedBase
     {
+        private object? _associatedView;
+
         public event EventHandler<CloseWindowRequestEventArgs>? CloseWindowRequest;
 
         public event EventHandler<ViewServiceRequestEventArgs>? ViewServiceRequest;
+
+        public object? AssociatedView
+        {
+            get => _associatedView;
+            set
+            {
+                if(_associatedView != value)
+                {
+                    if (_associatedView != null)
+                    {
+                        this.OnMvvmViewDetaching();
+                    }
+
+                    _associatedView = value;
+
+                    if(_associatedView != null)
+                    {
+                        this.OnMvvmViewAttached();
+                    }
+                }
+            }
+        }
+
+        public bool IsViewAttached => this.AssociatedView != null;
 
         protected void CloseWindow(object? dialogResult)
         {
@@ -29,6 +56,22 @@ namespace FirLib.Core.Patterns.Mvvm
                 throw new ApplicationException($"Unable to get view service of type {typeof(T).FullName}!");
             }
             return result;
+        }
+
+        /// <summary>
+        /// Called when a mvvm view is attaching on this viewmodel.
+        /// </summary>
+        protected virtual void OnMvvmViewAttached()
+        {
+
+        }
+
+        /// <summary>
+        /// Called when a mvvm view is detaching from this viewmodel.
+        /// </summary>
+        protected virtual void OnMvvmViewDetaching()
+        {
+
         }
     }
 }

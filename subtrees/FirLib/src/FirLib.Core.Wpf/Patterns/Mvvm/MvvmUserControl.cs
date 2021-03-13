@@ -42,12 +42,20 @@ namespace FirLib.Core.Patterns.Mvvm
         {
             if(e.OldValue is ViewModelBase oldViewModel)
             {
-                oldViewModel.ViewServiceRequest -= this.OnViewModel_ViewServiceRequest;
+                if (ReferenceEquals(oldViewModel.AssociatedView, this))
+                {
+                    oldViewModel.ViewServiceRequest -= this.OnViewModel_ViewServiceRequest;
+                    oldViewModel.AssociatedView = null;
+                }
             }
 
             if(e.NewValue is ViewModelBase newViewModel)
             {
-                newViewModel.ViewServiceRequest += this.OnViewModel_ViewServiceRequest;
+                if (newViewModel.AssociatedView == null)
+                {
+                    newViewModel.ViewServiceRequest += this.OnViewModel_ViewServiceRequest;
+                    newViewModel.AssociatedView = this;
+                }
             }
         }
 

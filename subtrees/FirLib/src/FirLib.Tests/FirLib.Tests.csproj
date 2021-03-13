@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net48;net5.0-windows</TargetFrameworks>
-
+    <TargetFrameworks>net48;net5.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -20,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Core\Patterns\BackgroundLoops\" />
     <Folder Include="Formats\Gpx\" />
   </ItemGroup>
 
