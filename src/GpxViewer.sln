@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{FE293C28
 		..\.gitignore = ..\.gitignore
 		..\LICENSE = ..\LICENSE
 		..\pull-subtrees.ps1 = ..\pull-subtrees.ps1
+		..\push-subtrees-firlib.ps1 = ..\push-subtrees-firlib.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "subtrees", "subtrees", "{789BC6D1-055B-48D5-A61B-1FF6AD19F37F}"
