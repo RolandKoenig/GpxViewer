@@ -44,7 +44,6 @@ namespace FirLib.Tests.Wpf
 
                     Task.Factory.StartNew(() => throw new ApplicationException("Exception out of AggregateException")).Wait();
                 });
-
         }
     }
 }

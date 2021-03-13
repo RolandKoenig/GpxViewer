@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using FirLib.Core.Dialogs;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.ErrorAnalysis;
+using FirLib.Core.Patterns.Messaging;
 
 namespace FirLib.Core
 {
@@ -19,6 +20,12 @@ namespace FirLib.Core
             loader.AddStartupAction(() =>
             {
                 Application.Current.DispatcherUnhandledException += CurrentOnDispatcherUnhandledException;
+
+                var uiMessenger = new FirLibMessenger();
+                uiMessenger.ConnectToGlobalMessaging(
+                    FirLibMessengerThreadingBehavior.EnsureMainSyncContextOnSyncCalls,
+                    FirLibConstants.MESSENGER_NAME_GUI,
+                    SynchronizationContext.Current);
             });
 
             return loader;
