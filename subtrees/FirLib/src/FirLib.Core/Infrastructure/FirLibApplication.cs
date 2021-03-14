@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FirLib.Core.Infrastructure.Services;
 
 namespace FirLib.Core.Infrastructure
 {
@@ -10,9 +11,11 @@ namespace FirLib.Core.Infrastructure
 
         public static FirLibApplicationLoader Loader { get; } = new();
 
-        public static bool IsInitialized => Current != null;
+        public static bool IsLoaded => Current != null;
 
         private FirLibApplicationContext _context;
+
+        public FirLibServiceContainer Services => _context.Services;
 
         internal static void Load(FirLibApplicationLoader loader)
         {
