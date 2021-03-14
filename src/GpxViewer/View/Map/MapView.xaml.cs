@@ -22,7 +22,7 @@ namespace GpxViewer.View.Map
 {
     public partial class MapView : MvvmUserControl
     {
-        private ILayer _mainLayer;
+        private ILayer? _mainLayer;
 
         public MapView()
         {
@@ -69,7 +69,7 @@ namespace GpxViewer.View.Map
             }
         }
 
-        private void OnViewModel_VisibleGpxFiles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnViewModel_VisibleGpxFiles_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.OldItems != null)
             {

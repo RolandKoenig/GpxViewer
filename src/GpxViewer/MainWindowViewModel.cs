@@ -52,6 +52,7 @@ namespace GpxViewer
 
         public MainWindowViewModel()
         {
+            _title = string.Empty;
             this.MapVM = new MapViewModel();
 
             this.LoadedGpxFiles.CollectionChanged += this.OnLoadedGpxFiles_CollectionChanged;
@@ -87,7 +88,7 @@ namespace GpxViewer
             else { this.Title = "RK Gpx Viewer"; }
         }
 
-        private void OnLoadedGpxFiles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnLoadedGpxFiles_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.OldItems != null)
             {
@@ -106,7 +107,7 @@ namespace GpxViewer
             }
         }
 
-        private void OnGpxFile_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnGpxFile_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(GpxFileViewModel.HasChanged))
             {
