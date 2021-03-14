@@ -1,0 +1,83 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Mapsui Contributers</Authors>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="EmbeddedResources\cities.geojson" />
+    <None Remove="EmbeddedResources\cities.json" />
+    <None Remove="EmbeddedResources\congo.json" />
+    <None Remove="EmbeddedResources\countries-hires.json" />
+    <None Remove="EmbeddedResources\el-molar.mbtiles" />
+    <None Remove="EmbeddedResources\torrejon-de-ardoz.mbtiles" />
+    <None Remove="EmbeddedResources\world.mbtiles" />
+    <None Remove="Images\arrow.png" />
+    <None Remove="Images\Ghostscript_Tiger.png" />
+    <None Remove="Images\Ghostscript_Tiger.svg" />
+    <None Remove="Images\home.png" />
+    <None Remove="Images\ic_place_black_24dp.png" />
+    <None Remove="Images\loc.png" />
+    <None Remove="Images\location.png" />
+    <None Remove="Images\netherlands.jpg" />
+    <None Remove="Images\osm-liberty.png" />
+    <None Remove="Images\Pin.svg" />
+    <None Remove="MbTiles\el-molar.mbtiles" />
+    <None Remove="MbTiles\torrejon-de-ardoz.mbtiles" />
+    <None Remove="MbTiles\world.mbtiles" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedResources\cities.geojson" />
+    <EmbeddedResource Include="EmbeddedResources\cities.json" />
+    <EmbeddedResource Include="EmbeddedResources\congo.json" />
+    <EmbeddedResource Include="EmbeddedResources\countries-hires.json" />
+    <EmbeddedResource Include="EmbeddedResources\el-molar.mbtiles" />
+    <EmbeddedResource Include="EmbeddedResources\torrejon-de-ardoz.mbtiles">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmbeddedResources\world.mbtiles">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\arrow.png" />
+    <EmbeddedResource Include="Images\Ghostscript_Tiger.png" />
+    <EmbeddedResource Include="Images\Ghostscript_Tiger.svg" />
+    <EmbeddedResource Include="Images\home.png" />
+    <EmbeddedResource Include="Images\ic_place_black_24dp.png" />
+    <EmbeddedResource Include="Images\loc.png" />
+    <EmbeddedResource Include="Images\location.png" />
+    <EmbeddedResource Include="Images\netherlands.jpg" />
+    <EmbeddedResource Include="Images\osm-liberty.png" />
+    <EmbeddedResource Include="Images\Pin.svg" />
+    <Content Include="MbTiles\el-molar.mbtiles">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MbTiles\torrejon-de-ardoz.mbtiles">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MbTiles\world.mbtiles">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BruTile" Version="3.1.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="BruTile.MbTiles" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Mapsui.Geometries\Mapsui.Geometries.csproj" />
+    <ProjectReference Include="..\..\Mapsui\Mapsui.csproj" />
+    <ProjectReference Include="..\Mapsui.Samples.CustomWidget\Mapsui.Samples.CustomWidget.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="MbTiles\chinese-world.mbtiles">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+</Project>
