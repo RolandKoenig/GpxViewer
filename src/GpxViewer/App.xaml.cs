@@ -22,6 +22,7 @@ namespace GpxViewer
             // Initialize base application logic
             FirLibApplication.Loader
                 .AttachToWpfEnvironment()
+                //.LoadGpxViewerModules()
                 .Load();
 
             // Register GpxFile extensions

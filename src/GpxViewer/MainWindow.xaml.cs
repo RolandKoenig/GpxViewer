@@ -34,7 +34,7 @@ namespace GpxViewer
         {
             this.InitializeComponent();
 
-            if(FirLibApplication.IsInitialized)
+            if(FirLibApplication.IsLoaded)
             {
                 // Register view services
                 this.ViewServices.Add(new WpfRenameGpxFilesViewService(this));

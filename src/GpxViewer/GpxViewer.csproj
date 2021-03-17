@@ -37,11 +37,4 @@
     <ProjectReference Include="..\..\subtrees\Mapsui\Mapsui.UI.Wpf\Mapsui.UI.Wpf.csproj" />
     <ProjectReference Include="..\..\subtrees\Mapsui\Mapsui\Mapsui.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Modules\FileTree\" />
-    <Folder Include="Modules\FileContent\" />
-    <Folder Include="Modules\FileCustomDetails\" />
-    <Folder Include="Modules\Map\" />
-    <Folder Include="Modules\TrackInfo\" />
-  </ItemGroup>
 </Project>

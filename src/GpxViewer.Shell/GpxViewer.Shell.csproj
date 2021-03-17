@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>GpxViewer</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Core.Wpf\FirLib.Core.Wpf.csproj" />
+    <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Core\FirLib.Core.csproj" />
+    <ProjectReference Include="..\GpxViewer.Core\GpxViewer.Core.csproj" />
+    <ProjectReference Include="..\GpxViewer.Modules.GpxFiles\GpxViewer.Modules.GpxFiles.csproj" />
+    <ProjectReference Include="..\GpxViewer.Modules.Map\GpxViewer.Modules.Map.csproj" />
+  </ItemGroup>
+
+</Project>

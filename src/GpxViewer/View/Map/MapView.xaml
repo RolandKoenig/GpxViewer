@@ -10,5 +10,5 @@
              d:DataContext="{x:Static local:MapViewModel.DesignTimeData}"
              d:DesignHeight="450" d:DesignWidth="800">
     <maps:MapControl x:Name="CtrlMap"
-                     RenderMode="Skia"/>
+                     RenderMode="Skia" />
 </mvvm:MvvmUserControl>

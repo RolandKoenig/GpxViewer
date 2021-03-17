@@ -10,9 +10,10 @@ using System.Threading.Tasks;
 using FirLib.Core.Patterns;
 using FirLib.Core.Patterns.Mvvm;
 using FirLib.Core.ViewServices;
+using FirLib.Formats.Gpx;
 using GpxViewer.View.Map;
 using GpxViewer.ViewServices.Rename;
-using FirLib.Formats.Gpx;
+using GpxViewer.Utils;
 
 namespace GpxViewer
 {

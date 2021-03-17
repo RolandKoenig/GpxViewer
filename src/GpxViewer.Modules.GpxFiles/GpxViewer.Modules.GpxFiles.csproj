@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Core.Wpf\FirLib.Core.Wpf.csproj" />
+    <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Core\FirLib.Core.csproj" />
+    <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Formats.Gpx\FirLib.Formats.Gpx.csproj" />
+    <ProjectReference Include="..\GpxViewer.Core\GpxViewer.Core.csproj" />
+  </ItemGroup>
+
+</Project>

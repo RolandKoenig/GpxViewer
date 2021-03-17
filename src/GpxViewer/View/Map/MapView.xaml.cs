@@ -17,6 +17,7 @@ using BruTile.Predefined;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
 using Mapsui.Layers;
+using Mapsui.Utilities;
 
 namespace GpxViewer.View.Map
 {
@@ -28,10 +29,10 @@ namespace GpxViewer.View.Map
         {
             this.InitializeComponent();
 
-            if (FirLibApplication.IsInitialized)
+            if (FirLibApplication.IsLoaded)
             {
                 // Add main map layer
-                _mainLayer = new TileLayer(KnownTileSources.Create());
+                _mainLayer = OpenStreetMap.CreateTileLayer();
                 this.CtrlMap.Map.Layers.Add(_mainLayer);
 
                 // Register on events

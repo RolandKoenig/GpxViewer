@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using GpxViewer.View.Map;
 using Microsoft.Xaml.Behaviors;
 
-namespace GpxViewer.View.Behaviors
+namespace GpxViewer.Utils.Behaviors
 {
     public class ListBoxSelectionToViewModelBehavior : Behavior<ListBox>
     {

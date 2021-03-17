@@ -36,6 +36,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mapsui.UI.Wpf", "..\subtree
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mapsui.Geometries", "..\subtrees\Mapsui\Mapsui.Geometries\Mapsui.Geometries.csproj", "{22F28B51-5BFE-4C98-9925-912A85188FCE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Shell", "GpxViewer.Shell\GpxViewer.Shell.csproj", "{352D3388-0118-4ED8-8F87-6D33510659C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Core", "GpxViewer.Core\GpxViewer.Core.csproj", "{FE7535F5-C3D5-42E4-9249-25CF47C0C560}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Modules.Map", "GpxViewer.Modules.Map\GpxViewer.Modules.Map.csproj", "{6EA52A23-60C1-493A-91A7-41BAFD476A9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GpxViewer.Modules.GpxFiles", "GpxViewer.Modules.GpxFiles\GpxViewer.Modules.GpxFiles.csproj", "{2D5B65CE-2DEA-4406-8D21-E8D07FCCB2A7}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\subtrees\Mapsui\Mapsui.UI.Shared\Mapsui.UI.Shared.projitems*{fb142f3f-df93-4fbf-b1ce-f3c3e356aaa5}*SharedItemsImports = 5
@@ -81,6 +89,22 @@ Global
 		{22F28B51-5BFE-4C98-9925-912A85188FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22F28B51-5BFE-4C98-9925-912A85188FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22F28B51-5BFE-4C98-9925-912A85188FCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{352D3388-0118-4ED8-8F87-6D33510659C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{352D3388-0118-4ED8-8F87-6D33510659C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{352D3388-0118-4ED8-8F87-6D33510659C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{352D3388-0118-4ED8-8F87-6D33510659C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE7535F5-C3D5-42E4-9249-25CF47C0C560}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE7535F5-C3D5-42E4-9249-25CF47C0C560}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE7535F5-C3D5-42E4-9249-25CF47C0C560}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE7535F5-C3D5-42E4-9249-25CF47C0C560}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EA52A23-60C1-493A-91A7-41BAFD476A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EA52A23-60C1-493A-91A7-41BAFD476A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EA52A23-60C1-493A-91A7-41BAFD476A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EA52A23-60C1-493A-91A7-41BAFD476A9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D5B65CE-2DEA-4406-8D21-E8D07FCCB2A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D5B65CE-2DEA-4406-8D21-E8D07FCCB2A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D5B65CE-2DEA-4406-8D21-E8D07FCCB2A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D5B65CE-2DEA-4406-8D21-E8D07FCCB2A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
