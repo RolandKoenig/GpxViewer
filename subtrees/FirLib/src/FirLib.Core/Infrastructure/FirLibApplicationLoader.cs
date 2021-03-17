@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using FirLib.Core.Infrastructure.Services;
 
 namespace FirLib.Core.Infrastructure
 {
     public class FirLibApplicationLoader
     {
         private FirLibApplicationContext _context;
+
+        public FirLibServiceContainer Services => _context.Services;
 
         internal FirLibApplicationLoader()
         {

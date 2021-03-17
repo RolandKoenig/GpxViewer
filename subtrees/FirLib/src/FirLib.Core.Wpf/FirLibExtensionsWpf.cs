@@ -17,16 +17,13 @@ namespace FirLib.Core
     {
         public static FirLibApplicationLoader AttachToWpfEnvironment(this FirLibApplicationLoader loader)
         {
-            loader.AddStartupAction(() =>
-            {
-                Application.Current.DispatcherUnhandledException += CurrentOnDispatcherUnhandledException;
+            Application.Current.DispatcherUnhandledException += CurrentOnDispatcherUnhandledException;
 
-                var uiMessenger = new FirLibMessenger();
-                uiMessenger.ConnectToGlobalMessaging(
-                    FirLibMessengerThreadingBehavior.EnsureMainSyncContextOnSyncCalls,
-                    FirLibConstants.MESSENGER_NAME_GUI,
-                    SynchronizationContext.Current);
-            });
+            var uiMessenger = new FirLibMessenger();
+            uiMessenger.ConnectToGlobalMessaging(
+                FirLibMessengerThreadingBehavior.EnsureMainSyncContextOnSyncCalls,
+                FirLibConstants.MESSENGER_NAME_GUI,
+                SynchronizationContext.Current);
 
             return loader;
         }

@@ -9,6 +9,6 @@ namespace FirLib.Core.Infrastructure
     {
         public List<Action>? StartupActions { get; set; }
 
-        public FirLibServiceContainer Services { get; } = new FirLibServiceContainer();
+        public FirLibServiceContainer Services { get; } = new();
     }
 }
