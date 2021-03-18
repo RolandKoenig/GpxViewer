@@ -12,17 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FirLib.Core.Patterns.Mvvm;
 
-namespace GpxViewer.Modules.Map.Views
+namespace GpxViewer.Modules.GpxFiles.Views
 {
-    /// <summary>
-    /// Interaction logic for ViewA.xaml
-    /// </summary>
-    public partial class ViewA : UserControl
+    public partial class FileTreeView : MvvmUserControl
     {
-        public ViewA()
+        public FileTreeView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

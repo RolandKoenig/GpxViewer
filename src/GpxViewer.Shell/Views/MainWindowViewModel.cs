@@ -1,8 +1,10 @@
-﻿using Prism.Mvvm;
+﻿using FirLib.Core.Patterns.Mvvm;
+using GpxViewer.Core.Commands;
+using Prism.Mvvm;
 
-namespace GpxViewer.Shell.ViewModels
+namespace GpxViewer.Shell.Views
 {
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : ViewModelBase
     {
         private string _title = "Prism Application";
 
@@ -12,9 +14,11 @@ namespace GpxViewer.Shell.ViewModels
             set { this.SetProperty(ref _title, value); }
         }
 
-        public MainWindowViewModel()
-        {
+        public IGpxViewerCommands GpxViewerCommands { get; }
 
+        public MainWindowViewModel(IGpxViewerCommands gpxViewerCommands)
+        {
+            this.GpxViewerCommands = gpxViewerCommands;
         }
     }
 }
