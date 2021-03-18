@@ -20,9 +20,11 @@ namespace FirLib.Core.Patterns.Mvvm
 
         public static object? TryFindViewService(this IViewServiceHost thisControl, Type viewServiceType)
         {
+            // Search within ViewServices collection
             var actParent = thisControl;
             object? result = null;
-            while (actParent != null)
+            while ((actParent != null) && 
+                   (result == null))
             {
                 foreach (var actViewService in actParent.ViewServices)
                 {
@@ -36,6 +38,17 @@ namespace FirLib.Core.Patterns.Mvvm
 
                 actParent = actParent.ParentViewServiceHost;
             }
+            if (result != null) { return result; }
+
+            // Search for default view services
+            actParent = thisControl;
+            while ((actParent != null) && 
+                   (result == null))
+            {
+                result = actParent.TryGetDefaultViewService(viewServiceType);
+                actParent = actParent.ParentViewServiceHost;
+            }
+
             return result;
         }
     }

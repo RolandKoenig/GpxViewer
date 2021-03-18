@@ -27,6 +27,12 @@ namespace FirLib.Core.Patterns.Mvvm
             this.DataContextChanged += this.OnDataContextChanged;
         }
 
+        /// <inheritdoc />
+        public object? TryGetDefaultViewService(Type viewServiceType)
+        {
+            return WpfDefaultViewServices.TryGetViewService(this, viewServiceType);
+        }
+
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if(e.OldValue is ViewModelBase oldViewModel)
@@ -53,14 +59,7 @@ namespace FirLib.Core.Patterns.Mvvm
         private void OnViewModel_ViewServiceRequest(object? sender, ViewServiceRequestEventArgs e)
         {
             var foundViewService = this.TryFindViewService(e.ViewServiceType);
-            if(foundViewService != null)
-            {
-                e.ViewService = foundViewService;
-            }
-            else
-            {
-                e.ViewService = WpfDefaultViewServices.TryGetViewService(this, e.ViewServiceType);
-            }
+            e.ViewService = foundViewService;
         }
 
         private void OnViewModel_CloseWindowRequest(object? sender, CloseWindowRequestEventArgs e)

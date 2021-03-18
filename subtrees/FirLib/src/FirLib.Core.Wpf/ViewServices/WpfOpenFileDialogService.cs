@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using FirLib.Core.Patterns.Mvvm;
-using FirLib.Core.Patterns.ObjectPooling;
 using Microsoft.Win32;
 
 namespace FirLib.Core.ViewServices

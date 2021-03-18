@@ -31,6 +31,12 @@ namespace FirLib.Core.Patterns.Mvvm
             }
         }
 
+        /// <inheritdoc />
+        public object? TryGetDefaultViewService(Type viewServiceType)
+        {
+            return WpfDefaultViewServices.TryGetViewService(this, viewServiceType);
+        }
+
         public MvvmUserControl()
         {
             _viewServiceContainer = new ViewServiceContainer(this);
@@ -62,14 +68,7 @@ namespace FirLib.Core.Patterns.Mvvm
         private void OnViewModel_ViewServiceRequest(object? sender, ViewServiceRequestEventArgs e)
         {
             var foundViewService = this.TryFindViewService(e.ViewServiceType);
-            if(foundViewService != null)
-            {
-                e.ViewService = foundViewService;
-            }
-            else
-            {
-                e.ViewService = WpfDefaultViewServices.TryGetViewService(this, e.ViewServiceType);
-            }
+            e.ViewService = foundViewService;
         }
     }
 }
