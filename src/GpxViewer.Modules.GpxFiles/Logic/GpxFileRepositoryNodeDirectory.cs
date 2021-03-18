@@ -13,6 +13,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public override string NodeText => Path.GetFileName(_directory);
 
+        public override LoadedGpxFile? AssociatedGpxFile => null;
+
         public GpxFileRepositoryNodeDirectory(string directory)
         {
             _directory = directory;

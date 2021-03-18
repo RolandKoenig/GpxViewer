@@ -5,17 +5,34 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FirLib.Core.Patterns.Mvvm;
 using FirLib.Core.ViewServices;
 using GpxViewer.Core.Commands;
+using GpxViewer.Core.Messages;
+using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Logic;
 
 namespace GpxViewer.Modules.GpxFiles.Views
 {
-    internal class FileTreeViewModel : ViewModelBase
+    internal class FileTreeViewModel : GpxViewerViewModelBase
     {
+        // Dependencies
         private GpxFileRepository _repoGpxFiles;
         private IGpxViewerCommands _gpxViewerCommands;
+
+        private GpxFileRepositoryNode? _selectedNode;
+
+        public GpxFileRepositoryNode? SelectedNode
+        {
+            get => _selectedNode;
+            set
+            {
+                if(_selectedNode != value)
+                {
+                    _selectedNode = value;
+                    this.RaisePropertyChanged();
+                }
+            }
+        }
 
         public ObservableCollection<GpxFileRepositoryNode> TopLevelNodes => _repoGpxFiles.TopLevelNodes;
 
@@ -30,7 +47,9 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
             this.Command_LoadFile = new DelegateCommand(this.OnCommand_LoadFile_Execute);
             this.Command_LoadDirectory = new DelegateCommand(this.OnCommand_LoadDirectory_Execute);
-            this.Command_CloseAll = new DelegateCommand(this.OnCommand_CloseAll_Execute);
+            this.Command_CloseAll = new DelegateCommand(
+                this.OnCommand_CloseAll_Execute,
+                () => this.TopLevelNodes.Count > 0);
         }
 
         /// <inheritdoc />
@@ -51,6 +70,11 @@ namespace GpxViewer.Modules.GpxFiles.Views
             _gpxViewerCommands.LoadFile.UnregisterCommand(this.Command_LoadFile);
             _gpxViewerCommands.LoadDirectory.UnregisterCommand(this.Command_LoadDirectory);
             _gpxViewerCommands.CloseAll.UnregisterCommand(this.Command_CloseAll);
+        }
+
+        private void OnMessageReceived(MessageGpxFileRepositoryContentsChanged message)
+        {
+            this.Command_CloseAll.RaiseCanExecuteChanged();
         }
 
         private async void OnCommand_LoadFile_Execute()
@@ -76,8 +100,8 @@ namespace GpxViewer.Modules.GpxFiles.Views
         }
 
         private void OnCommand_CloseAll_Execute()
-        {
-            throw new NotImplementedException();
+        { 
+            _repoGpxFiles.CloseAllFiles();
         }
     }
 }

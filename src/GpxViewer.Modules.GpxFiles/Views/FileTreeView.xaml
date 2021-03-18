@@ -5,30 +5,27 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:firlibMvvm="http://www.rolandk.de/firlib/patterns/mvvm"
+    xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:gpxvBehavior="clr-namespace:GpxViewer.Core.Behaviors;assembly=GpxViewer.Core"
     xmlns:local="clr-namespace:GpxViewer.Modules.GpxFiles.Views"
     mc:Ignorable="d" 
     d:DesignHeight="300" d:DesignWidth="300"
     d:DataContext="{x:Static local:DesignData.FileTreeVM}"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True" >
-    
-    <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Top" 
-                    Orientation="Horizontal" >
-            <Button Content="Load Files"
-                    Command="{Binding Command_LoadFile}" />
-        </StackPanel>
 
-        <TreeView ItemsSource="{Binding Path=TopLevelNodes}">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildNodes}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Path=NodeText}" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
-
-    </DockPanel>
+    <TreeView ItemsSource="{Binding Path=TopLevelNodes}">
+        <behavior:Interaction.Behaviors>
+            <gpxvBehavior:BindableTreeViewSelectedItemBehavior SelectedItem="{Binding Path=SelectedNode, Mode=TwoWay}" />
+        </behavior:Interaction.Behaviors>
+        
+        <TreeView.ItemTemplate>
+            <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildNodes}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=NodeText}" />
+                </StackPanel>
+            </HierarchicalDataTemplate>
+        </TreeView.ItemTemplate>
+    </TreeView>
 
 </firlibMvvm:MvvmUserControl>

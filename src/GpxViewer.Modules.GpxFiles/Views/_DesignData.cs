@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FakeItEasy;
+using FirLib.Core.Patterns.Messaging;
 using GpxViewer.Core.Commands;
 using GpxViewer.Modules.GpxFiles.Logic;
 
@@ -16,7 +17,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
             get
             {
                 return new FileTreeViewModel(
-                    new GpxFileRepository(),
+                    new GpxFileRepository(new FirLibMessenger()),
                     A.Fake<IGpxViewerCommands>());
             }
         }

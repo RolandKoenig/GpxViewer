@@ -24,6 +24,7 @@ namespace GpxViewer.Shell
         {
             // Initialize base application logic
             FirLibApplication.Loader
+                .ConfigureCurrentThreadAsMainGuiThread()
                 .AttachToWpfEnvironment()
                 .Load();
 

@@ -1,12 +1,11 @@
-﻿using FirLib.Core.Patterns.Mvvm;
-using GpxViewer.Core.Commands;
-using Prism.Mvvm;
+﻿using GpxViewer.Core.Commands;
+using GpxViewer.Core.Patterns;
 
 namespace GpxViewer.Shell.Views
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : GpxViewerViewModelBase
     {
-        private string _title = "Prism Application";
+        private string _title = "RK GPX Viewer";
 
         public string Title
         {

@@ -4,13 +4,22 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FirLib.Core.Patterns.Messaging;
+using GpxViewer.Core.Messages;
 using GpxViewer.Core.Model;
 
 namespace GpxViewer.Modules.GpxFiles.Logic
 {
     internal class GpxFileRepository : IGpxFileRepository
     {
+        private IFirLibMessagePublisher _uiMessenger;
+
         public ObservableCollection<GpxFileRepositoryNode> TopLevelNodes { get; } = new();
+
+        public GpxFileRepository(IFirLibMessagePublisher uiMessenger)
+        {
+            _uiMessenger = uiMessenger;
+        }
 
         public async Task<GpxFileRepositoryNodeFile> LoadFile(string filePath)
         {
@@ -19,8 +28,9 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             {
                 loadedFile = new GpxFileRepositoryNodeFile(filePath);
             });
-
             this.TopLevelNodes.Add(loadedFile!);
+
+            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this));
             return loadedFile!;
         }
 
@@ -31,8 +41,9 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             {
                 loadedDir = new GpxFileRepositoryNodeDirectory(directoryPath);
             });
-
             this.TopLevelNodes.Add(loadedDir!);
+
+            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this));
             return loadedDir!;
         }
 
@@ -44,7 +55,14 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         /// <inheritdoc />
         public IEnumerable<ILoadedGpxFile> GetAllSelectedGpxFiles()
         {
-            return (IEnumerable<ILoadedGpxFile>)this.GetAllLoadedGpxFiles();
+            return this.GetAllLoadedGpxFiles();
+        }
+
+        public void CloseAllFiles()
+        { 
+            this.TopLevelNodes.Clear();
+
+            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this));
         }
     }
 }

@@ -11,10 +11,11 @@ namespace GpxViewer.Modules.GpxFiles.Logic
     internal class GpxFileRepositoryNodeFile : GpxFileRepositoryNode
     {
         private string _filePath;
-        private GpxFile? _fileContents;
         private Exception? _fileLoadError;
 
         public override string NodeText => Path.GetFileName(_filePath);
+
+        public override LoadedGpxFile? AssociatedGpxFile { get; }
 
         public GpxFileRepositoryNodeFile(string filePath)
         {
@@ -22,16 +23,13 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
             try
             {
-                _fileContents = GpxFile.Deserialize(filePath);
+                this.AssociatedGpxFile = new LoadedGpxFile(GpxFile.Deserialize(filePath));
             }
             catch (Exception e)
             {
-                _fileContents = null;
+                this.AssociatedGpxFile = null;
                 _fileLoadError = e;
             }
-            
         }
-
-
     }
 }
