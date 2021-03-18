@@ -32,7 +32,7 @@ namespace FirLib.Core.Patterns.Mvvm
         }
 
         /// <inheritdoc />
-        public object? TryGetDefaultViewService(Type viewServiceType)
+        public virtual object? TryGetDefaultViewService(Type viewServiceType)
         {
             return WpfDefaultViewServices.TryGetViewService(this, viewServiceType);
         }

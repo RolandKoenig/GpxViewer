@@ -9,7 +9,7 @@ using Microsoft.Win32;
 
 namespace FirLib.Core.ViewServices
 {
-    public class WpfOpenFileDialogService : ViewServiceBase, IOpenFileViewService
+    internal class WpfOpenFileDialogService : ViewServiceBase, IOpenFileViewService
     {
         private Window? _owner;
 
