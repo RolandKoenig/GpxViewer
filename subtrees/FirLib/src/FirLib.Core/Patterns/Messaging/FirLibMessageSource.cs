@@ -17,7 +17,7 @@ namespace FirLib.Core.Patterns.Messaging
         }
 
         /// <summary>
-        /// Attach a custom handler here to avoid calling a globally registered <see cref="FirLibMessenger"/>.
+        /// Attach a custom handler here to avoid calling a globally registered <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger"/>.
         /// </summary>
         /// <param name="customTarget">A custom message target.</param>
         public void UnitTesting_ReplaceByCustomMessageTarget(Action<TMessageType> customTarget)

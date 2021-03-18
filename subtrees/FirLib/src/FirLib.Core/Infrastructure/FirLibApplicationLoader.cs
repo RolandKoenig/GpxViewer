@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using FirLib.Core.Infrastructure.Services;
 
 namespace FirLib.Core.Infrastructure
@@ -18,10 +19,19 @@ namespace FirLib.Core.Infrastructure
 
         internal FirLibApplicationContext GetContext() => _context;
 
-        public void AddStartupAction(Action action)
+        public FirLibApplicationLoader AddStartupAction(Action action)
         {
             _context.StartupActions ??= new List<Action>();
             _context.StartupActions.Add(action);
+
+            return this;
+        }
+
+        public FirLibApplicationLoader ConfigureCurrentThreadAsMainGuiThread()
+        {
+            Thread.CurrentThread.Name = FirLibConstants.MESSENGER_NAME_GUI;
+
+            return this;
         }
 
         public void Load()

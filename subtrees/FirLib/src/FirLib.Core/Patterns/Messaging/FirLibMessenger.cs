@@ -15,7 +15,7 @@ namespace FirLib.Core.Patterns.Messaging
     /// What 'messenger' actually is, see here a short explanation:
     /// http://stackoverflow.com/questions/22747954/mvvm-light-toolkit-messenger-uses-event-aggregator-or-mediator-pattern
     /// </summary>
-    public class FirLibMessenger
+    public class FirLibMessenger : IFirLibMessagePublisher
     {
         public const string METHOD_NAME_MESSAGE_RECEIVED = "OnMessageReceived";
 
@@ -87,6 +87,8 @@ namespace FirLib.Core.Patterns.Messaging
             }
         }
 
+        public Func<SynchronizationContext, SynchronizationContext, bool>? CustomSynchronizationContextEqualityChecker { get; set; }
+
         /// <summary>
         /// Gets the total count of globally registered messengers.
         /// </summary>
@@ -96,7 +98,7 @@ namespace FirLib.Core.Patterns.Messaging
         }
 
         /// <summary>
-        /// Initializes the <see cref="FirLibMessenger" /> class.
+        /// Initializes the <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger" /> class.
         /// </summary>
         static FirLibMessenger()
         {
@@ -106,7 +108,7 @@ namespace FirLib.Core.Patterns.Messaging
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FirLibMessenger"/> class.
+        /// Initializes a new instance of the <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger"/> class.
         /// </summary>
         public FirLibMessenger()
         {
@@ -119,7 +121,7 @@ namespace FirLib.Core.Patterns.Messaging
         }
 
         /// <summary>
-        /// Gets the <see cref="FirLibMessenger"/> by the given name.
+        /// Gets the <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger"/> by the given name.
         /// </summary>
         /// <param name="messengerName">The name of the messenger.</param>
         public static FirLibMessenger GetByName(string messengerName)
@@ -132,7 +134,7 @@ namespace FirLib.Core.Patterns.Messaging
         }
 
         /// <summary>
-        /// Gets the <see cref="FirLibMessenger"/> by the given name.
+        /// Gets the <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger"/> by the given name.
         /// </summary>
         /// <param name="messengerName">The name of the messenger.</param>
         public static FirLibMessenger? TryGetByName(string messengerName)
@@ -306,27 +308,6 @@ namespace FirLib.Core.Patterns.Messaging
         }
 
         /// <summary>
-        /// Subscribes the given MessageType and executes the action only when the condition is true.
-        /// </summary>
-        /// <typeparam name="TMessageType">The type of the message type.</typeparam>
-        /// <param name="condition">The condition.</param>
-        /// <param name="actionOnMessage">The messenger.</param>
-        public MessageSubscription SubscribeWhen<TMessageType>(Func<TMessageType, bool> condition, Action<TMessageType> actionOnMessage)
-            where TMessageType : FirLibMessage
-        {
-            condition.EnsureNotNull(nameof(condition));
-            actionOnMessage.EnsureNotNull(nameof(actionOnMessage));
-
-            void FilterAction(TMessageType message)
-            {
-                if (condition(message)) { actionOnMessage(message); }
-            }
-
-            Type currentType = typeof(TMessageType);
-            return this.Subscribe((Action<TMessageType>)FilterAction, currentType);
-        }
-
-        /// <summary>
         /// Subscribes to the given message type.
         /// </summary>
         /// <param name="messageType">The type of the message.</param>
@@ -440,7 +421,7 @@ namespace FirLib.Core.Patterns.Messaging
         /// The returned task waits for all synchronous subscriptions.
         /// </summary>
         /// <typeparam name="TMessageType">The type of the message.</typeparam>
-        public Task PublishAsync<TMessageType>()
+        public Task BeginPublishAsync<TMessageType>()
             where TMessageType : FirLibMessage, new()
         {
             return _hostSyncContext.PostAlsoIfNullAsync(
@@ -453,7 +434,7 @@ namespace FirLib.Core.Patterns.Messaging
         /// </summary>
         /// <typeparam name="TMessageType">The type of the message.</typeparam>
         /// <param name="message">The message to be sent.</param>
-        public Task PublishAsync<TMessageType>(
+        public Task BeginPublishAsync<TMessageType>(
             TMessageType message)
             where TMessageType : FirLibMessage
         {
@@ -617,7 +598,27 @@ namespace FirLib.Core.Patterns.Messaging
         /// </summary>
         private bool CompareSynchronizationContexts()
         {
-            return SynchronizationContext.Current == _hostSyncContext;
+            var currentSynchronizationContext = SynchronizationContext.Current;
+            if((currentSynchronizationContext != null) && (_hostSyncContext != null))
+            {
+                var syncContextEqualityChecker = this.CustomSynchronizationContextEqualityChecker;
+                if (syncContextEqualityChecker != null)
+                {
+                    return syncContextEqualityChecker(currentSynchronizationContext, _hostSyncContext);
+                }
+                else
+                {
+                    return SynchronizationContext.Current == _hostSyncContext;
+                }
+            }
+            else if((currentSynchronizationContext != null) || (_hostSyncContext != null))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
