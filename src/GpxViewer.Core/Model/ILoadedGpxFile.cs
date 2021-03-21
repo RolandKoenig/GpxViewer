@@ -12,6 +12,6 @@ namespace GpxViewer.Core.Model
     {
         GpxFile RawGpxFile { get; }
 
-        IEnumerable<IGeometry> RouteAndTrackGeometries { get; }
+        IEnumerable<ILoadedGpxFileTrackInfo> Tracks { get; }
     }
 }

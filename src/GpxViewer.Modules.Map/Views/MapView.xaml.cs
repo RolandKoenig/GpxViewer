@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using FirLib.Core;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
@@ -69,9 +68,6 @@ namespace GpxViewer.Modules.Map.Views
                     }
                     break;
 
-                case NotifyCollectionChangedAction.Replace:
-                case NotifyCollectionChangedAction.Move:
-                case NotifyCollectionChangedAction.Reset:
                 default:
                     throw new NotSupportedException($"Action {e.Action} is not supported yet!");
             }

@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GpxViewer.Core;
+using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Messages;
 using GpxViewer.Core.Model;
 using GpxViewer.Core.Patterns;
@@ -40,13 +42,13 @@ namespace GpxViewer.Modules.Map.Views
             {
                 Fill = null,
                 Outline = null,
-                Line = { Color = Mapsui.Styles.Color.Gray, Width = 4 }
+                Line = { Color = Color.Gray, Width = 4 }
             };
             _lineStyleSucceeded = new VectorStyle
             {
                 Fill = null,
                 Outline = null,
-                Line = { Color = Mapsui.Styles.Color.Green, Width = 4 }
+                Line = { Color = Color.Green, Width = 4 }
             };
 
             this.AdditionalMapLayers = new ObservableCollection<ILayer>();
@@ -58,16 +60,22 @@ namespace GpxViewer.Modules.Map.Views
             var newFeatureList = new List<IFeature>();
             foreach(var actLoadedFile in _loadedGpxFiles)
             {
-                foreach(var actGeometry in actLoadedFile.RouteAndTrackGeometries)
+                foreach (var actTrack in actLoadedFile.Tracks)
                 {
-                    newFeatureList.Add(new Feature()
+                    foreach (var actTrackSegment in actTrack.RawTrackData.Segments)
                     {
-                        Geometry = actGeometry,
-                        Styles =
+                        var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
+                        if (actGeometry == null) { continue; }
+
+                        newFeatureList.Add(new Feature()
                         {
-                            _lineStyleInitial
-                        }
-                    });
+                            Geometry = actGeometry,
+                            Styles =
+                            {
+                                actTrack.State == GpxTrackState.Succeeded ? _lineStyleSucceeded : _lineStyleInitial
+                            }
+                        });
+                    }
                 }
             }
             _layerLoadedGpxFilesProvider.ReplaceFeatures(newFeatureList);
