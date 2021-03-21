@@ -13,7 +13,7 @@ using FirLib.Core.Patterns.Messaging;
 
 namespace FirLib.Core
 {
-    public static class FirLibExtensionsWpf
+    public static partial class FirLibExtensionsWpf
     {
         public static FirLibApplicationLoader AttachToWpfEnvironment(this FirLibApplicationLoader loader)
         {
