@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using FirLib.Core;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
 using Mapsui.Layers;
@@ -26,28 +27,27 @@ namespace GpxViewer.Modules.Map.Views
                 _mainLayer = OpenStreetMap.CreateTileLayer();
                 this.CtrlMap.Map.Layers.Add(_mainLayer);
 
-                this.DataContextChanged += this.OnThis_DataContextChanged;
+                this.HandleDataContextChanged<MapViewModel>(
+                    this.OnThis_AttachToViewModel,
+                    this.OnThis_DetachFromViewModel);
             }
         }
 
-        private void OnThis_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void OnThis_AttachToViewModel(MapViewModel viewModel)
         {
-            if (e.OldValue is MapViewModel oldVM)
+            foreach (var actLayer in viewModel.AdditionalMapLayers)
             {
-                oldVM.AddditionalMapLayers.CollectionChanged -= this.OnViewModel_AdditionalMapLayers_CollectionChanged;
-                foreach(var actLayer in oldVM.AddditionalMapLayers)
-                {
-                    this.CtrlMap.Map.Layers.Remove(actLayer);
-                }
+                this.CtrlMap.Map.Layers.Add(actLayer);
             }
+            viewModel.AdditionalMapLayers.CollectionChanged += this.OnViewModel_AdditionalMapLayers_CollectionChanged;
+        }
 
-            if (e.NewValue is MapViewModel newVM)
+        private void OnThis_DetachFromViewModel(MapViewModel viewModel)
+        {
+            viewModel.AdditionalMapLayers.CollectionChanged -= this.OnViewModel_AdditionalMapLayers_CollectionChanged;
+            foreach(var actLayer in viewModel.AdditionalMapLayers)
             {
-                foreach (var actLayer in newVM.AddditionalMapLayers)
-                {
-                    this.CtrlMap.Map.Layers.Add(actLayer);
-                }
-                newVM.AddditionalMapLayers.CollectionChanged += this.OnViewModel_AdditionalMapLayers_CollectionChanged;
+                this.CtrlMap.Map.Layers.Remove(actLayer);
             }
         }
 
@@ -69,6 +69,9 @@ namespace GpxViewer.Modules.Map.Views
                     }
                     break;
 
+                case NotifyCollectionChangedAction.Replace:
+                case NotifyCollectionChangedAction.Move:
+                case NotifyCollectionChangedAction.Reset:
                 default:
                     throw new NotSupportedException($"Action {e.Action} is not supported yet!");
             }
