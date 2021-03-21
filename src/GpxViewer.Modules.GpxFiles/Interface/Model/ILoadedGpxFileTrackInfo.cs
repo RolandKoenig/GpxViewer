@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FirLib.Formats.Gpx;
 using GpxViewer.Core.GpxExtensions;
 
-namespace GpxViewer.Core.Model
+namespace GpxViewer.Modules.GpxFiles.Interface.Model
 {
     public interface ILoadedGpxFileTrackInfo
     {

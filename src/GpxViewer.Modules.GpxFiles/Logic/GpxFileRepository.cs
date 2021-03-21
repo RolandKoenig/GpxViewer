@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FirLib.Core.Patterns.Messaging;
-using GpxViewer.Core.Messages;
-using GpxViewer.Core.Model;
+using GpxViewer.Modules.GpxFiles.Interface.Messages;
+using GpxViewer.Modules.GpxFiles.Interface.Model;
 
 namespace GpxViewer.Modules.GpxFiles.Logic
 {

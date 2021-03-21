@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GpxViewer.Core.Model
+namespace GpxViewer.Modules.GpxFiles.Interface.Model
 {
     public interface IGpxFileRepositoryNode
     {

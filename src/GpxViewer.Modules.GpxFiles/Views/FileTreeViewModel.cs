@@ -7,8 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using FirLib.Core.ViewServices;
 using GpxViewer.Core.Commands;
-using GpxViewer.Core.Messages;
 using GpxViewer.Core.Patterns;
+using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Logic;
 
 namespace GpxViewer.Modules.GpxFiles.Views

@@ -1,7 +1,7 @@
 ﻿using FirLib.Core;
 using FirLib.Core.Patterns.Messaging;
 using GpxViewer.Core;
-using GpxViewer.Core.Model;
+using GpxViewer.Modules.GpxFiles.Interface.Model;
 using GpxViewer.Modules.GpxFiles.Logic;
 using GpxViewer.Modules.GpxFiles.Views;
 using Prism.Ioc;

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FirLib.Core;
 using FirLib.Core.Patterns.Messaging;
-using GpxViewer.Core.Model;
+using GpxViewer.Modules.GpxFiles.Interface.Model;
 
-namespace GpxViewer.Core.Messages
+namespace GpxViewer.Modules.GpxFiles.Interface.Messages
 {
     [MessagePossibleSource(FirLibConstants.MESSENGER_NAME_GUI)]
     public class MessageGpxFileRepositoryContentsChanged : FirLibMessage
