@@ -13,10 +13,14 @@ namespace GpxViewer.Core.Messages
     public class MessageGpxFileRepositoryContentsChanged : FirLibMessage
     {
         public IGpxFileRepository GpxFileRepository { get; }
+        public IEnumerable<IGpxFileRepositoryNode>? AddedNodes { get; }
+        public IEnumerable<IGpxFileRepositoryNode>? RemovedNodes { get; }
 
-        public MessageGpxFileRepositoryContentsChanged(IGpxFileRepository gpxFileRepo)
+        public MessageGpxFileRepositoryContentsChanged(IGpxFileRepository gpxFileRepo, IEnumerable<IGpxFileRepositoryNode>? addedNodes, IEnumerable<IGpxFileRepositoryNode>? removedNodes)
         {
             this.GpxFileRepository = gpxFileRepo;
+            this.AddedNodes = addedNodes;
+            this.RemovedNodes = removedNodes;
         }
     }
 }

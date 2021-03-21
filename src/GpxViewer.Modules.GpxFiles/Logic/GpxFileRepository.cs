@@ -30,7 +30,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             });
             this.TopLevelNodes.Add(loadedFile!);
 
-            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this));
+            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this, new IGpxFileRepositoryNode[]{ loadedFile! }, null));
             return loadedFile!;
         }
 
@@ -43,7 +43,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             });
             this.TopLevelNodes.Add(loadedDir!);
 
-            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this));
+            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this,  new IGpxFileRepositoryNode[]{ loadedDir! }, null));
             return loadedDir!;
         }
 
@@ -59,10 +59,11 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         }
 
         public void CloseAllFiles()
-        { 
+        {
+            var prevItems = this.TopLevelNodes.ToArray();
             this.TopLevelNodes.Clear();
 
-            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this));
+            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this, null, prevItems));
         }
     }
 }

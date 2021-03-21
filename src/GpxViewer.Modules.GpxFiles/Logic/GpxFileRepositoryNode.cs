@@ -1,10 +1,6 @@
-﻿using System;
+﻿using GpxViewer.Core.Model;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GpxViewer.Core.Model;
 
 namespace GpxViewer.Modules.GpxFiles.Logic
 {
@@ -15,5 +11,19 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         public abstract string NodeText { get; }
 
         public abstract LoadedGpxFile? AssociatedGpxFile { get; }
+
+        /// <inheritdoc />
+        public IEnumerable<ILoadedGpxFile> GetAllAssociatedGpxFiles()
+        {
+            if (this.AssociatedGpxFile != null) { yield return this.AssociatedGpxFile; }
+
+            foreach (var actChildNode in this.ChildNodes)
+            {
+                foreach(var actAssociatedGpxFile in actChildNode.GetAllAssociatedGpxFiles())
+                {
+                    yield return actAssociatedGpxFile;
+                }
+            }
+        }
     }
 }

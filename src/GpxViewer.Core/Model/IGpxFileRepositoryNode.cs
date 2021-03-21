@@ -9,5 +9,7 @@ namespace GpxViewer.Core.Model
     public interface IGpxFileRepositoryNode
     {
         string NodeText { get; }
+
+        IEnumerable<ILoadedGpxFile> GetAllAssociatedGpxFiles();
     }
 }
