@@ -18,6 +18,16 @@ namespace FirLib.Tests.Core.Patterns.Messaging
         }
     }
 
+    public class TestMessageClass_WithoutAttribute
+    {
+        public string TestArg { get; set; }
+
+        public TestMessageClass_WithoutAttribute(string testArg)
+        {
+            this.TestArg = testArg;
+        }
+    }
+
     [FirLibMessage]
     public struct TestMessageStruct
     {
@@ -29,8 +39,20 @@ namespace FirLib.Tests.Core.Patterns.Messaging
         }
     }
 
+    public struct TestMessageStruct_WithoutAttribute
+    {
+        public string TestArg { get; set; }
+
+        public TestMessageStruct_WithoutAttribute(string testArg)
+        {
+            this.TestArg = testArg;
+        }
+    }
+
 #if NET5_0_OR_GREATER
     [FirLibMessage]
     public record TestMessageRecord(string TestArg);
+
+    public record TestMessageRecord_WithoutAttribute(string TestArg);
 #endif
 }

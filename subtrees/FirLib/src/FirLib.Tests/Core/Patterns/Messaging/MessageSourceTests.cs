@@ -145,6 +145,5 @@ namespace FirLib.Tests.Core.Patterns.Messaging
             }
         }
 #endif
-
     }
 }

@@ -266,7 +266,7 @@ namespace FirLib.Core.Patterns.Messaging
                     ParameterInfo[] parameters = actMethod.GetParameters();
                     if (parameters.Length != 1) { continue; }
 
-                    if (!FirLibMessageHelper.ValidateMessageType(parameters[0].ParameterType))
+                    if (!FirLibMessageHelper.ValidateMessageType(parameters[0].ParameterType, out _))
                     {
                         continue;
                     }

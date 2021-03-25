@@ -8,11 +8,12 @@ namespace FirLib.Core.Patterns.Messaging
 {
     public static class FirLibMessageHelper
     {
-        public static bool ValidateMessageTypeAndValue<T>(T messageValue)
+        public static bool ValidateMessageTypeAndValue<T>(T messageValue, out string? errorMessage)
         {
+            errorMessage = null;
             Type messageType = typeof(T);
 
-            if(!ValidateMessageType(messageType))
+            if(!ValidateMessageType(messageType, out errorMessage))
             {
                 return false;
             }
@@ -20,16 +21,20 @@ namespace FirLib.Core.Patterns.Messaging
             if((messageType.IsClass) &&
                (messageValue == null))
             {
+                errorMessage = $"Invalid message type {messageType.FullName}: Message value is null!";
                 return false;
             }
 
             return true;
         }
 
-        public static bool ValidateMessageType(Type messageType)
+        public static bool ValidateMessageType(Type messageType, out string? errorMessage)
         {
+            errorMessage = null;
             if (messageType.GetCustomAttribute<FirLibMessageAttribute>() == null)
             {
+                errorMessage =
+                    $"Invalid message type {messageType.FullName}: Message types have to be market with FirLibMessageAttribute!";
                 return false;
             }
             return true;
@@ -37,24 +42,17 @@ namespace FirLib.Core.Patterns.Messaging
 
         public static void EnsureValidMessageTypeAndValue<T>(T messageValue)
         {
-            Type messageType = typeof(T);
-
-            EnsureValidMessageType(messageType);
-
-            if((messageType.IsClass) &&
-               (messageValue == null))
+            if (!ValidateMessageTypeAndValue(messageValue, out var errorMessage))
             {
-                throw new FirLibCheckException(
-                    $"Invalid message type {messageType.FullName}: Message value is null!");
+                throw new FirLibCheckException(errorMessage!);
             }
         }
 
         public static void EnsureValidMessageType(Type messageType)
         {
-            if (messageType.GetCustomAttribute<FirLibMessageAttribute>() == null)
+            if (!ValidateMessageType(messageType, out var errorMessage))
             {
-                throw new FirLibCheckException(
-                    $"Invalid message type {messageType.FullName}: Message types have to be market with FirLibMessageAttribute!");
+                throw new FirLibCheckException(errorMessage!);
             }
         }
 
