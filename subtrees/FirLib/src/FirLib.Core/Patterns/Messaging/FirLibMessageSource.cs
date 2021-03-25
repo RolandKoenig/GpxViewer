@@ -4,8 +4,7 @@ using System.Text;
 
 namespace FirLib.Core.Patterns.Messaging
 {
-    public class FirLibMessageSource<TMessageType> 
-        where TMessageType : FirLibMessage
+    public class FirLibMessageSource<TMessageType>
     {
         private Action<TMessageType>? _customTarget;
 

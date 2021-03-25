@@ -12,7 +12,7 @@ namespace FirLib.Core.Patterns.Messaging
         /// There is no possibility here to wait for the answer.
         /// </summary>
         void BeginPublish<TMessageType>()
-            where TMessageType : FirLibMessage, new();
+            where TMessageType : new();
 
         /// <summary>
         /// Sends the given message to all subscribers (async processing).
@@ -21,8 +21,7 @@ namespace FirLib.Core.Patterns.Messaging
         /// <typeparam name="TMessageType">The type of the message type.</typeparam>
         /// <param name="message">The message.</param>
         void BeginPublish<TMessageType>(
-            TMessageType message)
-            where TMessageType : FirLibMessage;
+            TMessageType message);
 
         /// <summary>
         /// Sends the given message to all subscribers (async processing).
@@ -30,7 +29,7 @@ namespace FirLib.Core.Patterns.Messaging
         /// </summary>
         /// <typeparam name="TMessageType">The type of the message.</typeparam>
         Task BeginPublishAsync<TMessageType>()
-            where TMessageType : FirLibMessage, new();
+            where TMessageType : new();
 
         /// <summary>
         /// Sends the given message to all subscribers (async processing).
@@ -39,14 +38,13 @@ namespace FirLib.Core.Patterns.Messaging
         /// <typeparam name="TMessageType">The type of the message.</typeparam>
         /// <param name="message">The message to be sent.</param>
         Task BeginPublishAsync<TMessageType>(
-            TMessageType message)
-            where TMessageType : FirLibMessage;
+            TMessageType message);
 
         /// <summary>
         /// Sends the given message to all subscribers (sync processing).
         /// </summary>
         void Publish<TMessageType>()
-            where TMessageType : FirLibMessage, new();
+            where TMessageType : new();
 
         /// <summary>
         /// Sends the given message to all subscribers (sync processing).
@@ -54,7 +52,6 @@ namespace FirLib.Core.Patterns.Messaging
         /// <typeparam name="TMessageType">Type of the message.</typeparam>
         /// <param name="message">The message to send.</param>
         void Publish<TMessageType>(
-            TMessageType message)
-            where TMessageType : FirLibMessage;
+            TMessageType message);
     }
 }

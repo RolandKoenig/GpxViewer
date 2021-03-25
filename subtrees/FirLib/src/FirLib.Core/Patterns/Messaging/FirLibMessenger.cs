@@ -228,7 +228,6 @@ namespace FirLib.Core.Patterns.Messaging
         /// Waits for the given message.
         /// </summary>
         public Task<T> WaitForMessageAsync<T>()
-            where T : FirLibMessage
         {
             TaskCompletionSource<T> taskComplSource = new();
 
@@ -258,7 +257,6 @@ namespace FirLib.Core.Patterns.Messaging
             List<MessageSubscription> generatedSubscriptions = new(16);
             try
             {
-                Type typeofMessage = typeof(FirLibMessage);
                 foreach (MethodInfo actMethod in targetObjectType.GetMethods(
                     BindingFlags.NonPublic | BindingFlags.Public | 
                     BindingFlags.Instance | BindingFlags.InvokeMethod))
@@ -268,10 +266,9 @@ namespace FirLib.Core.Patterns.Messaging
                     ParameterInfo[] parameters = actMethod.GetParameters();
                     if (parameters.Length != 1) { continue; }
 
-                    if (!typeofMessage.GetTypeInfo().IsAssignableFrom(
-                        parameters[0].ParameterType.GetTypeInfo())) 
+                    if (!FirLibMessageHelper.ValidateMessageType(parameters[0].ParameterType))
                     {
-                        continue; 
+                        continue;
                     }
 
                     Type genericAction = typeof(Action<>);
@@ -299,7 +296,6 @@ namespace FirLib.Core.Patterns.Messaging
         /// <typeparam name="TMessageType">Type of the message.</typeparam>
         /// <param name="actionOnMessage">Action to perform on incoming message.</param>
         public MessageSubscription Subscribe<TMessageType>(Action<TMessageType> actionOnMessage)
-            where TMessageType : FirLibMessage
         {
             actionOnMessage.EnsureNotNull(nameof(actionOnMessage));
 
@@ -318,10 +314,7 @@ namespace FirLib.Core.Patterns.Messaging
             actionOnMessage.EnsureNotNull(nameof(actionOnMessage));
             messageType.EnsureNotNull(nameof(messageType));
 
-            if (!messageType.GetTypeInfo().IsSubclassOf(typeof(FirLibMessage)))
-            {
-                throw new ArgumentException($"Given message type does not derive from {nameof(FirLibMessage)}!");
-            }
+            FirLibMessageHelper.EnsureValidMessageType(messageType);
 
             MessageSubscription newOne = new(this, messageType, actionOnMessage);
             lock (_messageSubscriptionsLock)
@@ -378,7 +371,6 @@ namespace FirLib.Core.Patterns.Messaging
         /// </summary>
         /// <typeparam name="TMessageType">The type of the message for which to count all subscriptions.</typeparam>
         public int CountSubscriptionsForMessage<TMessageType>()
-            where TMessageType : FirLibMessage
         {
             lock (_messageSubscriptionsLock)
             {
@@ -398,7 +390,7 @@ namespace FirLib.Core.Patterns.Messaging
         /// There is no possibility here to wait for the answer.
         /// </summary>
         public void BeginPublish<TMessageType>()
-            where TMessageType : FirLibMessage, new()
+            where TMessageType : new()
         {
             this.BeginPublish(new TMessageType());
         }
@@ -411,7 +403,6 @@ namespace FirLib.Core.Patterns.Messaging
         /// <param name="message">The message.</param>
         public void BeginPublish<TMessageType>(
             TMessageType message)
-            where TMessageType : FirLibMessage
         {
             _hostSyncContext.PostAlsoIfNull(() => this.Publish(message));
         }
@@ -422,7 +413,7 @@ namespace FirLib.Core.Patterns.Messaging
         /// </summary>
         /// <typeparam name="TMessageType">The type of the message.</typeparam>
         public Task BeginPublishAsync<TMessageType>()
-            where TMessageType : FirLibMessage, new()
+            where TMessageType : new()
         {
             return _hostSyncContext.PostAlsoIfNullAsync(
                 this.Publish<TMessageType>);
@@ -436,7 +427,6 @@ namespace FirLib.Core.Patterns.Messaging
         /// <param name="message">The message to be sent.</param>
         public Task BeginPublishAsync<TMessageType>(
             TMessageType message)
-            where TMessageType : FirLibMessage
         {
             return _hostSyncContext.PostAlsoIfNullAsync(
                 () => this.Publish(message));
@@ -446,7 +436,7 @@ namespace FirLib.Core.Patterns.Messaging
         /// Sends the given message to all subscribers (sync processing).
         /// </summary>
         public void Publish<TMessageType>()
-            where TMessageType : FirLibMessage, new()
+            where TMessageType : new()
         {
             this.Publish(new TMessageType());
         }
@@ -458,7 +448,6 @@ namespace FirLib.Core.Patterns.Messaging
         /// <param name="message">The message to send.</param>
         public void Publish<TMessageType>(
             TMessageType message)
-            where TMessageType : FirLibMessage
         {
             this.PublishInternal(
                 message, true);
@@ -472,9 +461,8 @@ namespace FirLib.Core.Patterns.Messaging
         /// <param name="isInitialCall">Is this one the initial call to publish? (false if we are coming from async routing)</param>
         private void PublishInternal<TMessageType>(
             TMessageType message, bool isInitialCall)
-            where TMessageType : FirLibMessage
         {
-            message.EnsureNotNull(nameof(message));
+            FirLibMessageHelper.EnsureValidMessageTypeAndValue(message);
 
             try
             {
@@ -494,7 +482,7 @@ namespace FirLib.Core.Patterns.Messaging
                 Type currentType = typeof(TMessageType);
                 if (isInitialCall)
                 {
-                    string[] possibleSources = s_messageSources.GetOrAdd(currentType, (_) => message.GetPossibleSourceMessengers());
+                    string[] possibleSources = s_messageSources.GetOrAdd(currentType, (_) => FirLibMessageHelper.GetPossibleSourceMessengersOfMessageType(currentType));
                     if (possibleSources.Length > 0)
                     {
                         string mainThreadName = _globalMessengerName;
@@ -540,7 +528,7 @@ namespace FirLib.Core.Patterns.Messaging
                 if (isInitialCall)
                 {
                     // Get information about message routing
-                    string[] asyncTargets = s_messagesAsyncTargets.GetOrAdd(currentType, (_) => message.GetAsyncRoutingTargetMessengers());
+                    string[] asyncTargets = s_messagesAsyncTargets.GetOrAdd(currentType, (_) => FirLibMessageHelper.GetAsyncRoutingTargetMessengersOfMessageType(currentType));
                     string mainThreadName = _globalMessengerName;
                     for (var loop = 0; loop < asyncTargets.Length; loop++)
                     {
@@ -574,7 +562,7 @@ namespace FirLib.Core.Patterns.Messaging
             catch (Exception ex)
             {
                 // Check whether we have to throw the exception globally
-                var globalExceptionHandler = FirLibMessenger.CustomPublishExceptionHandler;
+                var globalExceptionHandler = CustomPublishExceptionHandler;
                 var doRaise = true;
                 if (globalExceptionHandler != null)
                 {
