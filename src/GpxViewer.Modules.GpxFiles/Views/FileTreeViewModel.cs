@@ -9,6 +9,7 @@ using FirLib.Core.ViewServices;
 using GpxViewer.Core.Commands;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
+using GpxViewer.Modules.GpxFiles.Interface.Model;
 using GpxViewer.Modules.GpxFiles.Logic;
 
 namespace GpxViewer.Modules.GpxFiles.Views
@@ -30,6 +31,9 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 {
                     _selectedNode = value;
                     this.RaisePropertyChanged();
+
+                    this.Messenger.BeginPublish(
+                        new MessageGpxFileRepositoryNodeSelectionChanged(new IGpxFileRepositoryNode[]{ _selectedNode! }));
                 }
             }
         }

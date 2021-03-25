@@ -23,6 +23,11 @@ namespace GpxViewer.Modules.Map.Views
         private MemoryProvider _layerLoadedGpxFilesProvider;
         private List<ILoadedGpxFile> _loadedGpxFiles;
 
+        private MemoryLayer _layerSelectedGpxFiles;
+        private MemoryProvider _layerSelectedGpxFilesProvider;
+        private List<ILoadedGpxFile> _selectedGpxFiles;
+
+        private VectorStyle _lineStyleSelected;
         private VectorStyle _lineStyleInitial;
         private VectorStyle _lineStyleSucceeded;
 
@@ -35,8 +40,12 @@ namespace GpxViewer.Modules.Map.Views
             _layerLoadedGpxFiles = new MemoryLayer();
             _layerLoadedGpxFilesProvider = new MemoryProvider();
             _layerLoadedGpxFiles.DataSource = _layerLoadedGpxFilesProvider;
-
             _loadedGpxFiles = new List<ILoadedGpxFile>();
+
+            _layerSelectedGpxFiles = new MemoryLayer();
+            _layerSelectedGpxFilesProvider = new MemoryProvider();
+            _layerSelectedGpxFiles.DataSource = _layerSelectedGpxFilesProvider;
+            _selectedGpxFiles = new List<ILoadedGpxFile>();
 
             _lineStyleInitial = new VectorStyle
             {
@@ -50,8 +59,15 @@ namespace GpxViewer.Modules.Map.Views
                 Outline = null,
                 Line = { Color = Color.Green, Width = 4 }
             };
+            _lineStyleSelected = new VectorStyle
+            {
+                Fill = null,
+                Outline = null,
+                 Line = {Color = Color.Blue, Width = 6}
+            };
 
             this.AdditionalMapLayers = new ObservableCollection<ILayer>();
+            this.AdditionalMapLayers.Add(_layerSelectedGpxFiles);
             this.AdditionalMapLayers.Add(_layerLoadedGpxFiles);
         }
 
@@ -82,6 +98,30 @@ namespace GpxViewer.Modules.Map.Views
             _layerLoadedGpxFiles.DataHasChanged();
         }
 
+        private void UpdateLayer_SelectedGpxFiles()
+        {
+            var newFeatureList = new List<IFeature>();
+            foreach(var actLoadedFile in _selectedGpxFiles)
+            {
+                foreach (var actTrack in actLoadedFile.Tracks)
+                {
+                    foreach (var actTrackSegment in actTrack.RawTrackData.Segments)
+                    {
+                        var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
+                        if (actGeometry == null) { continue; }
+
+                        newFeatureList.Add(new Feature()
+                        {
+                            Geometry = actGeometry,
+                            Styles = { _lineStyleSelected }
+                        });
+                    }
+                }
+            }
+            _layerSelectedGpxFilesProvider.ReplaceFeatures(newFeatureList);
+            _layerSelectedGpxFiles.DataHasChanged();
+        }
+
         private void OnMessageReceived(MessageGpxFileRepositoryContentsChanged message)
         {
             if (message.RemovedNodes != null)
@@ -107,6 +147,21 @@ namespace GpxViewer.Modules.Map.Views
             }
 
             this.UpdateLayer_LoadedGpxFiles();
+        }
+
+        private void OnMessageReceived(MessageGpxFileRepositoryNodeSelectionChanged message)
+        {
+            _selectedGpxFiles.Clear();
+
+            if(message.SelectedNodes != null)
+            {
+                foreach (var actSelectedNode in message.SelectedNodes)
+                {
+                    _selectedGpxFiles.AddRange(actSelectedNode.GetAllAssociatedGpxFiles());
+                }
+            }
+
+            this.UpdateLayer_SelectedGpxFiles();
         }
     }
 }
