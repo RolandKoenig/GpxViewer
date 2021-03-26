@@ -25,5 +25,25 @@ namespace GpxViewer.Modules.GpxFiles.Logic
                 }
             }
         }
+
+        /// <inheritdoc />
+        public IEnumerable<ILoadedGpxFileTrackOrRouteInfo> GetAllAssociatedTracksAndRoutes()
+        {
+            if (this.AssociatedGpxFile != null)
+            {
+                foreach(var actTrackOrRoute in this.AssociatedGpxFile.TracksAndRoutes)
+                {
+                    yield return actTrackOrRoute;
+                }
+            }
+
+            foreach (var actChildNode in this.ChildNodes)
+            {
+                foreach(var actTrackOrRoute in actChildNode.GetAllAssociatedTracksAndRoutes())
+                {
+                    yield return actTrackOrRoute;
+                }
+            }
+        }
     }
 }
