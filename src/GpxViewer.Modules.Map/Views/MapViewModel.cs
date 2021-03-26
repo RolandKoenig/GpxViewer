@@ -76,9 +76,9 @@ namespace GpxViewer.Modules.Map.Views
             var newFeatureList = new List<IFeature>();
             foreach(var actLoadedFile in _loadedGpxFiles)
             {
-                foreach (var actTrack in actLoadedFile.Tracks)
+                foreach (var actTrackOrRoute in actLoadedFile.TracksAndRoutes)
                 {
-                    foreach (var actTrackSegment in actTrack.RawTrackData.Segments)
+                    foreach (var actTrackSegment in actTrackOrRoute.Segments)
                     {
                         var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
                         if (actGeometry == null) { continue; }
@@ -88,7 +88,7 @@ namespace GpxViewer.Modules.Map.Views
                             Geometry = actGeometry,
                             Styles =
                             {
-                                actTrack.State == GpxTrackState.Succeeded ? _lineStyleSucceeded : _lineStyleInitial
+                                actTrackOrRoute.State == GpxTrackState.Succeeded ? _lineStyleSucceeded : _lineStyleInitial
                             }
                         });
                     }
@@ -103,9 +103,9 @@ namespace GpxViewer.Modules.Map.Views
             var newFeatureList = new List<IFeature>();
             foreach(var actLoadedFile in _selectedGpxFiles)
             {
-                foreach (var actTrack in actLoadedFile.Tracks)
+                foreach (var actTrack in actLoadedFile.TracksAndRoutes)
                 {
-                    foreach (var actTrackSegment in actTrack.RawTrackData.Segments)
+                    foreach (var actTrackSegment in actTrack.Segments)
                     {
                         var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
                         if (actGeometry == null) { continue; }

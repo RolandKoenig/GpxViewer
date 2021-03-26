@@ -4,14 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FirLib.Formats.Gpx;
-using Mapsui.Geometries;
 
 namespace GpxViewer.Modules.GpxFiles.Interface.Model
 {
-    public interface ILoadedGpxFile
+    public interface ILoadedGpxFileTrackOrRouteSegmentInfo
     {
-        GpxFile RawGpxFile { get; }
-
-        IEnumerable<ILoadedGpxFileTrackOrRouteInfo> TracksAndRoutes { get; }
+        IEnumerable<GpxWaypoint> Points { get; }
     }
 }
