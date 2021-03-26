@@ -9,8 +9,8 @@ using GpxViewer.Modules.GpxFiles.Interface.Model;
 
 namespace GpxViewer.Modules.GpxFiles.Interface.Messages
 {
+    [FirLibMessage]
     [MessagePossibleSource(FirLibConstants.MESSENGER_NAME_GUI)]
     public record MessageGpxFileRepositoryNodeSelectionChanged(
-        IEnumerable<IGpxFileRepositoryNode>? SelectedNodes)
-        : FirLibMessage;
+        IEnumerable<IGpxFileRepositoryNode>? SelectedNodes);
 }

@@ -11,8 +11,13 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 {
     internal class LoadedGpxFileTrackInfo : ILoadedGpxFileTrackOrRouteInfo
     {
+        public LoadedGpxFile File { get; }
+
+        ILoadedGpxFile ILoadedGpxFileTrackOrRouteInfo.File => this.File;
+
         public GpxTrack? RawTrackData { get; }
         public GpxRoute? RawRouteData { get; }
+        public GpxTrackOrRoute RawTrackOrRoute { get; }
 
         public TrackOrRouteExtension RawTrackExtensionData { get; }
 
@@ -20,15 +25,11 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         IEnumerable<ILoadedGpxFileTrackOrRouteSegmentInfo> ILoadedGpxFileTrackOrRouteInfo.Segments => this.Segments;
 
-        public GpxTrackState State
+        public LoadedGpxFileTrackInfo(LoadedGpxFile file, GpxRoute rawRouteData)
         {
-            get => this.RawTrackExtensionData.State;
-            set => this.RawTrackExtensionData.State = value;
-        }
-
-        public LoadedGpxFileTrackInfo(GpxRoute rawRouteData)
-        {
+            this.File = file;
             this.RawRouteData = rawRouteData;
+            this.RawTrackOrRoute = rawRouteData;
 
             rawRouteData.Extensions ??= new GpxExtensions();
             this.RawTrackExtensionData = rawRouteData.Extensions.GetOrCreateExtension<RouteExtension>();
@@ -37,9 +38,11 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             this.Segments.Add(new LoadedGpxFileTrackOrRouteSegmentInfo(rawRouteData));
         }
 
-        public LoadedGpxFileTrackInfo(GpxTrack rawTrackData)
+        public LoadedGpxFileTrackInfo(LoadedGpxFile file, GpxTrack rawTrackData)
         {
+            this.File = file;
             this.RawTrackData = rawTrackData;
+            this.RawTrackOrRoute = rawTrackData;
 
             rawTrackData.Extensions ??= new GpxExtensions();
             this.RawTrackExtensionData = rawTrackData.Extensions.GetOrCreateExtension<TrackExtension>();

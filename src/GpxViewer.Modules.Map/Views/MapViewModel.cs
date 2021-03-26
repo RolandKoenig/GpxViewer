@@ -86,7 +86,7 @@ namespace GpxViewer.Modules.Map.Views
                         Geometry = actGeometry,
                         Styles =
                         {
-                            actTrackOrRoute.State == GpxTrackState.Succeeded ? _lineStyleSucceeded : _lineStyleInitial
+                            actTrackOrRoute.RawTrackExtensionData.State == GpxTrackState.Succeeded ? _lineStyleSucceeded : _lineStyleInitial
                         }
                     });
                 }

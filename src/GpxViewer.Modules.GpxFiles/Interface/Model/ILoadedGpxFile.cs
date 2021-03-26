@@ -13,5 +13,7 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
         GpxFile RawGpxFile { get; }
 
         IEnumerable<ILoadedGpxFileTrackOrRouteInfo> TracksAndRoutes { get; }
+
+        bool ContentsChanged { get; set; }
     }
 }

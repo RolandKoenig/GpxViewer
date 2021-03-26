@@ -10,13 +10,15 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
 {
     public interface ILoadedGpxFileTrackOrRouteInfo
     {
+        ILoadedGpxFile File { get; }
+
         GpxTrack? RawTrackData { get; }
 
         GpxRoute? RawRouteData { get; }
 
-        TrackOrRouteExtension RawTrackExtensionData { get; }
+        GpxTrackOrRoute RawTrackOrRoute { get; }
 
-        GpxTrackState State { get; set; }
+        TrackOrRouteExtension RawTrackExtensionData { get; }
 
         IEnumerable<ILoadedGpxFileTrackOrRouteSegmentInfo> Segments { get; }
     }

@@ -9,10 +9,10 @@ using GpxViewer.Modules.GpxFiles.Interface.Model;
 
 namespace GpxViewer.Modules.GpxFiles.Interface.Messages
 {
+    [FirLibMessage]
     [MessagePossibleSource(FirLibConstants.MESSENGER_NAME_GUI)]
     public record MessageGpxFileRepositoryContentsChanged(
         IGpxFileRepository GpxFileRepository,
         IEnumerable<IGpxFileRepositoryNode>? AddedNodes, 
-        IEnumerable<IGpxFileRepositoryNode>? RemovedNodes)
-        : FirLibMessage;
+        IEnumerable<IGpxFileRepositoryNode>? RemovedNodes);
 }

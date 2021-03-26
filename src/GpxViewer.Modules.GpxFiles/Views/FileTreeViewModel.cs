@@ -1,10 +1,10 @@
 ﻿using Prism.Commands;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FirLib.Core.Utils.Collections;
 using FirLib.Core.ViewServices;
 using GpxViewer.Core.Commands;
 using GpxViewer.Core.Patterns;
@@ -20,9 +20,9 @@ namespace GpxViewer.Modules.GpxFiles.Views
         private GpxFileRepository _repoGpxFiles;
         private IGpxViewerCommands _gpxViewerCommands;
 
-        private GpxFileRepositoryNode? _selectedNode;
+        private FileTreeNodeViewModel? _selectedNode;
 
-        public GpxFileRepositoryNode? SelectedNode
+        public FileTreeNodeViewModel? SelectedNode
         {
             get => _selectedNode;
             set
@@ -32,13 +32,21 @@ namespace GpxViewer.Modules.GpxFiles.Views
                     _selectedNode = value;
                     this.RaisePropertyChanged();
 
-                    this.Messenger.BeginPublish(
-                        new MessageGpxFileRepositoryNodeSelectionChanged(new IGpxFileRepositoryNode[]{ _selectedNode! }));
+                    if (_selectedNode != null)
+                    {
+                        this.Messenger.BeginPublish(
+                            new MessageGpxFileRepositoryNodeSelectionChanged(new IGpxFileRepositoryNode[]{ _selectedNode.Model }));
+                    }
+                    else
+                    {
+                        this.Messenger.BeginPublish(
+                            new MessageGpxFileRepositoryNodeSelectionChanged(null));
+                    }
                 }
             }
         }
 
-        public ObservableCollection<GpxFileRepositoryNode> TopLevelNodes => _repoGpxFiles.TopLevelNodes;
+        public TransformedObservableCollection<FileTreeNodeViewModel, GpxFileRepositoryNode> TopLevelNodes { get; }
 
         public DelegateCommand Command_LoadFile { get; }
         public DelegateCommand Command_LoadDirectory { get; }
@@ -49,11 +57,28 @@ namespace GpxViewer.Modules.GpxFiles.Views
             _repoGpxFiles = fileRepo;
             _gpxViewerCommands = gpxViewerCommands;
 
+            this.TopLevelNodes = new TransformedObservableCollection<FileTreeNodeViewModel, GpxFileRepositoryNode>(
+                fileRepo.TopLevelNodes,
+                nodeModel => new FileTreeNodeViewModel(nodeModel));
+
             this.Command_LoadFile = new DelegateCommand(this.OnCommand_LoadFile_Execute);
             this.Command_LoadDirectory = new DelegateCommand(this.OnCommand_LoadDirectory_Execute);
             this.Command_CloseAll = new DelegateCommand(
                 this.OnCommand_CloseAll_Execute,
                 () => this.TopLevelNodes.Count > 0);
+        }
+
+        private static void TriggerNodeUIUpdate(FileTreeNodeViewModel currentNode, ILoadedGpxFile filteredFile)
+        {
+            if(currentNode.AssociatedGpxFile == filteredFile)
+            {
+                currentNode.RaiseNodeTextChanged();
+            }
+
+            foreach(var actChildNode in currentNode.ChildNodes)
+            {
+                TriggerNodeUIUpdate(actChildNode, filteredFile);
+            }
         }
 
         /// <inheritdoc />
@@ -79,6 +104,14 @@ namespace GpxViewer.Modules.GpxFiles.Views
         private void OnMessageReceived(MessageGpxFileRepositoryContentsChanged message)
         {
             this.Command_CloseAll.RaiseCanExecuteChanged();
+        }
+
+        private void OnMessageReceived(MessageTrackOrRouteConfigurationChanged message)
+        {
+            foreach(var actTopLevelNode in this.TopLevelNodes)
+            {
+                TriggerNodeUIUpdate(actTopLevelNode, message.TrackOrRoute.File);
+            }
         }
 
         private async void OnCommand_LoadFile_Execute()

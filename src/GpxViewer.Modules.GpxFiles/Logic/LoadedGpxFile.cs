@@ -16,6 +16,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         IEnumerable<ILoadedGpxFileTrackOrRouteInfo> ILoadedGpxFile.TracksAndRoutes => this.TracksAndRoutes;
 
+        public bool ContentsChanged { get; set; }
+
         public LoadedGpxFile(GpxFile gpxFile)
         {
             this.RawGpxFile = gpxFile;
@@ -23,11 +25,11 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
             foreach (var actRawRouteInfo in gpxFile.Routes)
             {
-                this.TracksAndRoutes.Add(new LoadedGpxFileTrackInfo(actRawRouteInfo));
+                this.TracksAndRoutes.Add(new LoadedGpxFileTrackInfo(this, actRawRouteInfo));
             }
             foreach(var actRawTrackData in gpxFile.Tracks)
             {
-                this.TracksAndRoutes.Add(new LoadedGpxFileTrackInfo(actRawTrackData));
+                this.TracksAndRoutes.Add(new LoadedGpxFileTrackInfo(this, actRawTrackData));
             }
         }
     }

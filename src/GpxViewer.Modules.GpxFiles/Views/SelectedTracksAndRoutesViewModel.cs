@@ -1,12 +1,9 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
-using GpxViewer.Modules.GpxFiles.Interface.Model;
 
 namespace GpxViewer.Modules.GpxFiles.Views
 {

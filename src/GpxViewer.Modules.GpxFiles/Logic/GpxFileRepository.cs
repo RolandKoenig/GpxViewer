@@ -12,13 +12,13 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 {
     internal class GpxFileRepository : IGpxFileRepository
     {
-        private IFirLibMessagePublisher _uiMessenger;
+        private IFirLibMessagePublisher _msgPublisher;
 
         public ObservableCollection<GpxFileRepositoryNode> TopLevelNodes { get; } = new();
 
-        public GpxFileRepository(IFirLibMessagePublisher uiMessenger)
+        public GpxFileRepository(IFirLibMessagePublisher msgPublisher)
         {
-            _uiMessenger = uiMessenger;
+            _msgPublisher = msgPublisher;
         }
 
         public async Task<GpxFileRepositoryNodeFile> LoadFile(string filePath)
@@ -30,7 +30,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             });
             this.TopLevelNodes.Add(loadedFile!);
 
-            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this, new IGpxFileRepositoryNode[]{ loadedFile! }, null));
+            _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this, new IGpxFileRepositoryNode[]{ loadedFile! }, null));
             return loadedFile!;
         }
 
@@ -43,7 +43,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             });
             this.TopLevelNodes.Add(loadedDir!);
 
-            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this,  new IGpxFileRepositoryNode[]{ loadedDir! }, null));
+            _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this,  new IGpxFileRepositoryNode[]{ loadedDir! }, null));
             return loadedDir!;
         }
 
@@ -63,7 +63,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             var prevItems = this.TopLevelNodes.ToArray();
             this.TopLevelNodes.Clear();
 
-            _uiMessenger.Publish(new MessageGpxFileRepositoryContentsChanged(this, null, prevItems));
+            _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this, null, prevItems));
         }
     }
 }

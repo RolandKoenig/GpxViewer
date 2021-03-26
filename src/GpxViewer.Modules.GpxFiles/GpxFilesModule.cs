@@ -29,9 +29,9 @@ namespace GpxViewer.Modules.GpxFiles
             var gpxFileRepo = new GpxFileRepository(uiMessenger);
 
             containerRegistry.RegisterSingleton<IGpxFileRepository>(
-                containerProvider => gpxFileRepo);
+                _ => gpxFileRepo);
             containerRegistry.RegisterSingleton<GpxFileRepository>(
-                containerProvider => gpxFileRepo);
+                _ => gpxFileRepo);
         }
     }
 }

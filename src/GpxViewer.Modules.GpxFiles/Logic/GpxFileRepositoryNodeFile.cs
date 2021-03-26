@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FirLib.Core.Patterns.ObjectPooling;
 using FirLib.Formats.Gpx;
 
 namespace GpxViewer.Modules.GpxFiles.Logic
@@ -13,7 +14,26 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         private string _filePath;
         private Exception? _fileLoadError;
 
-        public override string NodeText => Path.GetFileName(_filePath);
+        public override string NodeText
+        {
+            get
+            {
+                using(_ = PooledStringBuilders.Current.UseStringBuilder(out var strBuilder))
+                {
+                    strBuilder.Append(Path.GetFileName(_filePath));
+                    if ((this.AssociatedGpxFile != null) &&
+                        (this.AssociatedGpxFile.ContentsChanged))
+                    {
+                        strBuilder.Append('*');
+                    }
+                    if (_fileLoadError != null)
+                    {
+                        strBuilder.Append(" ** Loading Error **");
+                    }
+                    return strBuilder.ToString();
+                }
+            }
+        }
 
         public override LoadedGpxFile? AssociatedGpxFile { get; }
 
