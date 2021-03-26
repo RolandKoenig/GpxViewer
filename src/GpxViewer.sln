@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer", "GpxViewer\GpxViewer.csproj", "{ABE826E5-F3F9-496A-AADB-58442D66DF14}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{FE293C28-A70D-44D7-9516-9C258B831AF1}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
@@ -55,10 +53,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ABE826E5-F3F9-496A-AADB-58442D66DF14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ABE826E5-F3F9-496A-AADB-58442D66DF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ABE826E5-F3F9-496A-AADB-58442D66DF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ABE826E5-F3F9-496A-AADB-58442D66DF14}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2A2AED22-A9FE-496A-91D2-C08D75A07C73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2A2AED22-A9FE-496A-91D2-C08D75A07C73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A2AED22-A9FE-496A-91D2-C08D75A07C73}.Release|Any CPU.ActiveCfg = Release|Any CPU

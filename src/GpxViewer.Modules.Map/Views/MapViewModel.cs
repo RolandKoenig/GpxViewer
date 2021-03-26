@@ -15,7 +15,7 @@ using Mapsui.Styles;
 
 namespace GpxViewer.Modules.Map.Views
 {
-    public class MapViewModel : GpxViewerViewModelBase
+    internal class MapViewModel : GpxViewerViewModelBase
     {
         private IGpxFileRepository _gpxFileRepo;
 
