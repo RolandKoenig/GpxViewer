@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace GpxViewer.Core.Patterns
     {
         private IEnumerable<MessageSubscription>? _messageSubscriptions;
 
+        [Browsable(false)]
         public FirLibMessenger Messenger => FirLibMessenger.GetByName(FirLibConstants.MESSENGER_NAME_GUI);
 
         /// <inheritdoc />

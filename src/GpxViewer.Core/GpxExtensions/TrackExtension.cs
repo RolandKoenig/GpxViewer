@@ -6,8 +6,8 @@ using System.Xml.Serialization;
 namespace GpxViewer.Core.GpxExtensions
 {
     [XmlType("TrackExtension", Namespace = "http://gpxviewer.rolandk.net/")]
-    public class TrackExtension
+    public class TrackExtension : TrackOrRouteExtension
     {
-        public GpxTrackState State { get; set; } = GpxTrackState.Unknown;
+        
     }
 }

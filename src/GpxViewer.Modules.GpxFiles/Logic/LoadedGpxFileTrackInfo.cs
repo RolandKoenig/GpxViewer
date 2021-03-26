@@ -14,7 +14,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         public GpxTrack? RawTrackData { get; }
         public GpxRoute? RawRouteData { get; }
 
-        public TrackExtension RawTrackExtensionData { get; }
+        public TrackOrRouteExtension RawTrackExtensionData { get; }
 
         public List<LoadedGpxFileTrackOrRouteSegmentInfo> Segments { get; }
 
@@ -31,7 +31,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             this.RawRouteData = rawRouteData;
 
             rawRouteData.Extensions ??= new GpxExtensions();
-            this.RawTrackExtensionData = rawRouteData.Extensions.GetOrCreateExtension<TrackExtension>();
+            this.RawTrackExtensionData = rawRouteData.Extensions.GetOrCreateExtension<RouteExtension>();
 
             this.Segments = new List<LoadedGpxFileTrackOrRouteSegmentInfo>(1);
             this.Segments.Add(new LoadedGpxFileTrackOrRouteSegmentInfo(rawRouteData));

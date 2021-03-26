@@ -30,6 +30,7 @@ namespace GpxViewer.Shell
 
             // Register GpxFile extensions
             GpxFile.RegisterExtensionType(typeof(TrackExtension));
+            GpxFile.RegisterExtensionType(typeof(RouteExtension));
             GpxFile.RegisterNamespace("rkgpxv", "http://gpxviewer.rolandk.net/");
 
             // Trigger normal startup
@@ -43,8 +44,8 @@ namespace GpxViewer.Shell
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<GpxViewer.Modules.GpxFiles.GpxFilesModule>();
-            moduleCatalog.AddModule<GpxViewer.Modules.Map.MapModule>();
+            moduleCatalog.AddModule<Modules.GpxFiles.GpxFilesModule>();
+            moduleCatalog.AddModule<Modules.Map.MapModule>();
         }
 
         protected override void ConfigureViewModelLocator()

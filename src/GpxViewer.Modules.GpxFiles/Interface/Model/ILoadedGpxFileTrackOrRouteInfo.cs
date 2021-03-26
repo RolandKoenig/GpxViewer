@@ -14,7 +14,7 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
 
         GpxRoute? RawRouteData { get; }
 
-        TrackExtension RawTrackExtensionData { get; }
+        TrackOrRouteExtension RawTrackExtensionData { get; }
 
         GpxTrackState State { get; set; }
 

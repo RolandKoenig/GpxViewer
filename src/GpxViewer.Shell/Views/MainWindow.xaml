@@ -53,7 +53,7 @@
                               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
                 <ContentControl Grid.Row="2" 
-                                prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_FILE_INFO}" />
+                                prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TRACK_OR_ROUTE_INFO}" />
             </Grid>
 
             <GridSplitter Grid.Column="1"
@@ -74,7 +74,7 @@
                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
                     <ContentControl Grid.Row="2" 
-                                    prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TRACK_INFO}" />
+                                    prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TRACK_OR_ROUTE_DETAILS}" />
                 </Grid>
             </Grid>
         </Grid>

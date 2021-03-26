@@ -21,5 +21,14 @@ namespace GpxViewer.Modules.GpxFiles.Views
                     A.Fake<IGpxViewerCommands>());
             }
         }
+
+        public static SelectedTracksAndRoutesViewModel SelectedTracksAndRoutesVM
+        {
+            get
+            {
+                var result = new SelectedTracksAndRoutesViewModel();
+                return result;
+            }
+        }
     }
 }

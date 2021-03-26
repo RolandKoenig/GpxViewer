@@ -18,6 +18,9 @@ namespace GpxViewer.Modules.GpxFiles
             regionManager.RegisterViewWithRegion(
                 GpxViewerConstants.REGION_FILE_TREE,
                 typeof(FileTreeView));
+            regionManager.RegisterViewWithRegion(
+                GpxViewerConstants.REGION_TRACK_OR_ROUTE_INFO,
+                typeof(SelectedTracksAndRoutesView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

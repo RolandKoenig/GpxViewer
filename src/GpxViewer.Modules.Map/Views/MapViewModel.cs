@@ -157,5 +157,10 @@ namespace GpxViewer.Modules.Map.Views
 
             this.UpdateLayer_SelectedGpxFiles();
         }
+
+        private void OnMessageReceived(MessageTrackOrRouteConfigurationChanged message)
+        {
+            
+        }
     }
 }
