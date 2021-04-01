@@ -37,6 +37,12 @@ namespace GpxViewer.Shell
             base.OnStartup(e);
         }
 
+        /// <inheritdoc />
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterSingleton<IGpxViewerCommands, GpxViewerCommands>();
+        }
+
         protected override Window CreateShell()
         {
             return this.Container.Resolve<MainWindow>();
@@ -69,11 +75,6 @@ namespace GpxViewer.Shell
                 else { viewModelName = $"{viewName}ViewModel, {viewAssemblyName}"; }
                 return Type.GetType(viewModelName);
             });
-        }
-
-        protected override void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-            containerRegistry.RegisterSingleton<IGpxViewerCommands, GpxViewerCommands>();
         }
     }
 }
