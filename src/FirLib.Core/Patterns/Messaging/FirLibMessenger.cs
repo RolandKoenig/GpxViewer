@@ -15,7 +15,7 @@ namespace FirLib.Core.Patterns.Messaging
     /// What 'messenger' actually is, see here a short explanation:
     /// http://stackoverflow.com/questions/22747954/mvvm-light-toolkit-messenger-uses-event-aggregator-or-mediator-pattern
     /// </summary>
-    public class FirLibMessenger
+    public class FirLibMessenger : IFirLibMessagePublisher
     {
         public const string METHOD_NAME_MESSAGE_RECEIVED = "OnMessageReceived";
 
@@ -87,6 +87,8 @@ namespace FirLib.Core.Patterns.Messaging
             }
         }
 
+        public Func<SynchronizationContext, SynchronizationContext, bool>? CustomSynchronizationContextEqualityChecker { get; set; }
+
         /// <summary>
         /// Gets the total count of globally registered messengers.
         /// </summary>
@@ -96,7 +98,7 @@ namespace FirLib.Core.Patterns.Messaging
         }
 
         /// <summary>
-        /// Initializes the <see cref="FirLibMessenger" /> class.
+        /// Initializes the <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger" /> class.
         /// </summary>
         static FirLibMessenger()
         {
@@ -106,7 +108,7 @@ namespace FirLib.Core.Patterns.Messaging
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FirLibMessenger"/> class.
+        /// Initializes a new instance of the <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger"/> class.
         /// </summary>
         public FirLibMessenger()
         {
@@ -119,7 +121,7 @@ namespace FirLib.Core.Patterns.Messaging
         }
 
         /// <summary>
-        /// Gets the <see cref="FirLibMessenger"/> by the given name.
+        /// Gets the <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger"/> by the given name.
         /// </summary>
         /// <param name="messengerName">The name of the messenger.</param>
         public static FirLibMessenger GetByName(string messengerName)
@@ -132,7 +134,7 @@ namespace FirLib.Core.Patterns.Messaging
         }
 
         /// <summary>
-        /// Gets the <see cref="FirLibMessenger"/> by the given name.
+        /// Gets the <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger"/> by the given name.
         /// </summary>
         /// <param name="messengerName">The name of the messenger.</param>
         public static FirLibMessenger? TryGetByName(string messengerName)
@@ -226,9 +228,8 @@ namespace FirLib.Core.Patterns.Messaging
         /// Waits for the given message.
         /// </summary>
         public Task<T> WaitForMessageAsync<T>()
-            where T : FirLibMessage
         {
-            TaskCompletionSource<T> taskComplSource = new();
+            TaskCompletionSource<T> taskComplSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
             MessageSubscription? subscription = null;
             subscription = this.Subscribe<T>((message) =>
@@ -256,7 +257,6 @@ namespace FirLib.Core.Patterns.Messaging
             List<MessageSubscription> generatedSubscriptions = new(16);
             try
             {
-                Type typeofMessage = typeof(FirLibMessage);
                 foreach (MethodInfo actMethod in targetObjectType.GetMethods(
                     BindingFlags.NonPublic | BindingFlags.Public | 
                     BindingFlags.Instance | BindingFlags.InvokeMethod))
@@ -266,10 +266,9 @@ namespace FirLib.Core.Patterns.Messaging
                     ParameterInfo[] parameters = actMethod.GetParameters();
                     if (parameters.Length != 1) { continue; }
 
-                    if (!typeofMessage.GetTypeInfo().IsAssignableFrom(
-                        parameters[0].ParameterType.GetTypeInfo())) 
+                    if (!FirLibMessageHelper.ValidateMessageType(parameters[0].ParameterType, out _))
                     {
-                        continue; 
+                        continue;
                     }
 
                     Type genericAction = typeof(Action<>);
@@ -297,33 +296,11 @@ namespace FirLib.Core.Patterns.Messaging
         /// <typeparam name="TMessageType">Type of the message.</typeparam>
         /// <param name="actionOnMessage">Action to perform on incoming message.</param>
         public MessageSubscription Subscribe<TMessageType>(Action<TMessageType> actionOnMessage)
-            where TMessageType : FirLibMessage
         {
             actionOnMessage.EnsureNotNull(nameof(actionOnMessage));
 
             Type currentType = typeof(TMessageType);
             return this.Subscribe(actionOnMessage, currentType);
-        }
-
-        /// <summary>
-        /// Subscribes the given MessageType and executes the action only when the condition is true.
-        /// </summary>
-        /// <typeparam name="TMessageType">The type of the message type.</typeparam>
-        /// <param name="condition">The condition.</param>
-        /// <param name="actionOnMessage">The messenger.</param>
-        public MessageSubscription SubscribeWhen<TMessageType>(Func<TMessageType, bool> condition, Action<TMessageType> actionOnMessage)
-            where TMessageType : FirLibMessage
-        {
-            condition.EnsureNotNull(nameof(condition));
-            actionOnMessage.EnsureNotNull(nameof(actionOnMessage));
-
-            void FilterAction(TMessageType message)
-            {
-                if (condition(message)) { actionOnMessage(message); }
-            }
-
-            Type currentType = typeof(TMessageType);
-            return this.Subscribe((Action<TMessageType>)FilterAction, currentType);
         }
 
         /// <summary>
@@ -337,10 +314,7 @@ namespace FirLib.Core.Patterns.Messaging
             actionOnMessage.EnsureNotNull(nameof(actionOnMessage));
             messageType.EnsureNotNull(nameof(messageType));
 
-            if (!messageType.GetTypeInfo().IsSubclassOf(typeof(FirLibMessage)))
-            {
-                throw new ArgumentException($"Given message type does not derive from {nameof(FirLibMessage)}!");
-            }
+            FirLibMessageHelper.EnsureValidMessageType(messageType);
 
             MessageSubscription newOne = new(this, messageType, actionOnMessage);
             lock (_messageSubscriptionsLock)
@@ -397,7 +371,6 @@ namespace FirLib.Core.Patterns.Messaging
         /// </summary>
         /// <typeparam name="TMessageType">The type of the message for which to count all subscriptions.</typeparam>
         public int CountSubscriptionsForMessage<TMessageType>()
-            where TMessageType : FirLibMessage
         {
             lock (_messageSubscriptionsLock)
             {
@@ -417,7 +390,7 @@ namespace FirLib.Core.Patterns.Messaging
         /// There is no possibility here to wait for the answer.
         /// </summary>
         public void BeginPublish<TMessageType>()
-            where TMessageType : FirLibMessage, new()
+            where TMessageType : new()
         {
             this.BeginPublish(new TMessageType());
         }
@@ -430,7 +403,6 @@ namespace FirLib.Core.Patterns.Messaging
         /// <param name="message">The message.</param>
         public void BeginPublish<TMessageType>(
             TMessageType message)
-            where TMessageType : FirLibMessage
         {
             _hostSyncContext.PostAlsoIfNull(() => this.Publish(message));
         }
@@ -440,8 +412,8 @@ namespace FirLib.Core.Patterns.Messaging
         /// The returned task waits for all synchronous subscriptions.
         /// </summary>
         /// <typeparam name="TMessageType">The type of the message.</typeparam>
-        public Task PublishAsync<TMessageType>()
-            where TMessageType : FirLibMessage, new()
+        public Task BeginPublishAsync<TMessageType>()
+            where TMessageType : new()
         {
             return _hostSyncContext.PostAlsoIfNullAsync(
                 this.Publish<TMessageType>);
@@ -453,9 +425,8 @@ namespace FirLib.Core.Patterns.Messaging
         /// </summary>
         /// <typeparam name="TMessageType">The type of the message.</typeparam>
         /// <param name="message">The message to be sent.</param>
-        public Task PublishAsync<TMessageType>(
+        public Task BeginPublishAsync<TMessageType>(
             TMessageType message)
-            where TMessageType : FirLibMessage
         {
             return _hostSyncContext.PostAlsoIfNullAsync(
                 () => this.Publish(message));
@@ -465,7 +436,7 @@ namespace FirLib.Core.Patterns.Messaging
         /// Sends the given message to all subscribers (sync processing).
         /// </summary>
         public void Publish<TMessageType>()
-            where TMessageType : FirLibMessage, new()
+            where TMessageType : new()
         {
             this.Publish(new TMessageType());
         }
@@ -477,7 +448,6 @@ namespace FirLib.Core.Patterns.Messaging
         /// <param name="message">The message to send.</param>
         public void Publish<TMessageType>(
             TMessageType message)
-            where TMessageType : FirLibMessage
         {
             this.PublishInternal(
                 message, true);
@@ -491,9 +461,8 @@ namespace FirLib.Core.Patterns.Messaging
         /// <param name="isInitialCall">Is this one the initial call to publish? (false if we are coming from async routing)</param>
         private void PublishInternal<TMessageType>(
             TMessageType message, bool isInitialCall)
-            where TMessageType : FirLibMessage
         {
-            message.EnsureNotNull(nameof(message));
+            FirLibMessageHelper.EnsureValidMessageTypeAndValue(message);
 
             try
             {
@@ -513,7 +482,7 @@ namespace FirLib.Core.Patterns.Messaging
                 Type currentType = typeof(TMessageType);
                 if (isInitialCall)
                 {
-                    string[] possibleSources = s_messageSources.GetOrAdd(currentType, (_) => message.GetPossibleSourceMessengers());
+                    string[] possibleSources = s_messageSources.GetOrAdd(currentType, (_) => FirLibMessageHelper.GetPossibleSourceMessengersOfMessageType(currentType));
                     if (possibleSources.Length > 0)
                     {
                         string mainThreadName = _globalMessengerName;
@@ -559,7 +528,7 @@ namespace FirLib.Core.Patterns.Messaging
                 if (isInitialCall)
                 {
                     // Get information about message routing
-                    string[] asyncTargets = s_messagesAsyncTargets.GetOrAdd(currentType, (_) => message.GetAsyncRoutingTargetMessengers());
+                    string[] asyncTargets = s_messagesAsyncTargets.GetOrAdd(currentType, (_) => FirLibMessageHelper.GetAsyncRoutingTargetMessengersOfMessageType(currentType));
                     string mainThreadName = _globalMessengerName;
                     for (var loop = 0; loop < asyncTargets.Length; loop++)
                     {
@@ -593,7 +562,7 @@ namespace FirLib.Core.Patterns.Messaging
             catch (Exception ex)
             {
                 // Check whether we have to throw the exception globally
-                var globalExceptionHandler = FirLibMessenger.CustomPublishExceptionHandler;
+                var globalExceptionHandler = CustomPublishExceptionHandler;
                 var doRaise = true;
                 if (globalExceptionHandler != null)
                 {
@@ -617,7 +586,27 @@ namespace FirLib.Core.Patterns.Messaging
         /// </summary>
         private bool CompareSynchronizationContexts()
         {
-            return SynchronizationContext.Current == _hostSyncContext;
+            var currentSynchronizationContext = SynchronizationContext.Current;
+            if((currentSynchronizationContext != null) && (_hostSyncContext != null))
+            {
+                var syncContextEqualityChecker = this.CustomSynchronizationContextEqualityChecker;
+                if (syncContextEqualityChecker != null)
+                {
+                    return syncContextEqualityChecker(currentSynchronizationContext, _hostSyncContext);
+                }
+                else
+                {
+                    return SynchronizationContext.Current == _hostSyncContext;
+                }
+            }
+            else if((currentSynchronizationContext != null) || (_hostSyncContext != null))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

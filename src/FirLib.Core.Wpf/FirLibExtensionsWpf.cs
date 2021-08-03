@@ -13,22 +13,31 @@ using FirLib.Core.Patterns.Messaging;
 
 namespace FirLib.Core
 {
-    public static class FirLibExtensionsWpf
+    public static partial class FirLibExtensionsWpf
     {
         public static FirLibApplicationLoader AttachToWpfEnvironment(this FirLibApplicationLoader loader)
         {
-            loader.AddStartupAction(() =>
-            {
-                Application.Current.DispatcherUnhandledException += CurrentOnDispatcherUnhandledException;
+            Application.Current.DispatcherUnhandledException += CurrentOnDispatcherUnhandledException;
 
-                var uiMessenger = new FirLibMessenger();
-                uiMessenger.ConnectToGlobalMessaging(
-                    FirLibMessengerThreadingBehavior.EnsureMainSyncContextOnSyncCalls,
-                    FirLibConstants.MESSENGER_NAME_GUI,
-                    SynchronizationContext.Current);
-            });
+            var uiMessenger = new FirLibMessenger();
+            uiMessenger.CustomSynchronizationContextEqualityChecker = CheckForEqualSynchronizationContexts;
+            uiMessenger.ConnectToGlobalMessaging(
+                FirLibMessengerThreadingBehavior.EnsureMainSyncContextOnSyncCalls,
+                FirLibConstants.MESSENGER_NAME_GUI,
+                SynchronizationContext.Current);
 
             return loader;
+        }
+
+        private static bool CheckForEqualSynchronizationContexts(SynchronizationContext givenLeft, SynchronizationContext givenRight)
+        {
+            if (!(givenLeft is DispatcherSynchronizationContext left)) { return false; }
+            if (!(givenRight is DispatcherSynchronizationContext right)) { return false; }
+
+            var leftDispatcher = FirLibTools.ReadPrivateMember<Dispatcher, DispatcherSynchronizationContext>(left, "_dispatcher");
+            var rightDispatcher = FirLibTools.ReadPrivateMember<Dispatcher, DispatcherSynchronizationContext>(right, "_dispatcher");
+
+            return leftDispatcher == rightDispatcher;
         }
 
         private static void CurrentOnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

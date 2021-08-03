@@ -4,8 +4,7 @@ using System.Text;
 
 namespace FirLib.Core.Patterns.Messaging
 {
-    public class FirLibMessageSource<TMessageType> 
-        where TMessageType : FirLibMessage
+    public class FirLibMessageSource<TMessageType>
     {
         private Action<TMessageType>? _customTarget;
 
@@ -17,7 +16,7 @@ namespace FirLib.Core.Patterns.Messaging
         }
 
         /// <summary>
-        /// Attach a custom handler here to avoid calling a globally registered <see cref="FirLibMessenger"/>.
+        /// Attach a custom handler here to avoid calling a globally registered <see cref="FirLib.Core.Patterns.Messaging.FirLibMessenger"/>.
         /// </summary>
         /// <param name="customTarget">A custom message target.</param>
         public void UnitTesting_ReplaceByCustomMessageTarget(Action<TMessageType> customTarget)

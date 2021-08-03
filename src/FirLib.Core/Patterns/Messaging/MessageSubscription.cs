@@ -78,15 +78,14 @@ namespace FirLib.Core.Patterns.Messaging
         /// <summary>
         /// Sends the given message to the target.
         /// </summary>
-        /// <typeparam name="MessageType">Type of the message.</typeparam>
+        /// <typeparam name="TMessageType">Type of the message.</typeparam>
         /// <param name="message">The message to be published.</param>
-        internal void Publish<MessageType>(MessageType message)
-            where MessageType : FirLibMessage
+        internal void Publish<TMessageType>(TMessageType message)
         {
             // Call this subscription
             if (!this.IsDisposed)
             {
-                var targetDelegate = _targetHandler as Action<MessageType>;
+                var targetDelegate = _targetHandler as Action<TMessageType>;
                 targetDelegate!.Invoke(message);
             }
         }

@@ -9,5 +9,7 @@ namespace FirLib.Core.Patterns.Mvvm
         public ICollection<IViewService> ViewServices { get; }
 
         public IViewServiceHost? ParentViewServiceHost { get; }
+
+        public object? TryGetDefaultViewService(Type viewServiceType);
     }
 }

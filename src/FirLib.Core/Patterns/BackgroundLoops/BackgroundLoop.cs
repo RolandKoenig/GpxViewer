@@ -138,7 +138,7 @@ namespace FirLib.Core.Patterns.BackgroundLoops
 
                 case BackgroundLoopState.Running:
                 case BackgroundLoopState.Starting:
-                    var taskSource = new TaskCompletionSource<object?>();
+                    var taskSource = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
                     this.Stopping += (_, _) =>
                     {
                         taskSource.TrySetResult(null);
@@ -211,7 +211,7 @@ namespace FirLib.Core.Patterns.BackgroundLoops
             actionToInvoke.EnsureNotNull(nameof(actionToInvoke));
 
             // Enqueue the given action
-            var taskCompletionSource = new TaskCompletionSource<object?>();
+            var taskCompletionSource = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             _taskQueue.Enqueue(() =>
             {
