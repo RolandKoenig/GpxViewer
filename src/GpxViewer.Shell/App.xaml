@@ -2,8 +2,37 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:GpxViewer.Shell"
-             xmlns:prism="http://prismlibrary.com/" >
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:views="clr-namespace:GpxViewer.Shell.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Application.Resources>
-         
+        <ResourceDictionary>
+
+            <!-- MaterialDesign theme -->
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:CustomColorTheme BaseTheme="Dark" 
+                                                 PrimaryColor="#FF555555" 
+                                                 SecondaryColor="LightBlue" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- GpxViewer main colors -->
+            <Color x:Key="ColorPrimary">#0975C6</Color>
+            <Color x:Key="ColorSecondary">#00CCFF</Color>
+            <SolidColorBrush x:Key="BrushPrimary" Color="{StaticResource ColorPrimary}" />
+            <SolidColorBrush x:Key="BrushSecondary" Color="{StaticResource ColorSecondary}" />
+
+            <!-- Some overrides -->
+            <Style TargetType="{x:Type views:MainWindow}">
+                <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource MaterialDesignBody}" />
+            </Style>
+            <Style x:Key="MainMenuStyle" TargetType="{x:Type Menu}">
+                <Setter Property="Background" Value="{StaticResource BrushPrimary}" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Margin" Value="-4,0,-4,3" />
+            </Style>
+
+        </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

@@ -14,7 +14,8 @@
     Title="{Binding Title}" Height="350" Width="525">
 
     <DockPanel LastChildFill="True">
-        <Menu DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top"
+              Style="{StaticResource MainMenuStyle}">
             <MenuItem Header="File">
                 <MenuItem Header="Load File"
                           Command="{Binding Path=GpxViewerCommands.LoadFile}"/>
