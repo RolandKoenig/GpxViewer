@@ -229,7 +229,7 @@ namespace FirLib.Core.Patterns.Messaging
         /// </summary>
         public Task<T> WaitForMessageAsync<T>()
         {
-            TaskCompletionSource<T> taskComplSource = new();
+            TaskCompletionSource<T> taskComplSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
             MessageSubscription? subscription = null;
             subscription = this.Subscribe<T>((message) =>

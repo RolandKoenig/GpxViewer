@@ -120,7 +120,7 @@ namespace FirLib.Core
             Action actionToPost, 
             ActionIfSyncContextIsNull actionIfNull = ActionIfSyncContextIsNull.InvokeUsingNewTask)
         {
-            TaskCompletionSource<object?> completionSource = new();
+            TaskCompletionSource<object?> completionSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
             syncContext.PostAlsoIfNull(() =>
                 {
                     try
