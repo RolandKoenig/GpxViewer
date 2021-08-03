@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using FirLib.Core.ViewServices;
+using FirLib.Core.Wpf.Controls.CustomWindow;
 
 namespace FirLib.Core.Patterns.Mvvm
 {
-    public class MvvmWindow : Window, IViewServiceHost
+    public class MvvmWindow : CustomWindowBase, IViewServiceHost
     {
         private ViewServiceContainer _viewServiceContainer;
 
