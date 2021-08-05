@@ -142,7 +142,7 @@
 
     <Style TargetType="{x:Type local:CustomWindowMainPanel}">
         <Setter Property="BorderBrush" Value="{DynamicResource WindowBorderBrush}" />
-        <Setter Property="BorderThickness" Value="4" />
+        <Setter Property="BorderThickness" Value="4,0,4,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CustomWindowMainPanel}">

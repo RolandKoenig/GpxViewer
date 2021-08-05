@@ -52,5 +52,12 @@ namespace FirLib.Core
 
             e.Handled = true;
         }
+
+        public static System.Windows.Forms.IWin32Window GetIWin32Window(this System.Windows.Media.Visual visual)
+        {
+            var source = (System.Windows.Interop.HwndSource)System.Windows.PresentationSource.FromVisual(visual)!;
+            System.Windows.Forms.IWin32Window win = new Win32WindowHandleWrapper(source.Handle);
+            return win;
+        }
     }
 }
