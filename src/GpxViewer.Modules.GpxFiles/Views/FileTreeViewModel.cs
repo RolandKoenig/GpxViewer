@@ -131,9 +131,13 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
-        private void OnCommand_LoadDirectory_Execute()
+        private async void OnCommand_LoadDirectory_Execute()
         {
-            throw new NotImplementedException();
+            var srvLoadDirectory = this.GetViewService<IOpenDirectoryViewService>();
+            var selectedPath = await srvLoadDirectory.ShowOpenDirectoryDialogAsync("Load GPX Files");
+            if (string.IsNullOrEmpty(selectedPath)) { return; }
+
+            await _repoGpxFiles.LoadDirectory(selectedPath);
         }
 
         private void OnCommand_CloseAll_Execute()
