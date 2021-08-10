@@ -57,6 +57,17 @@ namespace FirLib.Core.Infrastructure.Services
             return null;
         }
 
+        /// <summary>
+        /// Enumerates over all registered services.
+        /// </summary>
+        public IEnumerable<(Type, object)> GetAllServices()
+        {
+            foreach (var actPair in _services)
+            {
+                yield return (actPair.Key, actPair.Value);
+            }
+        }
+
         private static void EnsureInterfaceType(Type type)
         {
             if (!type.IsInterface)
