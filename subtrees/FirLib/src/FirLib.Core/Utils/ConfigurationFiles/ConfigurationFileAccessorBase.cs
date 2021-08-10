@@ -12,7 +12,6 @@ namespace FirLib.Core.Utils.ConfigurationFiles
 
         protected ConfigurationFileAccessorBase(string baseDirectory, string appName)
         {
-            CheckFileNamePart(baseDirectory, nameof(baseDirectory));
             CheckFileNamePart(appName, nameof(appName));
 
             _baseDirectory = baseDirectory;
@@ -48,13 +47,7 @@ namespace FirLib.Core.Utils.ConfigurationFiles
             for(var loop=0; loop<fileKey.Length; loop++)
             {
                 var actChar = fileKey[loop];
-                if (actChar == '.')
-                {
-                    throw new ArgumentException(
-                        nameof(fileKey),
-                        $"Invalid char . at index {loop} of parameter {paramName} ({fileKey})!");
-                }
-                else if (Array.IndexOf(invalidChars, actChar) > -1)
+                if (Array.IndexOf(invalidChars, actChar) > -1)
                 {
                     throw new ArgumentException(
                         nameof(fileKey),
