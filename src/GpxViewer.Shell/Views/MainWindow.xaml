@@ -48,14 +48,18 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <ContentControl Grid.Row="0" 
-                                prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_FILE_TREE}" />
+                <GroupBox Grid.Row="0" 
+                          Header="Files">
+                    <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_FILE_TREE}" />
+                </GroupBox>
 
                 <GridSplitter Grid.Row="1"
                               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-                <ContentControl Grid.Row="2" 
-                                prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TRACK_OR_ROUTE_INFO}" />
+                <GroupBox Grid.Row="2"
+                          Header="Selected Tour">
+                    <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TRACK_OR_ROUTE_INFO}" />
+                </GroupBox>
             </Grid>
 
             <GridSplitter Grid.Column="1"
@@ -69,14 +73,19 @@
                         <RowDefinition Height="125" />
                     </Grid.RowDefinitions>
 
-                    <ContentControl Grid.Row="0" 
-                                    prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_MAP}" />
+                    <GroupBox Grid.Row="0"
+                              Header="Map">
+                        <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_MAP}" />
+                    </GroupBox>
+
 
                     <GridSplitter Grid.Row="1"
                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-                    <ContentControl Grid.Row="2" 
-                                    prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TRACK_OR_ROUTE_DETAILS}" />
+                    <GroupBox Grid.Row="2"
+                              Header="Tour Detail">
+                        <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TRACK_OR_ROUTE_DETAILS}" />
+                    </GroupBox>
                 </Grid>
             </Grid>
         </Grid>

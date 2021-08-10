@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:GpxViewer.Shell"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:propTools="http://propertytools.org/wpf"
              xmlns:views="clr-namespace:GpxViewer.Shell.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Application.Resources>
@@ -31,6 +32,25 @@
                 <Setter Property="Background" Value="{StaticResource BrushPrimary}" />
                 <Setter Property="Foreground" Value="White" />
                 <Setter Property="Margin" Value="-4,0,-4,3" />
+            </Style>
+
+            <Style x:Key="GpxViewerPropertyGrid" 
+                   TargetType="propTools:PropertyGrid">
+                <Setter Property="CategoryControlType" Value="Template" />
+                <Setter Property="CategoryControlTemplate">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
+                            <StackPanel Orientation="Vertical">
+                                <Label FontSize="12" FontWeight="Bold">
+                                    <ContentPresenter ContentSource="Header" RecognizesAccessKey="True"
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </Label>
+                                <Rectangle Height="1" Fill="LightGray" Margin="0,0,0,8" />
+                                <ContentPresenter />
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
 
         </ResourceDictionary>
