@@ -77,7 +77,7 @@ namespace GpxViewer.Modules.Map.Views
 
         private void OnViwewModel_RequestNavigateToBoundingBox(object? sender, RequestNavigateToBoundingBoxEventArgs e)
         {
-            this.CtrlMap.Navigator.NavigateTo(e.NavTarget, ScaleMethod.Fit, 500L, Easing.BounceOut);
+            this.CtrlMap.Navigator.NavigateTo(e.NavTarget, ScaleMethod.Fit, 500L, Easing.Linear);
         }
     }
 }
