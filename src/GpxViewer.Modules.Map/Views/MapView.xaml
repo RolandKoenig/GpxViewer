@@ -32,15 +32,14 @@
 
             <TextBlock Text="Render mode:"
                        VerticalAlignment="Center"/>
-            <ComboBox SelectedItem="{Binding ElementName=CtrlMap, Path=RenderMode}"
+            <ComboBox SelectedItem="{Binding Path=ViewSettings.RenderMode}"
                       Width="100">
                 <maps:RenderMode>Skia</maps:RenderMode>
                 <maps:RenderMode>Wpf</maps:RenderMode>
             </ComboBox>
         </StackPanel>
 
-        <maps:MapControl x:Name="CtrlMap"
-                         RenderMode="Skia" />
+        <maps:MapControl x:Name="CtrlMap" />
     </DockPanel>
 
 </firlibMvvm:MvvmUserControl>

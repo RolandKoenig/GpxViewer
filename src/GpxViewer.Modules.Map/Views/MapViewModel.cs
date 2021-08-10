@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using FirLib.Core.Patterns;
-using FirLib.Core.Utils.ConfigurationFiles;
 using GpxViewer.Core;
 using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Messages;
@@ -40,6 +39,8 @@ namespace GpxViewer.Modules.Map.Views
 
         public ObservableCollection<ILayer> AdditionalMapLayers { get; }
 
+        public MapViewSettings ViewSettings { get; }
+
         public DelegateCommand Command_ResetCamera { get; }
 
         public event EventHandler<RequestNavigateToBoundingBoxEventArgs>? RequestNavigateToBoundingBox;
@@ -50,6 +51,8 @@ namespace GpxViewer.Modules.Map.Views
         {
             _config = config;
             _gpxFileRepo = gpxFileRepo;
+
+            this.ViewSettings = new MapViewSettings(_config);
 
             _layerLoadedGpxFiles = new MemoryLayer();
             _layerLoadedGpxFilesProvider = new MemoryProvider();
@@ -107,7 +110,7 @@ namespace GpxViewer.Modules.Map.Views
             // Set initial viewport position
             var timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(0.5);
-            timer.Tick += (sender, eArgs) =>
+            timer.Tick += (_, _) =>
             {
                 timer.Stop();
                 this.RequestNavigateToBoundingBox?.Invoke(

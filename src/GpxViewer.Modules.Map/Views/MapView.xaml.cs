@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,8 +34,15 @@ namespace GpxViewer.Modules.Map.Views
             }
         }
 
+        private void ApplyViewSettings(MapViewSettings viewSettings)
+        {
+            this.CtrlMap.RenderMode = viewSettings.RenderMode;
+        }
+
         private void OnThis_AttachToViewModel(MapViewModel viewModel)
         {
+            this.ApplyViewSettings(viewModel.ViewSettings);
+
             foreach (var actLayer in viewModel.AdditionalMapLayers)
             {
                 this.CtrlMap.Map.Layers.Add(actLayer);
@@ -43,6 +51,7 @@ namespace GpxViewer.Modules.Map.Views
             viewModel.AdditionalMapLayers.CollectionChanged += this.OnViewModel_AdditionalMapLayers_CollectionChanged;
             viewModel.RequestNavigateToBoundingBox += this.OnViewModel_RequestNavigateToBoundingBox;
             viewModel.RequestCurrentViewport += this.OnViewModel_RequestCurrentViewport;
+            viewModel.ViewSettings.PropertyChanged += this.OnViewModel_ViewSettings_PropertyChanged;
         }
 
         private void OnThis_DetachFromViewModel(MapViewModel viewModel)
@@ -50,6 +59,7 @@ namespace GpxViewer.Modules.Map.Views
             viewModel.AdditionalMapLayers.CollectionChanged -= this.OnViewModel_AdditionalMapLayers_CollectionChanged;
             viewModel.RequestNavigateToBoundingBox -= this.OnViewModel_RequestNavigateToBoundingBox;
             viewModel.RequestCurrentViewport -= this.OnViewModel_RequestCurrentViewport;
+            viewModel.ViewSettings.PropertyChanged -= this.OnViewModel_ViewSettings_PropertyChanged;
 
             foreach (var actLayer in viewModel.AdditionalMapLayers)
             {
@@ -88,6 +98,20 @@ namespace GpxViewer.Modules.Map.Views
         private void OnViewModel_RequestCurrentViewport(object? sender, RequestCurrentViewportEventArgs e)
         {
             e.CurrentViewPort = this.CtrlMap.Viewport.Extent;
+        }
+
+        private void OnViewModel_ViewSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            var viewModel = this.DataContext as MapViewModel;
+            if (viewModel == null) { return; }
+
+            switch (e.PropertyName)
+            {
+                case "":
+                case nameof(MapViewSettings.RenderMode):
+                    this.ApplyViewSettings(viewModel.ViewSettings);
+                    break;
+            }
         }
     }
 }
