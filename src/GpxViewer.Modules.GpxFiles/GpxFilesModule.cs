@@ -1,6 +1,7 @@
 ﻿using FirLib.Core;
 using FirLib.Core.Patterns.Messaging;
 using GpxViewer.Core;
+using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
 using GpxViewer.Modules.GpxFiles.Logic;
 using GpxViewer.Modules.GpxFiles.Views;
@@ -10,9 +11,9 @@ using Prism.Regions;
 
 namespace GpxViewer.Modules.GpxFiles
 {
-    public class GpxFilesModule : IModule
+    public class GpxFilesModule : GpxViewerModuleBase
     {
-        public void OnInitialized(IContainerProvider containerProvider)
+        public override void OnInitializedCustom(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
             regionManager.RegisterViewWithRegion(
@@ -23,7 +24,7 @@ namespace GpxViewer.Modules.GpxFiles
                 typeof(SelectedTracksAndRoutesView));
         }
 
-        public void RegisterTypes(IContainerRegistry containerRegistry)
+        public override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             var uiMessenger = FirLibMessenger.GetByName(FirLibConstants.MESSENGER_NAME_GUI);
             var gpxFileRepo = new GpxFileRepository(uiMessenger);

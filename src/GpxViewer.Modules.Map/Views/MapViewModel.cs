@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using FirLib.Core.Patterns;
+using FirLib.Core.Utils.ConfigurationFiles;
 using GpxViewer.Core;
 using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Patterns;
@@ -40,7 +41,7 @@ namespace GpxViewer.Modules.Map.Views
 
         public event EventHandler<RequestNavigateToBoundingBoxEventArgs>? RequestNavigateToBoundingBox;
 
-        public MapViewModel(IGpxFileRepository gpxFileRepo)
+        public MapViewModel(MapModuleConfiguration config, IGpxFileRepository gpxFileRepo)
         {
             _gpxFileRepo = gpxFileRepo;
 

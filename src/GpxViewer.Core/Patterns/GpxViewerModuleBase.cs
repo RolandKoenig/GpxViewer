@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using FirLib.Core;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Messaging;
-using FirLib.Core.Patterns.Mvvm;
+using Prism.Ioc;
+using Prism.Modularity;
 
 namespace GpxViewer.Core.Patterns
 {
-    public abstract class GpxViewerViewModelBase : ViewModelBase
+    public abstract class GpxViewerModuleBase : IModule
     {
         private IEnumerable<MessageSubscription>? _messageSubscriptions;
 
@@ -19,29 +20,19 @@ namespace GpxViewer.Core.Patterns
         public FirLibMessenger Messenger => FirLibMessenger.GetByName(FirLibConstants.MESSENGER_NAME_GUI);
 
         /// <inheritdoc />
-        protected override void OnMvvmViewAttached()
-        {
-            base.OnMvvmViewAttached();
+        public abstract void RegisterTypes(IContainerRegistry containerRegistry);
 
+        /// <inheritdoc />
+        public void OnInitialized(IContainerProvider containerProvider)
+        {
             if (FirLibApplication.IsLoaded)
             {
                 _messageSubscriptions = this.Messenger.SubscribeAll(this);
             }
+
+            this.OnInitializedCustom(containerProvider);
         }
 
-        /// <inheritdoc />
-        protected override void OnMvvmViewDetaching()
-        {
-            base.OnMvvmViewDetaching();
-
-            if (_messageSubscriptions != null)
-            {
-                foreach(var actSubscription in _messageSubscriptions)
-                {
-                    actSubscription.Unsubscribe();
-                }
-                _messageSubscriptions = null;
-            }
-        }
+        public abstract void OnInitializedCustom(IContainerProvider containerProvider);
     }
 }

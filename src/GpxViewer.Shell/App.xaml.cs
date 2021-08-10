@@ -5,10 +5,13 @@ using Prism.Ioc;
 using System.Windows;
 using FirLib.Core;
 using FirLib.Core.Infrastructure;
+using FirLib.Core.Patterns.Messaging;
+using FirLib.Core.Utils.ConfigurationFiles;
 using FirLib.Formats.Gpx;
 using GpxViewer.Core;
 using GpxViewer.Core.Commands;
 using GpxViewer.Core.GpxExtensions;
+using GpxViewer.Core.Messages;
 using Prism.Modularity;
 using Prism.Mvvm;
 
@@ -26,6 +29,7 @@ namespace GpxViewer.Shell
             FirLibApplication.Loader
                 .ConfigureCurrentThreadAsMainGuiThread()
                 .AttachToWpfEnvironment()
+                .AddConfigurationFileService("RKGpxViewer")
                 .Load();
 
             // Register GpxFile extensions
@@ -38,9 +42,26 @@ namespace GpxViewer.Shell
         }
 
         /// <inheritdoc />
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            FirLibMessenger.GetByName(FirLibConstants.MESSENGER_NAME_GUI)
+                .Publish(new MessageGpxViewerExit());
+        }
+
+        /// <inheritdoc />
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IGpxViewerCommands, GpxViewerCommands>();
+
+            // Register existing services from FirLibApplication
+            foreach (var actService in FirLibApplication.Current!.Services.GetAllServices())
+            {
+                containerRegistry.RegisterSingleton(
+                    actService.Item1,
+                    () => actService.Item2);
+            }
         }
 
         protected override Window CreateShell()
