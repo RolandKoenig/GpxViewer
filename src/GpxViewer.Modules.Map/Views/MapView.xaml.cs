@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FirLib.Core;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
+using Mapsui.Geometries;
 using Mapsui.Layers;
 using Mapsui.Utilities;
 

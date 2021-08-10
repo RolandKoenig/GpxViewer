@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
+using FirLib.Core.Patterns;
 using GpxViewer.Core;
 using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Patterns;
@@ -33,6 +35,8 @@ namespace GpxViewer.Modules.Map.Views
         private VectorStyle _lineStyleSucceeded;
 
         public ObservableCollection<ILayer> AdditionalMapLayers { get; }
+
+        public DelegateCommand Command_ResetCamera { get; }
 
         public event EventHandler<RequestNavigateToBoundingBoxEventArgs>? RequestNavigateToBoundingBox;
 
@@ -69,9 +73,35 @@ namespace GpxViewer.Modules.Map.Views
                  Line = {Color = Color.Blue, Width = 6}
             };
 
+            this.Command_ResetCamera = new DelegateCommand(this.OnCommand_ResetCamera);
+
             this.AdditionalMapLayers = new ObservableCollection<ILayer>();
             this.AdditionalMapLayers.Add(_layerSelectedGpxFiles);
             this.AdditionalMapLayers.Add(_layerLoadedGpxFiles);
+        }
+
+        /// <inheritdoc />
+        protected override void OnMvvmViewAttached()
+        {
+            base.OnMvvmViewAttached();
+
+            var timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(0.5);
+            timer.Tick += (sender, eArgs) =>
+            {
+                timer.Stop();
+                this.RequestNavigateToBoundingBox?.Invoke(
+                    this,
+                    new RequestNavigateToBoundingBoxEventArgs(GetDefaultBoundingBox()));
+            };
+            timer.Start();
+        }
+
+        public static BoundingBox GetDefaultBoundingBox()
+        {
+            return new BoundingBox(
+                -7637335.834571721, 1578946.9985836577,
+                9063849.0976259485, 10564256.424126934);
         }
 
         private void UpdateLayer_LoadedGpxFiles()
@@ -138,6 +168,35 @@ namespace GpxViewer.Modules.Map.Views
                 this.RequestNavigateToBoundingBox?.Invoke(
                     this, 
                     new RequestNavigateToBoundingBoxEventArgs(boxBuilder.TryBuild()!));
+            }
+        }
+
+        private void OnCommand_ResetCamera()
+        {
+            var boxBuilder = new NavigationBoundingBoxBuilder();
+
+            foreach (var actTrackOrRoute in _loadedTracksAndRoutes)
+            {
+                foreach (var actTrackSegment in actTrackOrRoute.Segments)
+                {
+                    var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
+                    if (actGeometry == null) { continue; }
+
+                    boxBuilder.AddGeometry(actGeometry);
+                }
+            }
+
+            if (boxBuilder.CanBuildBoundingBox)
+            {
+                this.RequestNavigateToBoundingBox?.Invoke(
+                    this, 
+                    new RequestNavigateToBoundingBoxEventArgs(boxBuilder.TryBuild()!));
+            }
+            else
+            {
+                this.RequestNavigateToBoundingBox?.Invoke(
+                    this,
+                    new RequestNavigateToBoundingBoxEventArgs(GetDefaultBoundingBox()));
             }
         }
 

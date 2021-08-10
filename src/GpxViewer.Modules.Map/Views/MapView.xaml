@@ -13,6 +13,12 @@
     prism:ViewModelLocator.AutoWireViewModel="True" >
     
     <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+            <Button Content="Reset"
+                    Command="{Binding Path=Command_ResetCamera}" />
+        </StackPanel>
+
         <StackPanel DockPanel.Dock="Bottom"
                     Orientation="Horizontal">
             <StackPanel.Resources>

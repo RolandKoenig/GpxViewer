@@ -9,6 +9,7 @@
     xmlns:gpxvCore="clr-namespace:GpxViewer.Core;assembly=GpxViewer.Core"
     xmlns:local="clr-namespace:GpxViewer.Shell.Views"
     mc:Ignorable="d"
+    WindowState="Maximized"
     prism:ViewModelLocator.AutoWireViewModel="True"
     d:DataContext="{x:Static local:DesignData.MainWindowVM}"
     Title="{Binding Title}" Height="350" Width="525">
