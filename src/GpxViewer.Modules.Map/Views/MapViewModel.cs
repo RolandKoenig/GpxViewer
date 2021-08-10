@@ -9,6 +9,7 @@ using FirLib.Core.Patterns;
 using FirLib.Core.Utils.ConfigurationFiles;
 using GpxViewer.Core;
 using GpxViewer.Core.GpxExtensions;
+using GpxViewer.Core.Messages;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
@@ -22,6 +23,8 @@ namespace GpxViewer.Modules.Map.Views
     internal class MapViewModel : GpxViewerViewModelBase
     {
         private IGpxFileRepository _gpxFileRepo;
+
+        private MapModuleConfiguration _config;
 
         private MemoryLayer _layerLoadedGpxFiles;
         private MemoryProvider _layerLoadedGpxFilesProvider;
@@ -41,8 +44,11 @@ namespace GpxViewer.Modules.Map.Views
 
         public event EventHandler<RequestNavigateToBoundingBoxEventArgs>? RequestNavigateToBoundingBox;
 
+        public event EventHandler<RequestCurrentViewportEventArgs>? RequestCurrentViewport;
+
         public MapViewModel(MapModuleConfiguration config, IGpxFileRepository gpxFileRepo)
         {
+            _config = config;
             _gpxFileRepo = gpxFileRepo;
 
             _layerLoadedGpxFiles = new MemoryLayer();
@@ -86,6 +92,19 @@ namespace GpxViewer.Modules.Map.Views
         {
             base.OnMvvmViewAttached();
 
+            // Get initial viewport position
+            var initialBoundingBox = GetDefaultBoundingBox();
+            if ((_config.LastViewportMaxX != 0) &&
+                (_config.LastViewportMaxY != 0) &&
+                (_config.LastViewportMinX != 0) &&
+                (_config.LastViewportMinY != 0))
+            {
+                initialBoundingBox = new BoundingBox(
+                    _config.LastViewportMinX, _config.LastViewportMinY,
+                    _config.LastViewportMaxX, _config.LastViewportMaxY);
+            }
+
+            // Set initial viewport position
             var timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(0.5);
             timer.Tick += (sender, eArgs) =>
@@ -93,7 +112,7 @@ namespace GpxViewer.Modules.Map.Views
                 timer.Stop();
                 this.RequestNavigateToBoundingBox?.Invoke(
                     this,
-                    new RequestNavigateToBoundingBoxEventArgs(GetDefaultBoundingBox()));
+                    new RequestNavigateToBoundingBoxEventArgs(initialBoundingBox));
             };
             timer.Start();
         }
@@ -246,6 +265,19 @@ namespace GpxViewer.Modules.Map.Views
         private void OnMessageReceived(MessageTrackOrRouteConfigurationChanged message)
         {
             
+        }
+
+        private void OnMessageReceived(MessageGpxViewerExitPreview message)
+        {
+            var eArgs = new RequestCurrentViewportEventArgs();
+            this.RequestCurrentViewport?.Invoke(this, eArgs);
+            if (eArgs.CurrentViewPort != null)
+            {
+                _config.LastViewportMinX = eArgs.CurrentViewPort.MinX;
+                _config.LastViewportMinY = eArgs.CurrentViewPort.MinY;
+                _config.LastViewportMaxX = eArgs.CurrentViewPort.MaxX;
+                _config.LastViewportMaxY = eArgs.CurrentViewPort.MaxY;
+            }
         }
     }
 }

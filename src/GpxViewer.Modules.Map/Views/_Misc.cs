@@ -16,4 +16,9 @@ namespace GpxViewer.Modules.Map.Views
             this.NavTarget = navTarget;
         }
     }
+
+    public class RequestCurrentViewportEventArgs : EventArgs
+    {
+        public BoundingBox? CurrentViewPort { get; set; }
+    }
 }

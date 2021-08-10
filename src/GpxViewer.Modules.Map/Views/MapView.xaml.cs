@@ -39,14 +39,18 @@ namespace GpxViewer.Modules.Map.Views
             {
                 this.CtrlMap.Map.Layers.Add(actLayer);
             }
+
             viewModel.AdditionalMapLayers.CollectionChanged += this.OnViewModel_AdditionalMapLayers_CollectionChanged;
-            viewModel.RequestNavigateToBoundingBox += this.OnViwewModel_RequestNavigateToBoundingBox;
+            viewModel.RequestNavigateToBoundingBox += this.OnViewModel_RequestNavigateToBoundingBox;
+            viewModel.RequestCurrentViewport += this.OnViewModel_RequestCurrentViewport;
         }
 
         private void OnThis_DetachFromViewModel(MapViewModel viewModel)
         {
             viewModel.AdditionalMapLayers.CollectionChanged -= this.OnViewModel_AdditionalMapLayers_CollectionChanged;
-            viewModel.RequestNavigateToBoundingBox -= this.OnViwewModel_RequestNavigateToBoundingBox;
+            viewModel.RequestNavigateToBoundingBox -= this.OnViewModel_RequestNavigateToBoundingBox;
+            viewModel.RequestCurrentViewport -= this.OnViewModel_RequestCurrentViewport;
+
             foreach (var actLayer in viewModel.AdditionalMapLayers)
             {
                 this.CtrlMap.Map.Layers.Remove(actLayer);
@@ -76,9 +80,14 @@ namespace GpxViewer.Modules.Map.Views
             }
         }
 
-        private void OnViwewModel_RequestNavigateToBoundingBox(object? sender, RequestNavigateToBoundingBoxEventArgs e)
+        private void OnViewModel_RequestNavigateToBoundingBox(object? sender, RequestNavigateToBoundingBoxEventArgs e)
         {
             this.CtrlMap.Navigator.NavigateTo(e.NavTarget, ScaleMethod.Fit, 500L, Easing.Linear);
+        }
+
+        private void OnViewModel_RequestCurrentViewport(object? sender, RequestCurrentViewportEventArgs e)
+        {
+            e.CurrentViewPort = this.CtrlMap.Viewport.Extent;
         }
     }
 }
