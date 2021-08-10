@@ -39,12 +39,14 @@ namespace GpxViewer.Modules.Map.Views
                 this.CtrlMap.Map.Layers.Add(actLayer);
             }
             viewModel.AdditionalMapLayers.CollectionChanged += this.OnViewModel_AdditionalMapLayers_CollectionChanged;
+            viewModel.RequestNavigateToBoundingBox += this.OnViwewModel_RequestNavigateToBoundingBox;
         }
 
         private void OnThis_DetachFromViewModel(MapViewModel viewModel)
         {
             viewModel.AdditionalMapLayers.CollectionChanged -= this.OnViewModel_AdditionalMapLayers_CollectionChanged;
-            foreach(var actLayer in viewModel.AdditionalMapLayers)
+            viewModel.RequestNavigateToBoundingBox -= this.OnViwewModel_RequestNavigateToBoundingBox;
+            foreach (var actLayer in viewModel.AdditionalMapLayers)
             {
                 this.CtrlMap.Map.Layers.Remove(actLayer);
             }
@@ -71,6 +73,11 @@ namespace GpxViewer.Modules.Map.Views
                 default:
                     throw new NotSupportedException($"Action {e.Action} is not supported yet!");
             }
+        }
+
+        private void OnViwewModel_RequestNavigateToBoundingBox(object? sender, RequestNavigateToBoundingBoxEventArgs e)
+        {
+            this.CtrlMap.Navigator.NavigateTo(e.NavTarget, ScaleMethod.Fit, 500L, Easing.BounceOut);
         }
     }
 }

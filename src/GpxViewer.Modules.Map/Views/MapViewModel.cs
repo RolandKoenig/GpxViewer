@@ -9,6 +9,7 @@ using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
+using Mapsui.Geometries;
 using Mapsui.Layers;
 using Mapsui.Providers;
 using Mapsui.Styles;
@@ -32,6 +33,8 @@ namespace GpxViewer.Modules.Map.Views
         private VectorStyle _lineStyleSucceeded;
 
         public ObservableCollection<ILayer> AdditionalMapLayers { get; }
+
+        public event EventHandler<RequestNavigateToBoundingBoxEventArgs>? RequestNavigateToBoundingBox;
 
         public MapViewModel(IGpxFileRepository gpxFileRepo)
         {
@@ -73,6 +76,8 @@ namespace GpxViewer.Modules.Map.Views
 
         private void UpdateLayer_LoadedGpxFiles()
         {
+            var boxBuilder = new NavigationBoundingBoxBuilder();
+
             var newFeatureList = new List<IFeature>();
             foreach (var actTrackOrRoute in _loadedTracksAndRoutes)
             {
@@ -81,6 +86,8 @@ namespace GpxViewer.Modules.Map.Views
                     var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
                     if (actGeometry == null) { continue; }
 
+                    boxBuilder.AddGeometry(actGeometry);
+                    
                     newFeatureList.Add(new Feature()
                     {
                         Geometry = actGeometry,
@@ -93,10 +100,19 @@ namespace GpxViewer.Modules.Map.Views
             }
             _layerLoadedGpxFilesProvider.ReplaceFeatures(newFeatureList);
             _layerLoadedGpxFiles.DataHasChanged();
+
+            if (boxBuilder.CanBuildBoundingBox)
+            {
+                this.RequestNavigateToBoundingBox?.Invoke(
+                    this, 
+                    new RequestNavigateToBoundingBoxEventArgs(boxBuilder.TryBuild()!));
+            }
         }
 
         private void UpdateLayer_SelectedGpxFiles()
         {
+            var boxBuilder = new NavigationBoundingBoxBuilder();
+
             var newFeatureList = new List<IFeature>();
             foreach (var actTrackOrRoute in _selectedTracksOrRoutes)
             {
@@ -104,6 +120,8 @@ namespace GpxViewer.Modules.Map.Views
                 {
                     var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
                     if (actGeometry == null) { continue; }
+
+                    boxBuilder.AddGeometry(actGeometry);
 
                     newFeatureList.Add(new Feature()
                     {
@@ -114,6 +132,13 @@ namespace GpxViewer.Modules.Map.Views
             }
             _layerSelectedGpxFilesProvider.ReplaceFeatures(newFeatureList);
             _layerSelectedGpxFiles.DataHasChanged();
+
+            if (boxBuilder.CanBuildBoundingBox)
+            {
+                this.RequestNavigateToBoundingBox?.Invoke(
+                    this, 
+                    new RequestNavigateToBoundingBoxEventArgs(boxBuilder.TryBuild()!));
+            }
         }
 
         private void OnMessageReceived(MessageGpxFileRepositoryContentsChanged message)
