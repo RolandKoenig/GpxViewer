@@ -11,35 +11,39 @@
     d:DesignHeight="300" d:DesignWidth="300"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True" >
-    
-    <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Top"
+    <firlibMvvm:MvvmUserControl.Resources>
+        <Thickness x:Key="MapPanelMarking">5</Thickness>
+        <Thickness x:Key="MapPanelContentMargin">3</Thickness>
+    </firlibMvvm:MvvmUserControl.Resources>
+
+    <Grid>
+        <maps:MapControl x:Name="CtrlMap" />
+
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left"
+                    Background="#AAAAAAAA"
+                    Margin="{StaticResource MapPanelMarking}"
                     Orientation="Horizontal">
-            <Button Content="Reset"
+            <Button Content="Reset Camera" 
+                    Margin="{StaticResource MapPanelContentMargin}"
                     Command="{Binding Path=Command_ResetCamera}" />
+            <Button Content="Fokus Selected"
+                    Margin="{StaticResource MapPanelContentMargin}" />
         </StackPanel>
 
-        <StackPanel DockPanel.Dock="Bottom"
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                    Background="#99AAAAAA"
+                    Margin="{StaticResource MapPanelMarking}"
                     Orientation="Horizontal">
-            <StackPanel.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Margin" Value="3" />
-                </Style>
-                <Style TargetType="ComboBox">
-                    <Setter Property="Margin" Value="3" />
-                </Style>
-            </StackPanel.Resources>
 
             <TextBlock Text="Render mode:"
+                       Margin="{StaticResource MapPanelContentMargin}"
                        VerticalAlignment="Center"/>
             <ComboBox SelectedItem="{Binding Path=ViewSettings.RenderMode}"
+                      Margin="{StaticResource MapPanelContentMargin}"
                       Width="100">
                 <maps:RenderMode>Skia</maps:RenderMode>
                 <maps:RenderMode>Wpf</maps:RenderMode>
             </ComboBox>
         </StackPanel>
-
-        <maps:MapControl x:Name="CtrlMap" />
-    </DockPanel>
-
+    </Grid>
 </firlibMvvm:MvvmUserControl>

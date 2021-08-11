@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using FirLib.Core.Patterns.Mvvm;
 
 namespace GpxViewer.Shell.Views

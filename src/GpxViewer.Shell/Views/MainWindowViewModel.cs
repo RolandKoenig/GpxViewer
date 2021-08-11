@@ -1,9 +1,12 @@
-﻿using GpxViewer.Core.Commands;
+﻿using FirLib.Core.Utils.ConfigurationFiles;
+using GpxViewer.Core.Commands;
 using GpxViewer.Core.Patterns;
+using GpxViewer.Core.Utils;
+using Prism.Ioc;
 
 namespace GpxViewer.Shell.Views
 {
-    public class MainWindowViewModel : GpxViewerViewModelBase
+    internal class MainWindowViewModel : GpxViewerViewModelBase
     {
         private string _title = "RK GPX Viewer";
 
@@ -13,10 +16,13 @@ namespace GpxViewer.Shell.Views
             set { this.SetProperty(ref _title, value); }
         }
 
+        public ShellModuleConfiguration Configuration { get; }
+
         public IGpxViewerCommands GpxViewerCommands { get; }
 
-        public MainWindowViewModel(IGpxViewerCommands gpxViewerCommands)
+        public MainWindowViewModel(ShellModuleConfiguration config, IGpxViewerCommands gpxViewerCommands)
         {
+            this.Configuration = config;
             this.GpxViewerCommands = gpxViewerCommands;
         }
     }

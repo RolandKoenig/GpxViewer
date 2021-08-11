@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using FirLib.Core;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;

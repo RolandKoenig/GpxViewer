@@ -36,7 +36,8 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="{Binding Path=Configuration.LeftBlockWidth, Mode=TwoWay, Converter={StaticResource Converter_DoubleToGridLength}}" 
+                                  MinWidth="150" />
                 <ColumnDefinition Width="3" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
@@ -70,14 +71,11 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="3" />
-                        <RowDefinition Height="125" />
+                        <RowDefinition Height="{Binding Path=Configuration.BottomBlockHeight, Mode=TwoWay, Converter={StaticResource Converter_DoubleToGridLength}}" 
+                                       MinHeight="125" />
                     </Grid.RowDefinitions>
 
-                    <GroupBox Grid.Row="0"
-                              Header="Map">
-                        <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_MAP}" />
-                    </GroupBox>
-
+                    <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_MAP}" />
 
                     <GridSplitter Grid.Row="1"
                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />

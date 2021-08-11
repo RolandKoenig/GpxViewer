@@ -15,6 +15,7 @@ namespace GpxViewer.Shell.Views
             get
             {
                 return new MainWindowViewModel(
+                    new ShellModuleConfiguration(),
                     A.Fake<IGpxViewerCommands>());
             }
         }

@@ -12,6 +12,8 @@ using GpxViewer.Core;
 using GpxViewer.Core.Commands;
 using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Messages;
+using GpxViewer.Core.Utils;
+using Prism.DryIoc;
 using Prism.Modularity;
 using Prism.Mvvm;
 
@@ -20,7 +22,7 @@ namespace GpxViewer.Shell
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App
+    public partial class App : PrismApplication
     {
         /// <inheritdoc />
         protected override void OnStartup(StartupEventArgs e)
@@ -57,11 +59,35 @@ namespace GpxViewer.Shell
             containerRegistry.RegisterSingleton<IGpxViewerCommands, GpxViewerCommands>();
 
             // Register existing services from FirLibApplication
+            IConfigurationFileAccessors? configAccessors = null;
             foreach (var actService in FirLibApplication.Current!.Services.GetAllServices())
             {
                 containerRegistry.RegisterSingleton(
                     actService.Item1,
                     () => actService.Item2);
+
+                if (actService.Item2 is IConfigurationFileAccessors castedService)
+                {
+                    configAccessors = castedService;
+                }
+            }
+
+            // Ensure that we have a ShellModuleConfiguration when MainWindow is created
+            // (ShellModule is loaded to late)
+            if (configAccessors != null)
+            {
+                var shellConfigObject = configAccessors.Application.TryReadFile("ShellModule", "json")
+                    .ReadJsonAndClose<ShellModuleConfiguration>(true);
+                containerRegistry.RegisterSingleton(
+                    typeof(ShellModuleConfiguration),
+                    () => shellConfigObject);
+            }
+            else
+            {
+                var shellConfigObject = new ShellModuleConfiguration();
+                containerRegistry.RegisterSingleton(
+                    typeof(ShellModuleConfiguration),
+                    () => shellConfigObject);
             }
         }
 
@@ -72,6 +98,7 @@ namespace GpxViewer.Shell
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
+            moduleCatalog.AddModule<ShellModule>();
             moduleCatalog.AddModule<Modules.GpxFiles.GpxFilesModule>();
             moduleCatalog.AddModule<Modules.Map.MapModule>();
         }
