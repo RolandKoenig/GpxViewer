@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FirLib.Core.Utils.ConfigurationFiles
+namespace FirLib.Core.Services.ConfigurationFiles
 {
     public class ConfigurationFileAccessorApplication : ConfigurationFileAccessorBase
     {

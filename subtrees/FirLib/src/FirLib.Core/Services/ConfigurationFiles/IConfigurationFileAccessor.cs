@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace FirLib.Core.Utils.ConfigurationFiles
+namespace FirLib.Core.Services.ConfigurationFiles
 {
     public interface IConfigurationFileAccessor
     {

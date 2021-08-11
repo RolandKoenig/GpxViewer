@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using FirLib.Core.Infrastructure;
 
-namespace FirLib.Core.Utils.ConfigurationFiles
+namespace FirLib.Core.Services.ConfigurationFiles
 {
     public static class ConfigurationFilesExtensions
     {
