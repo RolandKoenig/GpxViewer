@@ -6,7 +6,7 @@ using System.Windows;
 using FirLib.Core;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Messaging;
-using FirLib.Core.Utils.ConfigurationFiles;
+using FirLib.Core.Services.ConfigurationFiles;
 using FirLib.Formats.Gpx;
 using GpxViewer.Core;
 using GpxViewer.Core.Commands;

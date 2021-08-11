@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FirLib.Core.Utils.ConfigurationFiles;
+using FirLib.Core.Services.ConfigurationFiles;
 using GpxViewer.Core.Messages;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Core.Utils;

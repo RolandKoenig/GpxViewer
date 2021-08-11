@@ -1,5 +1,5 @@
 ﻿using System;
-using FirLib.Core.Utils.ConfigurationFiles;
+using FirLib.Core.Services.ConfigurationFiles;
 using GpxViewer.Core;
 using GpxViewer.Core.Messages;
 using GpxViewer.Core.Patterns;

@@ -1,5 +1,4 @@
-﻿using FirLib.Core.Utils.ConfigurationFiles;
-using GpxViewer.Core.Commands;
+﻿using GpxViewer.Core.Commands;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Core.Utils;
 using Prism.Ioc;
