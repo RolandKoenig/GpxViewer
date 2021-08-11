@@ -12,8 +12,8 @@
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True" >
     <firlibMvvm:MvvmUserControl.Resources>
-        <Thickness x:Key="MapPanelMarking">5</Thickness>
-        <Thickness x:Key="MapPanelContentMargin">3</Thickness>
+        <Thickness x:Key="MapPanelMargin">5</Thickness>
+        <Thickness x:Key="MapPanelContentMargin">5</Thickness>
     </firlibMvvm:MvvmUserControl.Resources>
 
     <Grid>
@@ -21,7 +21,7 @@
 
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left"
                     Background="#AAAAAAAA"
-                    Margin="{StaticResource MapPanelMarking}"
+                    Margin="{StaticResource MapPanelMargin}"
                     Orientation="Horizontal">
             <Button Content="Reset Camera" 
                     Margin="{StaticResource MapPanelContentMargin}"
@@ -31,8 +31,8 @@
         </StackPanel>
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                    Background="#99AAAAAA"
-                    Margin="{StaticResource MapPanelMarking}"
+                    Style="{DynamicResource MapOverlayStyle}"
+                    Margin="{StaticResource MapPanelMargin}"
                     Orientation="Horizontal">
 
             <TextBlock Text="Render mode:"

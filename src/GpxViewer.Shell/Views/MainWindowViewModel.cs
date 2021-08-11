@@ -1,7 +1,7 @@
-﻿using GpxViewer.Core.Commands;
+﻿using FirLib.Core.Patterns;
+using GpxViewer.Core.Commands;
 using GpxViewer.Core.Patterns;
-using GpxViewer.Core.Utils;
-using Prism.Ioc;
+using System;
 
 namespace GpxViewer.Shell.Views
 {
@@ -19,10 +19,14 @@ namespace GpxViewer.Shell.Views
 
         public IGpxViewerCommands GpxViewerCommands { get; }
 
+        public DelegateCommand<string> Command_SetSkin { get; }
+
         public MainWindowViewModel(ShellModuleConfiguration config, IGpxViewerCommands gpxViewerCommands)
         {
             this.Configuration = config;
             this.GpxViewerCommands = gpxViewerCommands;
+
+            this.Command_SetSkin = new DelegateCommand<string>(arg => App.CurrentApp.Skin = Enum.Parse<AppSkin>(arg));
         }
     }
 }

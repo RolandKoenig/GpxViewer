@@ -13,6 +13,7 @@ using GpxViewer.Core.Commands;
 using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Messages;
 using GpxViewer.Core.Utils;
+using GpxViewer.Shell.Utils;
 using Prism.DryIoc;
 using Prism.Modularity;
 using Prism.Mvvm;
@@ -24,6 +25,34 @@ namespace GpxViewer.Shell
     /// </summary>
     public partial class App : PrismApplication
     {
+        private AppSkin _skin;
+
+        public AppSkin Skin
+        {
+            get => _skin;
+            set
+            {
+                if (_skin != value)
+                {
+                    _skin = value;
+
+                    foreach (var actResourceDict in this.Resources.MergedDictionaries)
+                    {
+                        if (actResourceDict is SkinResourceDictionary skinDict)
+                        {
+                            skinDict.UpdateSource();
+                        }
+                        else if(actResourceDict.Source != null)
+                        {
+                            actResourceDict.Source = actResourceDict.Source;
+                        }
+                    }
+                }
+            }
+        }
+
+        public static App CurrentApp => (App)Current;
+
         /// <inheritdoc />
         protected override void OnStartup(StartupEventArgs e)
         {
