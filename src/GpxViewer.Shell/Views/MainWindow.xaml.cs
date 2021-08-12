@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
 
 namespace GpxViewer.Shell.Views
@@ -12,6 +13,40 @@ namespace GpxViewer.Shell.Views
         public MainWindow()
         {
             this.InitializeComponent();
+
+            if (FirLibApplication.IsLoaded)
+            {
+                this.AllowDrop = true;
+                this.DragOver += this.OnDragOver;
+                this.Drop += this.OnDrop;
+            }
+        }
+
+        private void OnDragOver(object sender, DragEventArgs e)
+        {
+            var viewModel = this.DataContext as MainWindowViewModel;
+            if (viewModel == null) { e.Effects = DragDropEffects.None; }
+
+            if ((e.Data.GetData(DataFormats.FileDrop, true) is not string[] fileDropItems) ||
+                (string.IsNullOrEmpty(fileDropItems[0])))
+            {
+                e.Effects = DragDropEffects.None;
+                e.Handled = true;
+            }
+        }
+
+        private void OnDrop(object sender, DragEventArgs e)
+        {
+            var viewModel = this.DataContext as MainWindowViewModel;
+            if (viewModel == null) { return; }
+
+            if ((e.Data.GetData(DataFormats.FileDrop, true) is not string[] fileDropItems) ||
+                (string.IsNullOrEmpty(fileDropItems[0])))
+            {
+                return;
+            }
+
+            viewModel.NotifyOSFileDrop(fileDropItems);
         }
     }
 }

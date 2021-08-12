@@ -2,6 +2,11 @@
 using GpxViewer.Core.Commands;
 using GpxViewer.Core.Patterns;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using FirLib.Core.Patterns.Messaging;
+using GpxViewer.Modules.GpxFiles.Interface.Messages;
+using Svg.Model.Primitives;
 
 namespace GpxViewer.Shell.Views
 {
@@ -27,6 +32,14 @@ namespace GpxViewer.Shell.Views
             this.GpxViewerCommands = gpxViewerCommands;
 
             this.Command_SetSkin = new DelegateCommand<string>(arg => App.CurrentApp.Skin = Enum.Parse<AppSkin>(arg));
+        }
+
+        public void NotifyOSFileDrop(IEnumerable<string> fileDropItems)
+        {
+            base.Messenger.Publish(
+                new MessageLoadGpxFilesRequest(
+                    fileDropItems.Where(System.IO.File.Exists), 
+                    fileDropItems.Where(System.IO.Directory.Exists)));
         }
     }
 }
