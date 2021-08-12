@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FirLib.Core.Patterns.Messaging;
+using GpxViewer.Core.ValueObjects;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
 
@@ -21,7 +22,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             _msgPublisher = msgPublisher;
         }
 
-        public async Task<GpxFileRepositoryNodeFile> LoadFile(string filePath)
+        public async Task<GpxFileRepositoryNodeFile> LoadFile(FileOrDirectoryPath filePath)
         {
             var existingFileNode = this.TryGetFileNode(filePath);
             if (existingFileNode != null) { return existingFileNode; }
@@ -37,7 +38,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             return loadedFile!;
         }
 
-        public async Task<GpxFileRepositoryNodeDirectory> LoadDirectory(string directoryPath)
+        public async Task<GpxFileRepositoryNodeDirectory> LoadDirectory(FileOrDirectoryPath directoryPath)
         {
             var existingDirNode = this.TryGetDirectoryNode(directoryPath);
             if (existingDirNode != null) { return existingDirNode; }
@@ -72,7 +73,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this, null, prevItems));
         }
 
-        public GpxFileRepositoryNodeFile? TryGetFileNode(string filePath)
+        public GpxFileRepositoryNodeFile? TryGetFileNode(FileOrDirectoryPath filePath)
         {
             foreach (var actNode in this.EnumerateNodesDeep())
             {
@@ -83,13 +84,13 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             return null;
         }
 
-        public GpxFileRepositoryNodeDirectory? TryGetDirectoryNode(string dirPath)
+        public GpxFileRepositoryNodeDirectory? TryGetDirectoryNode(FileOrDirectoryPath dirPath)
         {
             foreach (var actNode in this.EnumerateNodesDeep())
             {
                 if(actNode is not GpxFileRepositoryNodeDirectory actDirNode){ continue; }
 
-                if (actDirNode.DirectoryPath == dirPath) { return actDirNode; }
+                if (actDirNode.DirectoryPath.Path == dirPath.Path) { return actDirNode; }
             }
             return null;
         }

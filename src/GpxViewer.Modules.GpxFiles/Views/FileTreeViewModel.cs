@@ -8,6 +8,7 @@ using FirLib.Core.Utils.Collections;
 using FirLib.Core.ViewServices;
 using GpxViewer.Core.Commands;
 using GpxViewer.Core.Patterns;
+using GpxViewer.Core.ValueObjects;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
 using GpxViewer.Modules.GpxFiles.Logic;
@@ -127,7 +128,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
             foreach(var actFile in fileList)
             {
-                await _repoGpxFiles.LoadFile(actFile);
+                await _repoGpxFiles.LoadFile(new FileOrDirectoryPath(actFile));
             }
         }
 
@@ -137,7 +138,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
             var selectedPath = await srvLoadDirectory.ShowOpenDirectoryDialogAsync("Load GPX Files");
             if (string.IsNullOrEmpty(selectedPath)) { return; }
 
-            await _repoGpxFiles.LoadDirectory(selectedPath);
+            await _repoGpxFiles.LoadDirectory(new FileOrDirectoryPath(selectedPath));
         }
 
         private void OnCommand_CloseAll_Execute()

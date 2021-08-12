@@ -4,32 +4,34 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GpxViewer.Core.ValueObjects;
 
 namespace GpxViewer.Modules.GpxFiles.Logic
 {
     internal class GpxFileRepositoryNodeDirectory : GpxFileRepositoryNode
     {
-        public override string NodeText => Path.GetFileName(this.DirectoryPath);
+        public override string NodeText => Path.GetFileName(this.DirectoryPath.Path);
 
         public override LoadedGpxFile? AssociatedGpxFile => null;
 
-        public string DirectoryPath { get; }
+        public FileOrDirectoryPath DirectoryPath { get; }
 
-        public GpxFileRepositoryNodeDirectory(string directory)
+        public GpxFileRepositoryNodeDirectory(FileOrDirectoryPath directory)
         {
             this.DirectoryPath = directory;
 
-            foreach (var actDirectory in Directory.GetDirectories(this.DirectoryPath))
+            foreach (var actDirectory in Directory.GetDirectories(this.DirectoryPath.Path))
             {
-                this.ChildNodes.Add(new GpxFileRepositoryNodeDirectory(actDirectory));
+                this.ChildNodes.Add(new GpxFileRepositoryNodeDirectory(new FileOrDirectoryPath(actDirectory)));
             }
 
-            foreach(var actFile in Directory.GetFiles(this.DirectoryPath))
+            foreach(var actFilePath in Directory.GetFiles(this.DirectoryPath.Path))
             {
-                var actFileExtension = Path.GetExtension(actFile);
+                var actFileExtension = Path.GetExtension(actFilePath);
                 if (!actFileExtension.Equals(".gpx", StringComparison.OrdinalIgnoreCase)){ continue; }
 
-                this.ChildNodes.Add(new GpxFileRepositoryNodeFile(actFile));
+                this.ChildNodes.Add(
+                    new GpxFileRepositoryNodeFile(new FileOrDirectoryPath(actFilePath)));
             }
         }
     }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FirLib.Core.Patterns.ObjectPooling;
 using FirLib.Formats.Gpx;
+using GpxViewer.Core.ValueObjects;
 
 namespace GpxViewer.Modules.GpxFiles.Logic
 {
@@ -19,7 +20,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             {
                 using(_ = PooledStringBuilders.Current.UseStringBuilder(out var strBuilder))
                 {
-                    strBuilder.Append(Path.GetFileName(this.FilePath));
+                    strBuilder.Append(Path.GetFileName(this.FilePath.Path));
                     if ((this.AssociatedGpxFile != null) &&
                         (this.AssociatedGpxFile.ContentsChanged))
                     {
@@ -36,15 +37,15 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public override LoadedGpxFile? AssociatedGpxFile { get; }
 
-        public string FilePath { get; }
+        public FileOrDirectoryPath FilePath { get; }
 
-        public GpxFileRepositoryNodeFile(string filePath)
+        public GpxFileRepositoryNodeFile(FileOrDirectoryPath filePath)
         {
             this.FilePath = filePath;
 
             try
             {
-                this.AssociatedGpxFile = new LoadedGpxFile(GpxFile.Deserialize(filePath));
+                this.AssociatedGpxFile = new LoadedGpxFile(GpxFile.Deserialize(filePath.Path));
             }
             catch (Exception e)
             {

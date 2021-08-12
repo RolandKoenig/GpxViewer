@@ -2,6 +2,7 @@
 using FirLib.Core.Patterns.Messaging;
 using GpxViewer.Core;
 using GpxViewer.Core.Patterns;
+using GpxViewer.Core.ValueObjects;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
 using GpxViewer.Modules.GpxFiles.Logic;
@@ -46,14 +47,14 @@ namespace GpxViewer.Modules.GpxFiles
             {
                 foreach (var actFile in message.Files)
                 {
-                    await _gpxFileRepo.LoadFile(actFile);
+                    await _gpxFileRepo.LoadFile(new FileOrDirectoryPath(actFile));
                 }
             }
             if (message.Directories != null)
             {
                 foreach (var actDirectory in message.Directories)
                 {
-                    await _gpxFileRepo.LoadDirectory(actDirectory);
+                    await _gpxFileRepo.LoadDirectory(new FileOrDirectoryPath(actDirectory));
                 }
             }
         }
