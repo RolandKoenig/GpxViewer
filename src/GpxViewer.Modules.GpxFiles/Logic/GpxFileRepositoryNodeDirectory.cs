@@ -9,22 +9,22 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 {
     internal class GpxFileRepositoryNodeDirectory : GpxFileRepositoryNode
     {
-        private string _directory;
-
-        public override string NodeText => Path.GetFileName(_directory);
+        public override string NodeText => Path.GetFileName(this.DirectoryPath);
 
         public override LoadedGpxFile? AssociatedGpxFile => null;
 
+        public string DirectoryPath { get; }
+
         public GpxFileRepositoryNodeDirectory(string directory)
         {
-            _directory = directory;
+            this.DirectoryPath = directory;
 
-            foreach (var actDirectory in Directory.GetDirectories(_directory))
+            foreach (var actDirectory in Directory.GetDirectories(this.DirectoryPath))
             {
                 this.ChildNodes.Add(new GpxFileRepositoryNodeDirectory(actDirectory));
             }
 
-            foreach(var actFile in Directory.GetFiles(_directory))
+            foreach(var actFile in Directory.GetFiles(this.DirectoryPath))
             {
                 var actFileExtension = Path.GetExtension(actFile);
                 if (!actFileExtension.Equals(".gpx", StringComparison.OrdinalIgnoreCase)){ continue; }

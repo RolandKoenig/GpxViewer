@@ -23,6 +23,9 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public async Task<GpxFileRepositoryNodeFile> LoadFile(string filePath)
         {
+            var existingFileNode = this.TryGetFileNode(filePath);
+            if (existingFileNode != null) { return existingFileNode; }
+
             GpxFileRepositoryNodeFile? loadedFile = null;
             await Task.Factory.StartNew(() =>
             {
@@ -36,6 +39,9 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public async Task<GpxFileRepositoryNodeDirectory> LoadDirectory(string directoryPath)
         {
+            var existingDirNode = this.TryGetDirectoryNode(directoryPath);
+            if (existingDirNode != null) { return existingDirNode; }
+
             GpxFileRepositoryNodeDirectory? loadedDir = null;
             await Task.Factory.StartNew(() =>
             {
@@ -64,6 +70,46 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             this.TopLevelNodes.Clear();
 
             _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this, null, prevItems));
+        }
+
+        public GpxFileRepositoryNodeFile? TryGetFileNode(string filePath)
+        {
+            foreach (var actNode in this.EnumerateNodesDeep())
+            {
+                if(actNode is not GpxFileRepositoryNodeFile actFileNode){ continue; }
+
+                if (actFileNode.FilePath == filePath) { return actFileNode; }
+            }
+            return null;
+        }
+
+        public GpxFileRepositoryNodeDirectory? TryGetDirectoryNode(string dirPath)
+        {
+            foreach (var actNode in this.EnumerateNodesDeep())
+            {
+                if(actNode is not GpxFileRepositoryNodeDirectory actDirNode){ continue; }
+
+                if (actDirNode.DirectoryPath == dirPath) { return actDirNode; }
+            }
+            return null;
+        }
+
+        public IEnumerable<GpxFileRepositoryNode> EnumerateNodesDeep()
+        {
+            return this.EnumerateNodesDeep(this.TopLevelNodes);
+        }
+
+        public IEnumerable<GpxFileRepositoryNode> EnumerateNodesDeep(IEnumerable<GpxFileRepositoryNode> nodeCollection)
+        {
+            foreach (var actNode in nodeCollection)
+            {
+                yield return actNode;
+
+                foreach (var actNodeInner in this.EnumerateNodesDeep(actNode.ChildNodes))
+                {
+                    yield return actNodeInner;
+                }
+            }
         }
     }
 }

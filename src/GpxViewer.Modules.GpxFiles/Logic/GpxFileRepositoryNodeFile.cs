@@ -11,7 +11,6 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 {
     internal class GpxFileRepositoryNodeFile : GpxFileRepositoryNode
     {
-        private string _filePath;
         private Exception? _fileLoadError;
 
         public override string NodeText
@@ -20,7 +19,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             {
                 using(_ = PooledStringBuilders.Current.UseStringBuilder(out var strBuilder))
                 {
-                    strBuilder.Append(Path.GetFileName(_filePath));
+                    strBuilder.Append(Path.GetFileName(this.FilePath));
                     if ((this.AssociatedGpxFile != null) &&
                         (this.AssociatedGpxFile.ContentsChanged))
                     {
@@ -37,9 +36,11 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public override LoadedGpxFile? AssociatedGpxFile { get; }
 
+        public string FilePath { get; }
+
         public GpxFileRepositoryNodeFile(string filePath)
         {
-            _filePath = filePath;
+            this.FilePath = filePath;
 
             try
             {
