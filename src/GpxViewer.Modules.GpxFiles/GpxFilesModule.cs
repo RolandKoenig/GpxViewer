@@ -25,7 +25,7 @@ namespace GpxViewer.Modules.GpxFiles
                 typeof(FileTreeView));
             regionManager.RegisterViewWithRegion(
                 GpxViewerConstants.REGION_TOUR_INFO,
-                typeof(SelectedTracksAndRoutesView));
+                typeof(SelectedToursView));
         }
 
         public override void RegisterTypes(IContainerRegistry containerRegistry)

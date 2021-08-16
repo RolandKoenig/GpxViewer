@@ -62,6 +62,12 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
+        public double DistanceKm => _tour.DistanceKm;
+
+        public double ElevationUpMeters => _tour.ElevationUpMeters;
+
+        public double ElevationDownMeters => _tour.ElevationDownMeters;
+
         public SelectedTourViewModel(ILoadedGpxFileTourInfo tour)
         {
             _tour = tour;

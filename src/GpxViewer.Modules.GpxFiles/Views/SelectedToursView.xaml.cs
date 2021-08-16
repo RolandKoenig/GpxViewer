@@ -3,9 +3,9 @@ using FirLib.Core.Patterns.Mvvm;
 
 namespace GpxViewer.Modules.GpxFiles.Views
 {
-    public partial class SelectedTracksAndRoutesView : MvvmUserControl
+    public partial class SelectedToursView : MvvmUserControl
     {
-        public SelectedTracksAndRoutesView()
+        public SelectedToursView()
         {
             this.InitializeComponent();
         }

@@ -44,6 +44,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Modules.GpxFiles"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Tests", "..\subtrees\FirLib\src\FirLib.Tests\FirLib.Tests.csproj", "{8B3B2131-C828-4AD6-BE68-3CA9675F5BB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GpxViewer.Modules.GpxFiles.Tests", "GpxViewer.Modules.GpxFiles.Tests\GpxViewer.Modules.GpxFiles.Tests.csproj", "{1E553C58-AC04-4B77-BC71-E72861EE850A}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\subtrees\Mapsui\Mapsui.UI.Shared\Mapsui.UI.Shared.projitems*{fb142f3f-df93-4fbf-b1ce-f3c3e356aaa5}*SharedItemsImports = 5
@@ -105,6 +107,10 @@ Global
 		{8B3B2131-C828-4AD6-BE68-3CA9675F5BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B3B2131-C828-4AD6-BE68-3CA9675F5BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B3B2131-C828-4AD6-BE68-3CA9675F5BB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E553C58-AC04-4B77-BC71-E72861EE850A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E553C58-AC04-4B77-BC71-E72861EE850A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E553C58-AC04-4B77-BC71-E72861EE850A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E553C58-AC04-4B77-BC71-E72861EE850A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

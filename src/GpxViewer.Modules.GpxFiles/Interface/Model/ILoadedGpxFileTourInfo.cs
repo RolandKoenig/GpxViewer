@@ -10,6 +10,12 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
 {
     public interface ILoadedGpxFileTourInfo
     {
+        double DistanceKm { get; }
+
+        double ElevationUpMeters { get; }
+
+        double ElevationDownMeters { get; }
+
         ILoadedGpxFile File { get; }
 
         GpxTrack? RawTrackData { get; }
