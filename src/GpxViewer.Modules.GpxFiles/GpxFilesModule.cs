@@ -24,7 +24,7 @@ namespace GpxViewer.Modules.GpxFiles
                 GpxViewerConstants.REGION_FILE_TREE,
                 typeof(FileTreeView));
             regionManager.RegisterViewWithRegion(
-                GpxViewerConstants.REGION_TRACK_OR_ROUTE_INFO,
+                GpxViewerConstants.REGION_TOUR_INFO,
                 typeof(SelectedTracksAndRoutesView));
         }
 

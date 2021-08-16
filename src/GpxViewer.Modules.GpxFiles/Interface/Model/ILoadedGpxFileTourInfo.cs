@@ -8,7 +8,7 @@ using GpxViewer.Core.GpxExtensions;
 
 namespace GpxViewer.Modules.GpxFiles.Interface.Model
 {
-    public interface ILoadedGpxFileTrackOrRouteInfo
+    public interface ILoadedGpxFileTourInfo
     {
         ILoadedGpxFile File { get; }
 
@@ -18,8 +18,8 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
 
         GpxTrackOrRoute RawTrackOrRoute { get; }
 
-        TrackOrRouteExtension RawTrackExtensionData { get; }
+        TourExtension RawTourExtensionData { get; }
 
-        IEnumerable<ILoadedGpxFileTrackOrRouteSegmentInfo> Segments { get; }
+        IEnumerable<ILoadedGpxFileTourSegmentInfo> Segments { get; }
     }
 }

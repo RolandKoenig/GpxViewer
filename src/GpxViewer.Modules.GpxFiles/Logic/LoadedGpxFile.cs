@@ -12,24 +12,24 @@ namespace GpxViewer.Modules.GpxFiles.Logic
     {
         public GpxFile RawGpxFile { get; }
 
-        public List<LoadedGpxFileTrackInfo> TracksAndRoutes { get; }
+        public List<LoadedGpxFileTourInfo> Tours { get; }
 
-        IEnumerable<ILoadedGpxFileTrackOrRouteInfo> ILoadedGpxFile.TracksAndRoutes => this.TracksAndRoutes;
+        IEnumerable<ILoadedGpxFileTourInfo> ILoadedGpxFile.Tours => this.Tours;
 
         public bool ContentsChanged { get; set; }
 
         public LoadedGpxFile(GpxFile gpxFile)
         {
             this.RawGpxFile = gpxFile;
-            this.TracksAndRoutes = new List<LoadedGpxFileTrackInfo>();
+            this.Tours = new List<LoadedGpxFileTourInfo>();
 
             foreach (var actRawRouteInfo in gpxFile.Routes)
             {
-                this.TracksAndRoutes.Add(new LoadedGpxFileTrackInfo(this, actRawRouteInfo));
+                this.Tours.Add(new LoadedGpxFileTourInfo(this, actRawRouteInfo));
             }
             foreach(var actRawTrackData in gpxFile.Tracks)
             {
-                this.TracksAndRoutes.Add(new LoadedGpxFileTrackInfo(this, actRawTrackData));
+                this.Tours.Add(new LoadedGpxFileTourInfo(this, actRawTrackData));
             }
         }
     }

@@ -67,7 +67,7 @@
 
                 <GroupBox Grid.Row="2"
                           Header="Selected Tour">
-                    <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TRACK_OR_ROUTE_INFO}" />
+                    <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TOUR_INFO}" />
                 </GroupBox>
             </Grid>
 
@@ -90,7 +90,7 @@
 
                     <GroupBox Grid.Row="2"
                               Header="Tour Detail">
-                        <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TRACK_OR_ROUTE_DETAILS}" />
+                        <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TOUR_DETAILS}" />
                     </GroupBox>
                 </Grid>
             </Grid>

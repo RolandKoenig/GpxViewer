@@ -9,10 +9,10 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
-             d:DataContext="{x:Static local:DesignData.SelectedTracksAndRoutesVM}">
+             d:DataContext="{x:Static local:DesignData.SelectedToursVM}">
     <Grid>
         <prop:PropertyGrid TabVisibility="Collapsed"
                            Style="{DynamicResource GpxViewerPropertyGrid}"
-                           SelectedObjects="{Binding Path=SelectedTracksAndRoutes}" />
+                           SelectedObjects="{Binding Path=SelectedTours}" />
     </Grid>
 </firlibMvvm:MvvmUserControl>

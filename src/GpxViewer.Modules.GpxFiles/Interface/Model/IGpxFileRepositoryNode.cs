@@ -12,6 +12,6 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
 
         IEnumerable<ILoadedGpxFile> GetAllAssociatedGpxFiles();
 
-        IEnumerable<ILoadedGpxFileTrackOrRouteInfo> GetAllAssociatedTracksAndRoutes();
+        IEnumerable<ILoadedGpxFileTourInfo> GetAllAssociatedTours();
     }
 }

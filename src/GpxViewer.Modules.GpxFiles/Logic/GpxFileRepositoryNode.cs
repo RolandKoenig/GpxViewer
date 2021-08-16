@@ -27,21 +27,21 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         }
 
         /// <inheritdoc />
-        public IEnumerable<ILoadedGpxFileTrackOrRouteInfo> GetAllAssociatedTracksAndRoutes()
+        public IEnumerable<ILoadedGpxFileTourInfo> GetAllAssociatedTours()
         {
             if (this.AssociatedGpxFile != null)
             {
-                foreach(var actTrackOrRoute in this.AssociatedGpxFile.TracksAndRoutes)
+                foreach(var actTour in this.AssociatedGpxFile.Tours)
                 {
-                    yield return actTrackOrRoute;
+                    yield return actTour;
                 }
             }
 
             foreach (var actChildNode in this.ChildNodes)
             {
-                foreach(var actTrackOrRoute in actChildNode.GetAllAssociatedTracksAndRoutes())
+                foreach(var actTour in actChildNode.GetAllAssociatedTours())
                 {
-                    yield return actTrackOrRoute;
+                    yield return actTour;
                 }
             }
         }

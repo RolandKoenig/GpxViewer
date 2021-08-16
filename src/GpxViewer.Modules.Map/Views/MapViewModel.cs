@@ -27,11 +27,11 @@ namespace GpxViewer.Modules.Map.Views
 
         private MemoryLayer _layerLoadedGpxFiles;
         private MemoryProvider _layerLoadedGpxFilesProvider;
-        private List<ILoadedGpxFileTrackOrRouteInfo> _loadedTracksAndRoutes;
+        private List<ILoadedGpxFileTourInfo> _loadedTours;
 
         private MemoryLayer _layerSelectedGpxFiles;
         private MemoryProvider _layerSelectedGpxFilesProvider;
-        private List<ILoadedGpxFileTrackOrRouteInfo> _selectedTracksOrRoutes;
+        private List<ILoadedGpxFileTourInfo> _selectedTours;
 
         private VectorStyle _lineStyleSelected;
         private VectorStyle _lineStyleInitial;
@@ -57,12 +57,12 @@ namespace GpxViewer.Modules.Map.Views
             _layerLoadedGpxFiles = new MemoryLayer();
             _layerLoadedGpxFilesProvider = new MemoryProvider();
             _layerLoadedGpxFiles.DataSource = _layerLoadedGpxFilesProvider;
-            _loadedTracksAndRoutes = new List<ILoadedGpxFileTrackOrRouteInfo>();
+            _loadedTours = new List<ILoadedGpxFileTourInfo>();
 
             _layerSelectedGpxFiles = new MemoryLayer();
             _layerSelectedGpxFilesProvider = new MemoryProvider();
             _layerSelectedGpxFiles.DataSource = _layerSelectedGpxFilesProvider;
-            _selectedTracksOrRoutes = new List<ILoadedGpxFileTrackOrRouteInfo>();
+            _selectedTours = new List<ILoadedGpxFileTourInfo>();
 
             _lineStyleInitial = new VectorStyle
             {
@@ -132,9 +132,9 @@ namespace GpxViewer.Modules.Map.Views
             var boxBuilder = new NavigationBoundingBoxBuilder();
 
             var newFeatureList = new List<IFeature>();
-            foreach (var actTrackOrRoute in _loadedTracksAndRoutes)
+            foreach (var actTour in _loadedTours)
             {
-                foreach (var actTrackSegment in actTrackOrRoute.Segments)
+                foreach (var actTrackSegment in actTour.Segments)
                 {
                     var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
                     if (actGeometry == null) { continue; }
@@ -146,7 +146,7 @@ namespace GpxViewer.Modules.Map.Views
                         Geometry = actGeometry,
                         Styles =
                         {
-                            actTrackOrRoute.RawTrackExtensionData.State == GpxTrackState.Succeeded ? _lineStyleSucceeded : _lineStyleInitial
+                            actTour.RawTourExtensionData.State == GpxTrackState.Succeeded ? _lineStyleSucceeded : _lineStyleInitial
                         }
                     });
                 }
@@ -167,11 +167,11 @@ namespace GpxViewer.Modules.Map.Views
             var boxBuilder = new NavigationBoundingBoxBuilder();
 
             var newFeatureList = new List<IFeature>();
-            foreach (var actTrackOrRoute in _selectedTracksOrRoutes)
+            foreach (var actTour in _selectedTours)
             {
-                foreach (var actTrackSegment in actTrackOrRoute.Segments)
+                foreach (var actTourSegment in actTour.Segments)
                 {
-                    var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
+                    var actGeometry = actTourSegment.Points.GpxWaypointsToMapsuiGeometry();
                     if (actGeometry == null) { continue; }
 
                     boxBuilder.AddGeometry(actGeometry);
@@ -198,9 +198,9 @@ namespace GpxViewer.Modules.Map.Views
         {
             var boxBuilder = new NavigationBoundingBoxBuilder();
 
-            foreach (var actTrackOrRoute in _loadedTracksAndRoutes)
+            foreach (var actTour in _loadedTours)
             {
-                foreach (var actTrackSegment in actTrackOrRoute.Segments)
+                foreach (var actTrackSegment in actTour.Segments)
                 {
                     var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
                     if (actGeometry == null) { continue; }
@@ -229,9 +229,9 @@ namespace GpxViewer.Modules.Map.Views
             {
                 foreach(var actRemovedNode in message.RemovedNodes)
                 {
-                    foreach (var actTrackOrRoute in actRemovedNode.GetAllAssociatedTracksAndRoutes())
+                    foreach (var actTour in actRemovedNode.GetAllAssociatedTours())
                     {
-                        _loadedTracksAndRoutes.Remove(actTrackOrRoute);
+                        _loadedTours.Remove(actTour);
                     }
                 }
             }
@@ -240,9 +240,9 @@ namespace GpxViewer.Modules.Map.Views
             {
                 foreach(var actAddedNode in message.AddedNodes)
                 {
-                    foreach(var actTrackOrRoute in actAddedNode.GetAllAssociatedTracksAndRoutes())
+                    foreach(var actTour in actAddedNode.GetAllAssociatedTours())
                     {
-                        _loadedTracksAndRoutes.Add(actTrackOrRoute);
+                        _loadedTours.Add(actTour);
                     }
                 }
             }
@@ -252,20 +252,20 @@ namespace GpxViewer.Modules.Map.Views
 
         private void OnMessageReceived(MessageGpxFileRepositoryNodeSelectionChanged message)
         {
-            _selectedTracksOrRoutes.Clear();
+            _selectedTours.Clear();
 
             if(message.SelectedNodes != null)
             {
                 foreach (var actSelectedNode in message.SelectedNodes)
                 {
-                    _selectedTracksOrRoutes.AddRange(actSelectedNode.GetAllAssociatedTracksAndRoutes());
+                    _selectedTours.AddRange(actSelectedNode.GetAllAssociatedTours());
                 }
             }
 
             this.UpdateLayer_SelectedGpxFiles();
         }
 
-        private void OnMessageReceived(MessageTrackOrRouteConfigurationChanged message)
+        private void OnMessageReceived(MessageTourConfigurationChanged message)
         {
             
         }

@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace GpxViewer.Core.GpxExtensions
 {
     [XmlType("RouteExtension", Namespace = "http://gpxviewer.rolandk.net/")]
-    public class RouteExtension : TrackOrRouteExtension
+    public class RouteExtension : TourExtension
     {
     }
 }

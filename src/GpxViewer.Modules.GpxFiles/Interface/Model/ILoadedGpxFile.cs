@@ -12,7 +12,7 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
     {
         GpxFile RawGpxFile { get; }
 
-        IEnumerable<ILoadedGpxFileTrackOrRouteInfo> TracksAndRoutes { get; }
+        IEnumerable<ILoadedGpxFileTourInfo> Tours { get; }
 
         bool ContentsChanged { get; set; }
     }

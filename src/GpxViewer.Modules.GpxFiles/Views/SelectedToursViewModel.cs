@@ -7,26 +7,26 @@ using GpxViewer.Modules.GpxFiles.Interface.Messages;
 
 namespace GpxViewer.Modules.GpxFiles.Views
 {
-    internal class SelectedTracksAndRoutesViewModel : GpxViewerViewModelBase
+    internal class SelectedToursViewModel : GpxViewerViewModelBase
     {
-        public ObservableCollection<SelectedTrackOrRouteViewModel> SelectedTracksAndRoutes { get; }
+        public ObservableCollection<SelectedTourViewModel> SelectedTours { get; }
  
-        public SelectedTracksAndRoutesViewModel()
+        public SelectedToursViewModel()
         {
-            this.SelectedTracksAndRoutes = new ObservableCollection<SelectedTrackOrRouteViewModel>();
+            this.SelectedTours = new ObservableCollection<SelectedTourViewModel>();
         }
 
         private void OnMessageReceived(MessageGpxFileRepositoryNodeSelectionChanged message)
         {
-            this.SelectedTracksAndRoutes.Clear();
+            this.SelectedTours.Clear();
 
             if (message.SelectedNodes != null)
             {
                 foreach(var actSelectedNode in message.SelectedNodes)
                 {
-                    foreach (var actTrackOrRoute in actSelectedNode.GetAllAssociatedTracksAndRoutes())
+                    foreach (var actTour in actSelectedNode.GetAllAssociatedTours())
                     {
-                        this.SelectedTracksAndRoutes.Add(new SelectedTrackOrRouteViewModel(actTrackOrRoute));
+                        this.SelectedTours.Add(new SelectedTourViewModel(actTour));
                     }
                 }
             }

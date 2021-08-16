@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GpxViewer.Core.GpxExtensions
 {
-    public abstract class TrackOrRouteExtension
+    public abstract class TourExtension
     {
         public GpxTrackState State { get; set; } = GpxTrackState.Unknown;
     }

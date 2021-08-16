@@ -107,11 +107,11 @@ namespace GpxViewer.Modules.GpxFiles.Views
             this.Command_CloseAll.RaiseCanExecuteChanged();
         }
 
-        private void OnMessageReceived(MessageTrackOrRouteConfigurationChanged message)
+        private void OnMessageReceived(MessageTourConfigurationChanged message)
         {
             foreach(var actTopLevelNode in this.TopLevelNodes)
             {
-                TriggerNodeUIUpdate(actTopLevelNode, message.TrackOrRoute.File);
+                TriggerNodeUIUpdate(actTopLevelNode, message.Tour.File);
             }
         }
 

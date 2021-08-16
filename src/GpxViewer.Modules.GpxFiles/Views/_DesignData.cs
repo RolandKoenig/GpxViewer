@@ -22,11 +22,11 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
-        public static SelectedTracksAndRoutesViewModel SelectedTracksAndRoutesVM
+        public static SelectedToursViewModel SelectedToursVM
         {
             get
             {
-                var result = new SelectedTracksAndRoutesViewModel();
+                var result = new SelectedToursViewModel();
                 return result;
             }
         }

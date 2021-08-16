@@ -7,7 +7,7 @@ using FirLib.Formats.Gpx;
 
 namespace GpxViewer.Modules.GpxFiles.Interface.Model
 {
-    public interface ILoadedGpxFileTrackOrRouteSegmentInfo
+    public interface ILoadedGpxFileTourSegmentInfo
     {
         IEnumerable<GpxWaypoint> Points { get; }
     }

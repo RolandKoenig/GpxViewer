@@ -8,18 +8,18 @@ using GpxViewer.Modules.GpxFiles.Interface.Model;
 
 namespace GpxViewer.Modules.GpxFiles.Logic
 {
-    internal class LoadedGpxFileTrackOrRouteSegmentInfo : ILoadedGpxFileTrackOrRouteSegmentInfo
+    internal class LoadedGpxFileTourSegmentInfo : ILoadedGpxFileTourSegmentInfo
     {
         public List<GpxWaypoint> Points { get; }
 
-        IEnumerable<GpxWaypoint> ILoadedGpxFileTrackOrRouteSegmentInfo.Points => this.Points;
+        IEnumerable<GpxWaypoint> ILoadedGpxFileTourSegmentInfo.Points => this.Points;
 
-        public LoadedGpxFileTrackOrRouteSegmentInfo(GpxRoute route)
+        public LoadedGpxFileTourSegmentInfo(GpxRoute route)
         {
             this.Points = route.RoutePoints;
         }
 
-        public LoadedGpxFileTrackOrRouteSegmentInfo(GpxTrackSegment trackSegment)
+        public LoadedGpxFileTourSegmentInfo(GpxTrackSegment trackSegment)
         {
             this.Points = trackSegment.Points;
         }

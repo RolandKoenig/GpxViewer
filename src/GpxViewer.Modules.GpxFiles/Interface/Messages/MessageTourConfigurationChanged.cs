@@ -11,6 +11,6 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Messages
 {
     [FirLibMessage]
     [MessagePossibleSource(FirLibConstants.MESSENGER_NAME_GUI)]
-    public record MessageTrackOrRouteConfigurationChanged(
-        ILoadedGpxFileTrackOrRouteInfo TrackOrRoute);
+    public record MessageTourConfigurationChanged(
+        ILoadedGpxFileTourInfo Tour);
 }
