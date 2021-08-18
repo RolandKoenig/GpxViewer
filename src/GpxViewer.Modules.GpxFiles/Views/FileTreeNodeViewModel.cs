@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FirLib.Core.Utils.Collections;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Logic;
+using MaterialDesignThemes.Wpf;
 
 namespace GpxViewer.Modules.GpxFiles.Views
 {
@@ -18,6 +19,15 @@ namespace GpxViewer.Modules.GpxFiles.Views
         public LoadedGpxFile? AssociatedGpxFile => this.Model.AssociatedGpxFile;
 
         public TransformedObservableCollection<FileTreeNodeViewModel, GpxFileRepositoryNode> ChildNodes { get; }
+
+        public PackIconKind IconKind
+        {
+            get
+            {
+                if (this.AssociatedGpxFile == null) { return PackIconKind.Folder; }
+                else { return PackIconKind.Routes; }
+            }
+        }
 
         public FileTreeNodeViewModel(GpxFileRepositoryNode model)
         {
