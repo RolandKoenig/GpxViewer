@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,11 +63,11 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
-        public double DistanceKm => _tour.DistanceKm;
+        public string DistanceKm => _tour.DistanceKm.ToString("N1");
 
-        public double ElevationUpMeters => _tour.ElevationUpMeters;
+        public string ElevationUpMeters => _tour.ElevationUpMeters.ToString("N0");
 
-        public double ElevationDownMeters => _tour.ElevationDownMeters;
+        public string ElevationDownMeters => _tour.ElevationDownMeters.ToString("N0");
 
         public SelectedTourViewModel(ILoadedGpxFileTourInfo tour)
         {

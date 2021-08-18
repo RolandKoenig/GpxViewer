@@ -22,5 +22,48 @@ namespace GpxViewer.Modules.GpxFiles.Tests
             var distance = GeoCalculator.CalculateDistanceMeters(point1, point2);
             Assert.AreEqual(47.0, Math.Round(distance, 0));
         }
+
+        [TestMethod]
+        public void Check_TourMetrics_Elevation()
+        {
+            var gpxFile = new GpxFile();
+            var gpxTrack = new GpxTrack();
+            gpxFile.Tracks.Add(gpxTrack);
+
+            var gpxTrackSegment = new GpxTrackSegment();
+            gpxTrack.Segments.Add(gpxTrackSegment);
+
+            gpxTrackSegment.Points.Add(new GpxWaypoint()
+            {
+                Elevation = 100
+            });
+            gpxTrackSegment.Points.Add(new GpxWaypoint()
+            {
+                Elevation = 200
+            });
+            gpxTrackSegment.Points.Add(new GpxWaypoint()
+            {
+                Elevation = 300
+            });
+            gpxTrackSegment.Points.Add(new GpxWaypoint()
+            {
+                Elevation = 250
+            });
+            gpxTrackSegment.Points.Add(new GpxWaypoint()
+            {
+                Elevation = 260
+            });
+            gpxTrackSegment.Points.Add(new GpxWaypoint()
+            {
+                Elevation = 210
+            });
+
+            var tourInfo = new LoadedGpxFileTourInfo(
+                new LoadedGpxFile(gpxFile), 
+                gpxTrack);
+
+            Assert.AreEqual(210.0, tourInfo.ElevationUpMeters, nameof(tourInfo.ElevationUpMeters));
+            Assert.AreEqual(100.0, tourInfo.ElevationDownMeters, nameof(tourInfo.ElevationDownMeters));
+        }
     }
 }
