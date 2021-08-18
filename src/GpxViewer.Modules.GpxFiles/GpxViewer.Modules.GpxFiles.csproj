@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="7.0.0" />
-    <PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
     <PackageReference Include="PropertyTools.Wpf" Version="3.1.0" />

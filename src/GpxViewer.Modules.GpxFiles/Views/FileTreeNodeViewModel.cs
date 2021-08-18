@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FirLib.Core.Utils.Collections;
+using GpxViewer.Core;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Logic;
-using MaterialDesignThemes.Wpf;
 
 namespace GpxViewer.Modules.GpxFiles.Views
 {
@@ -20,12 +20,12 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
         public TransformedObservableCollection<FileTreeNodeViewModel, GpxFileRepositoryNode> ChildNodes { get; }
 
-        public PackIconKind IconKind
+        public GpxViewerIconKind IconKind
         {
             get
             {
-                if (this.AssociatedGpxFile == null) { return PackIconKind.Folder; }
-                else { return PackIconKind.Routes; }
+                if (this.AssociatedGpxFile == null) { return GpxViewerIconKind.Folder; }
+                else { return GpxViewerIconKind.Tour; }
             }
         }
 

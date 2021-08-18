@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:firlibMvvm="http://www.rolandk.de/firlib/patterns/mvvm"
     xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:gpxViewerCoreControls="clr-namespace:GpxViewer.Core.Controls;assembly=GpxViewer.Core"
     xmlns:gpxvBehavior="clr-namespace:GpxViewer.Core.Behaviors;assembly=GpxViewer.Core"
     xmlns:local="clr-namespace:GpxViewer.Modules.GpxFiles.Views"
     mc:Ignorable="d" 
@@ -23,8 +23,7 @@
         <TreeView.ItemTemplate>
             <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildNodes}">
                 <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="{Binding Path=IconKind}"
-                                             Margin="3" VerticalAlignment="Center"/>
+                    <gpxViewerCoreControls:GpxViewerIcon IconKind="{Binding Path=IconKind}" />
                     <TextBlock Text="{Binding Path=NodeText}"
                                VerticalAlignment="Center"/>
                 </StackPanel>

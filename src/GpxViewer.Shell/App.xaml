@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:GpxViewer.Shell"
              xmlns:localUtils="clr-namespace:GpxViewer.Shell.Utils"
+             xmlns:localConverters="clr-namespace:GpxViewer.Shell.Converters"
              xmlns:converters="clr-namespace:GpxViewer.Core.Converters;assembly=GpxViewer.Core"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:propTools="http://propertytools.org/wpf"
@@ -11,8 +12,12 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <!-- Skin resources -->
             <ResourceDictionary.MergedDictionaries>
+
+                <!-- Common resources -->
+                <ResourceDictionary Source="Assets/Converters.xaml" />
+
+                <!-- Common styles (independent from skin) -->
                 <ResourceDictionary Source="Assets/Skins/CommonStyles.xaml" />
 
                 <!-- Reference skins
@@ -23,10 +28,8 @@
                                                    LightSource="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <localUtils:SkinResourceDictionary DarkSource="Assets/Skins/SkinDark.xaml"
                                                    LightSource="Assets/Skins/SkinLight.xaml" />
-            </ResourceDictionary.MergedDictionaries>
 
-            <!-- Value Converters -->
-            <converters:DoubleToGridLengthConverter x:Key="Converter_DoubleToGridLength" />
+            </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
     </Application.Resources>
