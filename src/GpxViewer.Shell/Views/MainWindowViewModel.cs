@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FirLib.Core.Patterns.Messaging;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
+using GpxViewer.Shell.Interface.Services;
 using Svg.Model.Primitives;
 
 namespace GpxViewer.Shell.Views
@@ -26,12 +27,27 @@ namespace GpxViewer.Shell.Views
 
         public DelegateCommand<string> Command_SetSkin { get; }
 
-        public MainWindowViewModel(ShellModuleConfiguration config, IGpxViewerCommands gpxViewerCommands)
+        public MainWindowViewModel(
+            ShellModuleConfiguration config, 
+            IGpxViewerCommands gpxViewerCommands, IGpxViewerSkinService skinService)
         {
             this.Configuration = config;
             this.GpxViewerCommands = gpxViewerCommands;
 
-            this.Command_SetSkin = new DelegateCommand<string>(arg => App.CurrentApp.Skin = Enum.Parse<AppSkin>(arg));
+            // Apply initial skin
+            if ((!string.IsNullOrEmpty(config.Skin)) &&
+                (Enum.TryParse(typeof(AppSkin), config.Skin, true, out var parseResult)) &&
+                (parseResult is AppSkin configuredSkin))
+            {
+                skinService.Skin = configuredSkin;
+            }
+
+            // Handle skin change
+            this.Command_SetSkin = new DelegateCommand<string>(arg =>
+            {
+                skinService.Skin = Enum.Parse<AppSkin>(arg);
+                config.Skin = skinService.Skin.ToString();
+            });
         }
 
         public void NotifyOSFileDrop(IEnumerable<string> fileDropItems)

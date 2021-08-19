@@ -13,6 +13,7 @@ using GpxViewer.Core.Commands;
 using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Messages;
 using GpxViewer.Core.Utils;
+using GpxViewer.Shell.Interface.Services;
 using GpxViewer.Shell.Utils;
 using Prism.DryIoc;
 using Prism.Modularity;
@@ -23,7 +24,7 @@ namespace GpxViewer.Shell
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : PrismApplication
+    public partial class App : PrismApplication, IGpxViewerSkinService
     {
         private AppSkin _skin;
 
@@ -86,6 +87,11 @@ namespace GpxViewer.Shell
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IGpxViewerCommands, GpxViewerCommands>();
+
+            // Register skin service
+            containerRegistry.RegisterSingleton(
+                typeof(IGpxViewerSkinService),
+                () => this);
 
             // Register existing services from FirLibApplication
             IConfigurationFileAccessors? configAccessors = null;

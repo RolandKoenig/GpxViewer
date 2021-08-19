@@ -14,6 +14,12 @@ namespace GpxViewer.Shell
         private double _leftBlockWidth = 150.0;
         private double _bottomBlockHeight = 125.0;
 
+        public string Skin
+        {
+            get;
+            set;
+        } = string.Empty;
+
         public double LeftBlockWidth
         {
             get => _leftBlockWidth;

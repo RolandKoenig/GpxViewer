@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using FirLib.Core.Patterns.Messaging;
 using GpxViewer.Core.Commands;
+using GpxViewer.Shell.Interface.Services;
 
 namespace GpxViewer.Shell.Views
 {
@@ -17,7 +18,8 @@ namespace GpxViewer.Shell.Views
             {
                 return new MainWindowViewModel(
                     new ShellModuleConfiguration(),
-                    A.Fake<IGpxViewerCommands>());
+                    A.Fake<IGpxViewerCommands>(),
+                    A.Fake<IGpxViewerSkinService>());
             }
         }
     }
