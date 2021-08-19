@@ -13,7 +13,7 @@ namespace GpxViewer.Shell.Converters
     internal class GpxViewerIconToMaterialDesignIconConverter : IValueConverter
     {
         /// <inheritdoc />
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object? parameter, CultureInfo? culture)
         {
             var gpxViewerIcon = (GpxViewerIconKind) value;
             switch (gpxViewerIcon)
@@ -28,12 +28,12 @@ namespace GpxViewer.Shell.Converters
                     return PackIconKind.Routes;
 
                 default:
-                    throw new ApplicationException($"Icon {gpxViewerIcon} not supported!");
+                    return null;
             }
         }
 
         /// <inheritdoc />
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object value, Type targetType, object? parameter, CultureInfo? culture)
         {
             throw new NotImplementedException();
         }
