@@ -45,9 +45,9 @@
     <Style TargetType="{x:Type local:CustomWindowBase}" 
            BasedOn="{StaticResource {x:Type Window}}">
         <Setter Property="WindowStyle" Value="None" />
-        <Setter Property="TitleBarButtonForeground" Value="LightGray" />
-        <Setter Property="TitleBarButtonBackgroundHover" Value="#0975C6" />
-        <Setter Property="TitleBarButtonBackgroundHit" Value="#00CCFF" />
+        <Setter Property="TitleBarButtonForeground" Value="#FF888888" />
+        <Setter Property="TitleBarButtonBackgroundHover" Value="#88888888" />
+        <Setter Property="TitleBarButtonBackgroundHit" Value="#BB888888" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CaptionHeight="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CustomWindowBase}}, Path=TitleBarHeight}"
