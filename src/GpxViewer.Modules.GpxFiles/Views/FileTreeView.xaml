@@ -29,6 +29,13 @@
                 </StackPanel>
             </HierarchicalDataTemplate>
         </TreeView.ItemTemplate>
+
+        <TreeView.ItemContainerStyle>
+            <Style TargetType="{x:Type TreeViewItem}"
+                   BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                <EventSetter Event="MouseDoubleClick" Handler="OnTreeViewItem_DoubleClick" />
+            </Style>
+        </TreeView.ItemContainerStyle>
     </TreeView>
 
 </firlibMvvm:MvvmUserControl>

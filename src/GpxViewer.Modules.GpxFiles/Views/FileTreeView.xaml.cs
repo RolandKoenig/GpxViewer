@@ -22,5 +22,19 @@ namespace GpxViewer.Modules.GpxFiles.Views
         {
             this.InitializeComponent();
         }
+
+        private void OnTreeViewItem_DoubleClick(object sender, MouseButtonEventArgs args)
+        {
+            if (sender is not TreeViewItem treeViewItem) { return; }
+            args.Handled = true;
+
+            if (!treeViewItem.IsSelected) { return; }
+            if (treeViewItem.DataContext is not FileTreeNodeViewModel fileNodeVM) { return; }
+
+            if(this.DataContext is FileTreeViewModel viewModel)
+            {
+                viewModel.NotifyFileTreeNodeDoubleClick(fileNodeVM);
+            }
+        }
     }
 }

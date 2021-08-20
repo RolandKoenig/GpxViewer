@@ -43,6 +43,8 @@ namespace GpxViewer.Modules.Map.Views
 
         public DelegateCommand Command_ResetCamera { get; }
 
+        public DelegateCommand Command_FocusSelectedTour { get; }
+
         public event EventHandler<RequestNavigateToBoundingBoxEventArgs>? RequestNavigateToBoundingBox;
 
         public event EventHandler<RequestCurrentViewportEventArgs>? RequestCurrentViewport;
@@ -84,6 +86,9 @@ namespace GpxViewer.Modules.Map.Views
             };
 
             this.Command_ResetCamera = new DelegateCommand(this.OnCommand_ResetCamera);
+            this.Command_FocusSelectedTour = new DelegateCommand(
+                this.OnCommand_FocusSelectedTour,
+                () => _selectedTours.Count > 0);
 
             this.AdditionalMapLayers = new ObservableCollection<ILayer>();
             this.AdditionalMapLayers.Add(_layerSelectedGpxFiles);
@@ -127,10 +132,39 @@ namespace GpxViewer.Modules.Map.Views
                 9063849.0976259485, 10564256.424126934);
         }
 
-        private void UpdateLayer_LoadedGpxFiles()
+        public void ResetCamera(IEnumerable<ILoadedGpxFileTourInfo>? toursToFocus)
         {
             var boxBuilder = new NavigationBoundingBoxBuilder();
+            if (toursToFocus != null)
+            {
+                foreach (var actTour in toursToFocus)
+                {
+                    foreach (var actTrackSegment in actTour.Segments)
+                    {
+                        var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
+                        if (actGeometry == null) { continue; }
 
+                        boxBuilder.AddGeometry(actGeometry);
+                    }
+                }
+            }
+
+            if (boxBuilder.CanBuildBoundingBox)
+            {
+                this.RequestNavigateToBoundingBox?.Invoke(
+                    this, 
+                    new RequestNavigateToBoundingBoxEventArgs(boxBuilder.TryBuild()!));
+            }
+            else
+            {
+                this.RequestNavigateToBoundingBox?.Invoke(
+                    this,
+                    new RequestNavigateToBoundingBoxEventArgs(GetDefaultBoundingBox()));
+            }
+        }
+
+        private void UpdateLayer_LoadedGpxFiles()
+        {
             var newFeatureList = new List<IFeature>();
             foreach (var actTour in _loadedTours)
             {
@@ -139,8 +173,6 @@ namespace GpxViewer.Modules.Map.Views
                     var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
                     if (actGeometry == null) { continue; }
 
-                    boxBuilder.AddGeometry(actGeometry);
-                    
                     newFeatureList.Add(new Feature()
                     {
                         Geometry = actGeometry,
@@ -154,12 +186,7 @@ namespace GpxViewer.Modules.Map.Views
             _layerLoadedGpxFilesProvider.ReplaceFeatures(newFeatureList);
             _layerLoadedGpxFiles.DataHasChanged();
 
-            if (boxBuilder.CanBuildBoundingBox)
-            {
-                this.RequestNavigateToBoundingBox?.Invoke(
-                    this, 
-                    new RequestNavigateToBoundingBoxEventArgs(boxBuilder.TryBuild()!));
-            }
+            this.ResetCamera(_loadedTours);
         }
 
         private void UpdateLayer_SelectedGpxFiles()
@@ -186,41 +213,31 @@ namespace GpxViewer.Modules.Map.Views
             _layerSelectedGpxFilesProvider.ReplaceFeatures(newFeatureList);
             _layerSelectedGpxFiles.DataHasChanged();
 
-            if (boxBuilder.CanBuildBoundingBox)
+            var currentViewPort = this.TryGetCurrentViewport();
+            var selectedRouteBox = boxBuilder.TryBuild();
+            if ((selectedRouteBox != null) &&
+                (currentViewPort != null) &&
+                (!currentViewPort.Contains(selectedRouteBox)))
             {
-                this.RequestNavigateToBoundingBox?.Invoke(
-                    this, 
-                    new RequestNavigateToBoundingBoxEventArgs(boxBuilder.TryBuild()!));
+                this.ResetCamera(_selectedTours);
             }
+        }
+
+        private BoundingBox? TryGetCurrentViewport()
+        {
+            var eArgs = new RequestCurrentViewportEventArgs();
+            this.RequestCurrentViewport?.Invoke(this, eArgs);
+            return eArgs.CurrentViewPort;
         }
 
         private void OnCommand_ResetCamera()
         {
-            var boxBuilder = new NavigationBoundingBoxBuilder();
+            this.ResetCamera(_loadedTours);
+        }
 
-            foreach (var actTour in _loadedTours)
-            {
-                foreach (var actTrackSegment in actTour.Segments)
-                {
-                    var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
-                    if (actGeometry == null) { continue; }
-
-                    boxBuilder.AddGeometry(actGeometry);
-                }
-            }
-
-            if (boxBuilder.CanBuildBoundingBox)
-            {
-                this.RequestNavigateToBoundingBox?.Invoke(
-                    this, 
-                    new RequestNavigateToBoundingBoxEventArgs(boxBuilder.TryBuild()!));
-            }
-            else
-            {
-                this.RequestNavigateToBoundingBox?.Invoke(
-                    this,
-                    new RequestNavigateToBoundingBoxEventArgs(GetDefaultBoundingBox()));
-            }
+        private void OnCommand_FocusSelectedTour()
+        {
+            this.ResetCamera(_selectedTours);
         }
 
         private void OnMessageReceived(MessageGpxFileRepositoryContentsChanged message)
@@ -263,6 +280,13 @@ namespace GpxViewer.Modules.Map.Views
             }
 
             this.UpdateLayer_SelectedGpxFiles();
+
+            this.Command_FocusSelectedTour.RaiseCanExecuteChanged();
+        }
+
+        private void OnMessageReceived(MessageFocusFileRepositoryNodeRequest message)
+        {
+            this.ResetCamera(message.Node.GetAllAssociatedTours());
         }
 
         private void OnMessageReceived(MessageTourConfigurationChanged message)
@@ -272,14 +296,13 @@ namespace GpxViewer.Modules.Map.Views
 
         private void OnMessageReceived(MessageGpxViewerExitPreview message)
         {
-            var eArgs = new RequestCurrentViewportEventArgs();
-            this.RequestCurrentViewport?.Invoke(this, eArgs);
-            if (eArgs.CurrentViewPort != null)
+            var currentViewPort = this.TryGetCurrentViewport();
+            if (currentViewPort != null)
             {
-                _config.LastViewportMinX = eArgs.CurrentViewPort.MinX;
-                _config.LastViewportMinY = eArgs.CurrentViewPort.MinY;
-                _config.LastViewportMaxX = eArgs.CurrentViewPort.MaxX;
-                _config.LastViewportMaxY = eArgs.CurrentViewPort.MaxY;
+                _config.LastViewportMinX = currentViewPort.MinX;
+                _config.LastViewportMinY = currentViewPort.MinY;
+                _config.LastViewportMaxX = currentViewPort.MaxX;
+                _config.LastViewportMaxY = currentViewPort.MaxY;
             }
         }
     }

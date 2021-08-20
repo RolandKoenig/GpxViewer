@@ -69,6 +69,12 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 () => this.TopLevelNodes.Count > 0);
         }
 
+        public void NotifyFileTreeNodeDoubleClick(FileTreeNodeViewModel nodeViewModel)
+        {
+            base.Messenger.Publish(
+                new MessageFocusFileRepositoryNodeRequest(nodeViewModel.Model));
+        }
+
         private static void TriggerNodeUIUpdate(FileTreeNodeViewModel currentNode, ILoadedGpxFile filteredFile)
         {
             if(currentNode.AssociatedGpxFile == filteredFile)

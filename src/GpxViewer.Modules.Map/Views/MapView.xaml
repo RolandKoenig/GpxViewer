@@ -26,8 +26,9 @@
             <Button Content="Reset Camera" 
                     Margin="{StaticResource MapPanelContentMargin}"
                     Command="{Binding Path=Command_ResetCamera}" />
-            <Button Content="Fokus Selected"
-                    Margin="{StaticResource MapPanelContentMargin}" />
+            <Button Content="Focus Selected"
+                    Margin="{StaticResource MapPanelContentMargin}" 
+                    Command="{Binding Path=Command_FocusSelectedTour}"/>
         </StackPanel>
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left"
