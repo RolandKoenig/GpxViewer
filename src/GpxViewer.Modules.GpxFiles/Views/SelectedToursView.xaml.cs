@@ -3,7 +3,7 @@ using FirLib.Core.Patterns.Mvvm;
 
 namespace GpxViewer.Modules.GpxFiles.Views
 {
-    public partial class SelectedToursView : MvvmUserControl
+    internal partial class SelectedToursView : MvvmUserControl
     {
         public SelectedToursView()
         {

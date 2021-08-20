@@ -16,7 +16,7 @@ using FirLib.Core.Patterns.Mvvm;
 
 namespace GpxViewer.Modules.GpxFiles.Views
 {
-    public partial class FileTreeView : MvvmUserControl
+    internal partial class FileTreeView : MvvmUserControl
     {
         public FileTreeView()
         {

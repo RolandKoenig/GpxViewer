@@ -15,7 +15,7 @@ using Mapsui.Utilities;
 
 namespace GpxViewer.Modules.Map.Views
 {
-    public partial class MapView : MvvmUserControl
+    internal partial class MapView : MvvmUserControl
     {
         private ILayer? _mainLayer;
 

@@ -7,7 +7,7 @@ using Mapsui.Geometries;
 
 namespace GpxViewer.Modules.Map.Views
 {
-    public class RequestNavigateToBoundingBoxEventArgs : EventArgs
+    internal class RequestNavigateToBoundingBoxEventArgs : EventArgs
     {
         public BoundingBox NavTarget { get; }
 
@@ -17,7 +17,7 @@ namespace GpxViewer.Modules.Map.Views
         }
     }
 
-    public class RequestCurrentViewportEventArgs : EventArgs
+    internal class RequestCurrentViewportEventArgs : EventArgs
     {
         public BoundingBox? CurrentViewPort { get; set; }
     }
