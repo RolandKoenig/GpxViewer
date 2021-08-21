@@ -12,6 +12,12 @@ namespace GpxViewer.Core
 
         GpxFile,
 
-        Tour
+        Tour,
+
+        DistanceKm,
+
+        ElevationUpMeters,
+
+        ElevationDownMeters,
     }
 }

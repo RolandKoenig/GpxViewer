@@ -27,6 +27,15 @@ namespace GpxViewer.Shell.Converters
                 case GpxViewerIconKind.Tour:
                     return PackIconKind.Routes;
 
+                case GpxViewerIconKind.DistanceKm:
+                    return PackIconKind.LocationDistance;
+
+                case GpxViewerIconKind.ElevationUpMeters:
+                    return PackIconKind.ArrowTop;
+
+                case GpxViewerIconKind.ElevationDownMeters:
+                    return PackIconKind.ArrowDown;
+
                 default:
                     return null;
             }

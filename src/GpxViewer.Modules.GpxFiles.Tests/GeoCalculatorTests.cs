@@ -27,35 +27,14 @@ namespace GpxViewer.Modules.GpxFiles.Tests
         public void Check_TourMetrics_Elevation()
         {
             var gpxFile = new GpxFile();
-            var gpxTrack = new GpxTrack();
-            gpxFile.Tracks.Add(gpxTrack);
-
-            var gpxTrackSegment = new GpxTrackSegment();
-            gpxTrack.Segments.Add(gpxTrackSegment);
-
-            gpxTrackSegment.Points.Add(new GpxWaypoint()
+            var gpxTrack = gpxFile.CreateAndAddDummyTrack("DummyTrack", new GpxWaypoint[]
             {
-                Elevation = 100
-            });
-            gpxTrackSegment.Points.Add(new GpxWaypoint()
-            {
-                Elevation = 200
-            });
-            gpxTrackSegment.Points.Add(new GpxWaypoint()
-            {
-                Elevation = 300
-            });
-            gpxTrackSegment.Points.Add(new GpxWaypoint()
-            {
-                Elevation = 250
-            });
-            gpxTrackSegment.Points.Add(new GpxWaypoint()
-            {
-                Elevation = 260
-            });
-            gpxTrackSegment.Points.Add(new GpxWaypoint()
-            {
-                Elevation = 210
+                new GpxWaypoint(0.0, 0.0, 100.0),
+                new GpxWaypoint(0.0, 0.0, 200.0),
+                new GpxWaypoint(0.0, 0.0, 300.0),
+                new GpxWaypoint(0.0, 0.0, 250.0),
+                new GpxWaypoint(0.0, 0.0, 260.0),
+                new GpxWaypoint(0.0, 0.0, 210.0)
             });
 
             var tourInfo = new LoadedGpxFileTourInfo(

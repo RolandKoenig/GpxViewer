@@ -38,6 +38,12 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             _msgPublisher = msgPublisher;
         }
 
+        public void AddTopLevelNode(GpxFileRepositoryNode node)
+        {
+            this.TopLevelNodes.Add(node);
+            _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this, new IGpxFileRepositoryNode[]{ node }, null));
+        }
+
         public async Task<GpxFileRepositoryNodeFile> LoadFile(FileOrDirectoryPath filePath)
         {
             var existingFileNode = this.TryGetFileNode(filePath);
@@ -48,9 +54,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             {
                 loadedFile = new GpxFileRepositoryNodeFile(filePath);
             });
-            this.TopLevelNodes.Add(loadedFile!);
+            this.AddTopLevelNode(loadedFile!);
 
-            _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this, new IGpxFileRepositoryNode[]{ loadedFile! }, null));
             return loadedFile!;
         }
 
@@ -64,9 +69,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             {
                 loadedDir = new GpxFileRepositoryNodeDirectory(directoryPath);
             });
-            this.TopLevelNodes.Add(loadedDir!);
+            this.AddTopLevelNode(loadedDir!);
 
-            _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this,  new IGpxFileRepositoryNode[]{ loadedDir! }, null));
             return loadedDir!;
         }
 

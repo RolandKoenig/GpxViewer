@@ -5,13 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using Microsoft.Xaml.Behaviors;
 
 namespace GpxViewer.Core.Behaviors
 {
-    // Original code from: https://stackoverflow.com/questions/1000040/data-binding-to-selecteditem-in-a-wpf-treeview
-
     /// <summary>
     /// This behavior allows to bind to the SelectedItem of a TreeView.
     /// </summary>

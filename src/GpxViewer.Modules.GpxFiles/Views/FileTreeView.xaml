@@ -16,18 +16,59 @@
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True" >
 
-    <TreeView ItemsSource="{Binding Path=TopLevelNodes}">
+    <TreeView ItemsSource="{Binding Path=TopLevelNodes}"
+              Grid.IsSharedSizeScope="True">
         <behavior:Interaction.Behaviors>
             <gpxvBehavior:BindableTreeViewSelectedItemBehavior SelectedItem="{Binding Path=SelectedNode, Mode=TwoWay}" />
         </behavior:Interaction.Behaviors>
-        
+    
         <TreeView.ItemTemplate>
             <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildNodes}">
-                <StackPanel Orientation="Horizontal">
-                    <gpxViewerCoreControls:GpxViewerIcon IconKind="{Binding Path=IconKind}" />
-                    <TextBlock Text="{Binding Path=NodeText}"
-                               VerticalAlignment="Center"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="C1" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="C2" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="C3" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="C4" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" 
+                                Orientation="Horizontal">
+                        <gpxViewerCoreControls:GpxViewerIcon IconKind="{Binding Path=IconKind}" />
+                        <TextBlock Text="{Binding Path=NodeText}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2"
+                                Orientation="Horizontal"
+                                Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
+                        <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
+                                                             IconKind="DistanceKm" />
+                        <TextBlock Text="{Binding Path=DistanceKm, StringFormat=N1}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="4"
+                                Orientation="Horizontal"
+                                Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
+                        <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
+                                                             IconKind="ElevationUpMeters" />
+                        <TextBlock Text="{Binding Path=ElevationUpMeters, StringFormat=N0}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="6"
+                                Orientation="Horizontal"
+                                Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
+                        <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
+                                                             IconKind="ElevationDownMeters" />
+                        <TextBlock Text="{Binding Path=ElevationDownMeters, StringFormat=N0}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
             </HierarchicalDataTemplate>
         </TreeView.ItemTemplate>
 

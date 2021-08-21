@@ -53,5 +53,11 @@ namespace GpxViewer.Modules.GpxFiles.Logic
                 _fileLoadError = e;
             }
         }
+
+        public GpxFileRepositoryNodeFile(GpxFile gpxFile, FileOrDirectoryPath filePath)
+        {
+            this.FilePath = filePath;
+            this.AssociatedGpxFile = new LoadedGpxFile(gpxFile);
+        }
     }
 }

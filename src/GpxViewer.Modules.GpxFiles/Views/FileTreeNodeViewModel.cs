@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using FirLib.Core.Utils.Collections;
 using GpxViewer.Core;
 using GpxViewer.Core.Patterns;
@@ -28,6 +29,18 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 else { return GpxViewerIconKind.Tour; }
             }
         }
+
+        public Visibility TourStatsVisibility =>
+            this.AssociatedGpxFile != null ? Visibility.Visible : Visibility.Collapsed;
+
+        public double ElevationUpMeters => 
+            this.AssociatedGpxFile?.Tours.Sum(actTour => actTour.ElevationUpMeters) ?? 0.0;
+
+        public double ElevationDownMeters =>
+            this.AssociatedGpxFile?.Tours.Sum(actTour => actTour.ElevationDownMeters) ?? 0.0;
+
+        public double DistanceKm =>
+            this.AssociatedGpxFile?.Tours.Sum(actTour => actTour.DistanceKm) ?? 0.0;
 
         public FileTreeNodeViewModel(GpxFileRepositoryNode model)
         {
