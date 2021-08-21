@@ -104,6 +104,18 @@ namespace FirLib.Formats.Gpx
             set;
         }
 
+        public GpxWaypoint()
+        {
+
+        }
+
+        public GpxWaypoint(double latitude, double longitude, double elevation)
+        {
+            this.Latitude = latitude;
+            this.Longitude = longitude;
+            this.Elevation = elevation;
+        }
+
         /// <inheritdoc />
         public override string ToString()
         {

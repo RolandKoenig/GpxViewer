@@ -40,6 +40,31 @@ namespace FirLib.Formats.Gpx
         [XmlNamespaceDeclarations]  
         public XmlSerializerNamespaces? Xmlns { get; set; }
 
+        public GpxTrack CreateAndAddDummyTrack(string name, params GpxWaypoint[] waypoints)
+        {
+            var gpxTrack = new GpxTrack();
+            gpxTrack.Name = name;
+            this.Tracks.Add(gpxTrack);
+
+            var gpxTrackSegment = new GpxTrackSegment();
+            gpxTrack.Segments.Add(gpxTrackSegment);
+
+            gpxTrackSegment.Points.AddRange(waypoints);
+
+            return gpxTrack;
+        }
+
+        public GpxRoute CreateAndAddDummyRoute(string name, params GpxWaypoint[] waypoints)
+        {
+            var gpxRoute = new GpxRoute();
+            gpxRoute.Name = name;
+            this.Routes.Add(gpxRoute);
+
+            gpxRoute.RoutePoints.AddRange(waypoints);
+
+            return gpxRoute;
+        }
+
         public void EnsureNamespaceDeclarations()
         {
             if(s_extensionNamespaces != null)
