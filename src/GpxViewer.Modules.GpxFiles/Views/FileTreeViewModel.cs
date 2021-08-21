@@ -21,28 +21,25 @@ namespace GpxViewer.Modules.GpxFiles.Views
         private GpxFileRepository _repoGpxFiles;
         private IGpxViewerCommands _gpxViewerCommands;
 
-        private FileTreeNodeViewModel? _selectedNode;
-
         public FileTreeNodeViewModel? SelectedNode
         {
-            get => _selectedNode;
+            get
+            {
+                var selectedNode = _repoGpxFiles.SelectedNode;
+                if (selectedNode == null) { return null; }
+
+                foreach(var actNodeVM in this.EnumerateAllNodes(this.TopLevelNodes))
+                {
+                    if (actNodeVM.Model == selectedNode) { return actNodeVM; }
+                }
+
+                return null;
+            }
             set
             {
-                if(_selectedNode != value)
+                if (this.SelectedNode != value)
                 {
-                    _selectedNode = value;
-                    this.RaisePropertyChanged();
-
-                    if (_selectedNode != null)
-                    {
-                        this.Messenger.BeginPublish(
-                            new MessageGpxFileRepositoryNodeSelectionChanged(new IGpxFileRepositoryNode[]{ _selectedNode.Model }));
-                    }
-                    else
-                    {
-                        this.Messenger.BeginPublish(
-                            new MessageGpxFileRepositoryNodeSelectionChanged(null));
-                    }
+                    _repoGpxFiles.SelectedNode = value?.Model;
                 }
             }
         }
@@ -69,6 +66,19 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 () => this.TopLevelNodes.Count > 0);
         }
 
+        public IEnumerable<FileTreeNodeViewModel> EnumerateAllNodes(IEnumerable<FileTreeNodeViewModel> currentLevel)
+        {
+            foreach (var actNode in currentLevel)
+            {
+                yield return actNode;
+
+                foreach (var actNodeChild in this.EnumerateAllNodes(actNode.ChildNodes))
+                {
+                    yield return actNodeChild;
+                }
+            }
+        }
+
         public void NotifyFileTreeNodeDoubleClick(FileTreeNodeViewModel nodeViewModel)
         {
             base.Messenger.Publish(
@@ -93,6 +103,8 @@ namespace GpxViewer.Modules.GpxFiles.Views
         {
             base.OnMvvmViewAttached();
 
+            _repoGpxFiles.SelectedNodeChanged += this.OnGpxFileRepository_SelectedNodeChanged;
+
             _gpxViewerCommands.LoadFile.RegisterCommand(this.Command_LoadFile);
             _gpxViewerCommands.LoadDirectory.RegisterCommand(this.Command_LoadDirectory);
             _gpxViewerCommands.CloseAll.RegisterCommand(this.Command_CloseAll);
@@ -102,6 +114,8 @@ namespace GpxViewer.Modules.GpxFiles.Views
         protected override void OnMvvmViewDetaching()
         {
             base.OnMvvmViewDetaching();
+
+            _repoGpxFiles.SelectedNodeChanged -= this.OnGpxFileRepository_SelectedNodeChanged;
 
             _gpxViewerCommands.LoadFile.UnregisterCommand(this.Command_LoadFile);
             _gpxViewerCommands.LoadDirectory.UnregisterCommand(this.Command_LoadDirectory);
@@ -121,6 +135,23 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
+        private void OnGpxFileRepository_SelectedNodeChanged(object? sender, EventArgs e)
+        {
+            this.RaisePropertyChanged(nameof(this.SelectedNode));
+
+            var newlySelectedNode = _repoGpxFiles.SelectedNode;
+            if (newlySelectedNode != null)
+            {
+                this.Messenger.BeginPublish(
+                    new MessageGpxFileRepositoryNodeSelectionChanged(new IGpxFileRepositoryNode[]{ newlySelectedNode }));
+            }
+            else
+            {
+                this.Messenger.BeginPublish(
+                    new MessageGpxFileRepositoryNodeSelectionChanged(null));
+            }
+        }
+
         private async void OnCommand_LoadFile_Execute()
         {
             var srvLoadFileDialog = this.GetViewService<IOpenFileViewService>();
@@ -132,10 +163,12 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 "Load GPX Files");
             if (fileList == null) { return; }
 
+            GpxFileRepositoryNodeFile? lastFile = null;
             foreach(var actFile in fileList)
             {
-                await _repoGpxFiles.LoadFile(new FileOrDirectoryPath(actFile));
+                lastFile = await _repoGpxFiles.LoadFile(new FileOrDirectoryPath(actFile));
             }
+            if (lastFile != null) { _repoGpxFiles.SelectedNode = lastFile; }
         }
 
         private async void OnCommand_LoadDirectory_Execute()
@@ -144,7 +177,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
             var selectedPath = await srvLoadDirectory.ShowOpenDirectoryDialogAsync("Load GPX Files");
             if (string.IsNullOrEmpty(selectedPath)) { return; }
 
-            await _repoGpxFiles.LoadDirectory(new FileOrDirectoryPath(selectedPath));
+            _repoGpxFiles.SelectedNode = await _repoGpxFiles.LoadDirectory(new FileOrDirectoryPath(selectedPath));
         }
 
         private void OnCommand_CloseAll_Execute()

@@ -14,8 +14,24 @@ namespace GpxViewer.Modules.GpxFiles.Logic
     internal class GpxFileRepository : IGpxFileRepository
     {
         private IFirLibMessagePublisher _msgPublisher;
+        private GpxFileRepositoryNode? _selectedNode;
 
         public ObservableCollection<GpxFileRepositoryNode> TopLevelNodes { get; } = new();
+
+        public GpxFileRepositoryNode? SelectedNode
+        {
+            get => _selectedNode;
+            set
+            {
+                if (_selectedNode != value)
+                {
+                    _selectedNode = value;
+                    this.SelectedNodeChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        public event EventHandler? SelectedNodeChanged;
 
         public GpxFileRepository(IFirLibMessagePublisher msgPublisher)
         {
@@ -52,17 +68,6 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
             _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this,  new IGpxFileRepositoryNode[]{ loadedDir! }, null));
             return loadedDir!;
-        }
-
-        public IEnumerable<LoadedGpxFile> GetAllLoadedGpxFiles()
-        {
-            yield break;
-        }
-
-        /// <inheritdoc />
-        public IEnumerable<ILoadedGpxFile> GetAllSelectedGpxFiles()
-        {
-            return this.GetAllLoadedGpxFiles();
         }
 
         public void CloseAllFiles()

@@ -8,6 +8,6 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
 {
     public interface IGpxFileRepository
     {
-        IEnumerable<ILoadedGpxFile> GetAllSelectedGpxFiles();
+        
     }
 }

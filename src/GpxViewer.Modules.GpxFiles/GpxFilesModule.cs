@@ -8,7 +8,6 @@ using GpxViewer.Modules.GpxFiles.Interface.Model;
 using GpxViewer.Modules.GpxFiles.Logic;
 using GpxViewer.Modules.GpxFiles.Views;
 using Prism.Ioc;
-using Prism.Modularity;
 using Prism.Regions;
 
 namespace GpxViewer.Modules.GpxFiles
@@ -43,20 +42,23 @@ namespace GpxViewer.Modules.GpxFiles
         {
             if (_gpxFileRepo == null) { return; }
 
+            GpxFileRepositoryNode? lastLoadedNode = null;
             if (message.Files != null)
             {
                 foreach (var actFile in message.Files)
                 {
-                    await _gpxFileRepo.LoadFile(new FileOrDirectoryPath(actFile));
+                    lastLoadedNode = await _gpxFileRepo.LoadFile(new FileOrDirectoryPath(actFile));
                 }
             }
             if (message.Directories != null)
             {
                 foreach (var actDirectory in message.Directories)
                 {
-                    await _gpxFileRepo.LoadDirectory(new FileOrDirectoryPath(actDirectory));
+                    lastLoadedNode = await _gpxFileRepo.LoadDirectory(new FileOrDirectoryPath(actDirectory));
                 }
             }
+
+            if (lastLoadedNode != null) { _gpxFileRepo.SelectedNode = lastLoadedNode; }
         }
     }
 }

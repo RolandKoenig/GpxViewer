@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Microsoft.Xaml.Behaviors;
 
 namespace GpxViewer.Core.Behaviors
@@ -30,9 +31,11 @@ namespace GpxViewer.Core.Behaviors
 
         private static void OnSelectedItemChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is TreeViewItem item)
+            if (sender is not BindableTreeViewSelectedItemBehavior senderBeh) { return; }
+
+            if (senderBeh.AssociatedObject.ItemContainerGenerator.ContainerFromItem(e.NewValue) is TreeViewItem itemContainer)
             {
-                item.SetValue(TreeViewItem.IsSelectedProperty, true);
+                itemContainer.IsSelected = true;
             }
         }
 
@@ -40,7 +43,7 @@ namespace GpxViewer.Core.Behaviors
         {
             base.OnAttached();
 
-            this.AssociatedObject.SelectedItemChanged += OnTreeViewSelectedItemChanged;
+            this.AssociatedObject.SelectedItemChanged += this.OnTreeViewSelectedItemChanged;
         }
 
         protected override void OnDetaching()
@@ -49,7 +52,7 @@ namespace GpxViewer.Core.Behaviors
 
             if (this.AssociatedObject != null)
             {
-                this.AssociatedObject.SelectedItemChanged -= OnTreeViewSelectedItemChanged;
+                this.AssociatedObject.SelectedItemChanged -= this.OnTreeViewSelectedItemChanged;
             }
         }
 
