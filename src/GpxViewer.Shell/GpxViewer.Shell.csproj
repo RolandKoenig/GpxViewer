@@ -25,8 +25,8 @@
     <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Core.Wpf\FirLib.Core.Wpf.csproj" />
     <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Core\FirLib.Core.csproj" />
     <ProjectReference Include="..\GpxViewer.Core\GpxViewer.Core.csproj" />
-    <ProjectReference Include="..\GpxViewer.Modules.GpxFiles\GpxViewer.Modules.GpxFiles.csproj" />
-    <ProjectReference Include="..\GpxViewer.Modules.Map\GpxViewer.Modules.Map.csproj" />
+    <ProjectReference Include="..\Modules\GpxViewer.Modules.GpxFiles\GpxViewer.Modules.GpxFiles.csproj" />
+    <ProjectReference Include="..\Modules\GpxViewer.Modules.Map\GpxViewer.Modules.Map.csproj" />
   </ItemGroup>
 
 </Project>

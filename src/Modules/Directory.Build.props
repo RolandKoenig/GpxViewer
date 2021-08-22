@@ -1,0 +1,8 @@
+<Project>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Analyzers\GpxViewer.Analyzers\GpxViewer.Analyzers.csproj"
+                      PrivateAssets="all"
+                      ReferenceOutputAssembly="false"
+                      OutputItemType="Analyzer"/>
+  </ItemGroup>
+</Project>

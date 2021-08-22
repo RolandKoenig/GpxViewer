@@ -19,15 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Core.Wpf\FirLib.Core.Wpf.csproj" />
-    <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Core\FirLib.Core.csproj" />
-    <ProjectReference Include="..\..\subtrees\Mapsui\Mapsui.UI.Wpf\Mapsui.UI.Wpf.csproj" />
-    <ProjectReference Include="..\..\subtrees\Mapsui\Mapsui\Mapsui.csproj" />
-    <ProjectReference Include="..\Analyzers\GpxViewer.Analyzers\GpxViewer.Analyzers.csproj"
-                      PrivateAssets="all"
-                      ReferenceOutputAssembly="false"
-                      OutputItemType="Analyzer"/>
-    <ProjectReference Include="..\GpxViewer.Core\GpxViewer.Core.csproj" />
+    <ProjectReference Include="..\..\..\subtrees\FirLib\src\FirLib.Core.Wpf\FirLib.Core.Wpf.csproj" />
+    <ProjectReference Include="..\..\..\subtrees\FirLib\src\FirLib.Core\FirLib.Core.csproj" />
+    <ProjectReference Include="..\..\..\subtrees\Mapsui\Mapsui.UI.Wpf\Mapsui.UI.Wpf.csproj" />
+    <ProjectReference Include="..\..\..\subtrees\Mapsui\Mapsui\Mapsui.csproj" />
+    <ProjectReference Include="..\..\GpxViewer.Core\GpxViewer.Core.csproj" />
     <ProjectReference Include="..\GpxViewer.Modules.GpxFiles\GpxViewer.Modules.GpxFiles.csproj" />
   </ItemGroup>
 

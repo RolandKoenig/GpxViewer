@@ -38,13 +38,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Shell", "GpxViewe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Core", "GpxViewer.Core\GpxViewer.Core.csproj", "{FE7535F5-C3D5-42E4-9249-25CF47C0C560}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Modules.Map", "GpxViewer.Modules.Map\GpxViewer.Modules.Map.csproj", "{6EA52A23-60C1-493A-91A7-41BAFD476A9A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Modules.GpxFiles", "GpxViewer.Modules.GpxFiles\GpxViewer.Modules.GpxFiles.csproj", "{2D5B65CE-2DEA-4406-8D21-E8D07FCCB2A7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Tests", "..\subtrees\FirLib\src\FirLib.Tests\FirLib.Tests.csproj", "{8B3B2131-C828-4AD6-BE68-3CA9675F5BB6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Modules.GpxFiles.Tests", "GpxViewer.Modules.GpxFiles.Tests\GpxViewer.Modules.GpxFiles.Tests.csproj", "{1E553C58-AC04-4B77-BC71-E72861EE850A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Shell.Tests", "GpxViewer.Shell.Tests\GpxViewer.Shell.Tests.csproj", "{F0F6BFDE-EC7F-478D-8638-DFB7D70769D7}"
 EndProject
@@ -58,6 +52,17 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Analyzers", "Analyzers\GpxViewer.Analyzers\GpxViewer.Analyzers.csproj", "{C48C078C-0C3B-41E8-BD85-E7DD8F553798}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Analyzers.Test", "Analyzers\GpxViewer.Analyzers.Test\GpxViewer.Analyzers.Test.csproj", "{F5805E83-8DC4-473C-AC9A-DDD01259C399}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{677B40DA-3787-4C1E-9A78-F14BBBB82C84}"
+	ProjectSection(SolutionItems) = preProject
+		Modules\Directory.Build.props = Modules\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Modules.GpxFiles", "Modules\GpxViewer.Modules.GpxFiles\GpxViewer.Modules.GpxFiles.csproj", "{84D3A0F9-CE78-469E-A550-7FFDA151D0B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Modules.GpxFiles.Tests", "Modules\GpxViewer.Modules.GpxFiles.Tests\GpxViewer.Modules.GpxFiles.Tests.csproj", "{B931736A-1696-415C-95AB-213DA278BBC8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Modules.Map", "Modules\GpxViewer.Modules.Map\GpxViewer.Modules.Map.csproj", "{CC217BF2-55D4-4E40-86C0-239F530A3117}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -108,22 +113,10 @@ Global
 		{FE7535F5-C3D5-42E4-9249-25CF47C0C560}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE7535F5-C3D5-42E4-9249-25CF47C0C560}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE7535F5-C3D5-42E4-9249-25CF47C0C560}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6EA52A23-60C1-493A-91A7-41BAFD476A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EA52A23-60C1-493A-91A7-41BAFD476A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EA52A23-60C1-493A-91A7-41BAFD476A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EA52A23-60C1-493A-91A7-41BAFD476A9A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D5B65CE-2DEA-4406-8D21-E8D07FCCB2A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D5B65CE-2DEA-4406-8D21-E8D07FCCB2A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D5B65CE-2DEA-4406-8D21-E8D07FCCB2A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D5B65CE-2DEA-4406-8D21-E8D07FCCB2A7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8B3B2131-C828-4AD6-BE68-3CA9675F5BB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B3B2131-C828-4AD6-BE68-3CA9675F5BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B3B2131-C828-4AD6-BE68-3CA9675F5BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B3B2131-C828-4AD6-BE68-3CA9675F5BB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E553C58-AC04-4B77-BC71-E72861EE850A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E553C58-AC04-4B77-BC71-E72861EE850A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E553C58-AC04-4B77-BC71-E72861EE850A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E553C58-AC04-4B77-BC71-E72861EE850A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F0F6BFDE-EC7F-478D-8638-DFB7D70769D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F0F6BFDE-EC7F-478D-8638-DFB7D70769D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0F6BFDE-EC7F-478D-8638-DFB7D70769D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -136,6 +129,18 @@ Global
 		{F5805E83-8DC4-473C-AC9A-DDD01259C399}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5805E83-8DC4-473C-AC9A-DDD01259C399}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5805E83-8DC4-473C-AC9A-DDD01259C399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84D3A0F9-CE78-469E-A550-7FFDA151D0B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84D3A0F9-CE78-469E-A550-7FFDA151D0B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84D3A0F9-CE78-469E-A550-7FFDA151D0B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84D3A0F9-CE78-469E-A550-7FFDA151D0B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B931736A-1696-415C-95AB-213DA278BBC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B931736A-1696-415C-95AB-213DA278BBC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B931736A-1696-415C-95AB-213DA278BBC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B931736A-1696-415C-95AB-213DA278BBC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC217BF2-55D4-4E40-86C0-239F530A3117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC217BF2-55D4-4E40-86C0-239F530A3117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC217BF2-55D4-4E40-86C0-239F530A3117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC217BF2-55D4-4E40-86C0-239F530A3117}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,6 +160,9 @@ Global
 		{8B3B2131-C828-4AD6-BE68-3CA9675F5BB6} = {82952984-3B22-4EC8-8210-8883DF7336A1}
 		{C48C078C-0C3B-41E8-BD85-E7DD8F553798} = {FBBABECF-CEE8-4842-BBD3-688AE86190AF}
 		{F5805E83-8DC4-473C-AC9A-DDD01259C399} = {FBBABECF-CEE8-4842-BBD3-688AE86190AF}
+		{84D3A0F9-CE78-469E-A550-7FFDA151D0B1} = {677B40DA-3787-4C1E-9A78-F14BBBB82C84}
+		{B931736A-1696-415C-95AB-213DA278BBC8} = {677B40DA-3787-4C1E-9A78-F14BBBB82C84}
+		{CC217BF2-55D4-4E40-86C0-239F530A3117} = {677B40DA-3787-4C1E-9A78-F14BBBB82C84}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {310B6985-646D-4ACE-AB15-42C7B617D16A}

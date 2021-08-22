@@ -34,6 +34,7 @@ namespace GpxViewer.Analyzers
             var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
             var fullNamespace = namedTypeSymbol.ContainingNamespace.ToString();
             if (!fullNamespace.StartsWith("GpxViewer.Modules")) { return; }
+            if (fullNamespace.EndsWith(".Tests")) { return; }
 
             var splittedNamespace = fullNamespace.Split('.');
             if (splittedNamespace.Length < 3) { return; }
