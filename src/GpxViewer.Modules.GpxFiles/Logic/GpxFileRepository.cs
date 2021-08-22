@@ -79,6 +79,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             var prevItems = this.TopLevelNodes.ToArray();
             this.TopLevelNodes.Clear();
 
+            this.SelectedNode = null;
+
             _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this, null, prevItems));
         }
 

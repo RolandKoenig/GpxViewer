@@ -19,5 +19,7 @@ namespace GpxViewer.Core
         ElevationUpMeters,
 
         ElevationDownMeters,
+
+        Checked,
     }
 }

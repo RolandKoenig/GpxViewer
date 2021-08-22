@@ -31,7 +31,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
                     new (0.0, 0.0, 210.0)
                 });
 
-                var gpxFileRepo = new GpxFileRepository(new FirLibMessenger());
+                var gpxFileRepo = new GpxFileRepository(A.Fake<IFirLibMessagePublisher>());
                 gpxFileRepo.AddTopLevelNode(new GpxFileRepositoryNodeFile(gpxFile, new FileOrDirectoryPath("DummyPath")));
                 gpxFileRepo.AddTopLevelNode(new GpxFileRepositoryNodeFile(gpxFile, new FileOrDirectoryPath("DummyPath")));
                 gpxFileRepo.AddTopLevelNode(new GpxFileRepositoryNodeFile(gpxFile, new FileOrDirectoryPath("DummyPath")));

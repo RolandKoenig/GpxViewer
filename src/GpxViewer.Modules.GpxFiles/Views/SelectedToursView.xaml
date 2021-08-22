@@ -13,7 +13,8 @@
     mc:Ignorable="d"
     d:DataContext="{x:Static local:DesignData.SelectedToursVM}">
     <Grid>
-        <prop:PropertyGrid TabVisibility="Collapsed"
+        <prop:PropertyGrid Visibility="{Binding Path=SelectedToursEditVisibility}" 
+                           TabVisibility="Collapsed"
                            Style="{DynamicResource GpxViewerPropertyGrid}"
                            SelectedObjects="{Binding Path=SelectedTours}" />
     </Grid>

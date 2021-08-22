@@ -33,6 +33,8 @@
                         <ColumnDefinition Width="Auto" SharedSizeGroup="C3" />
                         <ColumnDefinition Width="10" />
                         <ColumnDefinition Width="Auto" SharedSizeGroup="C4" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="C5" />
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0" 
@@ -44,6 +46,13 @@
 
                     <StackPanel Grid.Column="2"
                                 Orientation="Horizontal"
+                                Visibility="{Binding Path=TourFinishedVisibility}">
+                        <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
+                                                             IconKind="Checked" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="4"
+                                Orientation="Horizontal"
                                 Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
                         <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
                                                              IconKind="DistanceKm" />
@@ -51,7 +60,7 @@
                                    VerticalAlignment="Center"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="4"
+                    <StackPanel Grid.Column="6"
                                 Orientation="Horizontal"
                                 Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
                         <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
@@ -60,7 +69,7 @@
                                    VerticalAlignment="Center"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="6"
+                    <StackPanel Grid.Column="8"
                                 Orientation="Horizontal"
                                 Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
                         <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"

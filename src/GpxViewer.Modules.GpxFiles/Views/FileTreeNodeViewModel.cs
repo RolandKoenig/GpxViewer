@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using FirLib.Core.Utils.Collections;
 using GpxViewer.Core;
+using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Logic;
 
@@ -42,6 +43,11 @@ namespace GpxViewer.Modules.GpxFiles.Views
         public double DistanceKm =>
             this.AssociatedGpxFile?.Tours.Sum(actTour => actTour.DistanceKm) ?? 0.0;
 
+        public Visibility TourFinishedVisibility =>
+            this.AssociatedGpxFile?.Tours.FirstOrDefault()?.RawTourExtensionData.State == GpxTrackState.Succeeded
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+
         public FileTreeNodeViewModel(GpxFileRepositoryNode model)
         {
             this.Model = model;
@@ -53,6 +59,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
         public void RaiseNodeTextChanged()
         {
             this.RaisePropertyChanged(nameof(this.NodeText));
+            this.RaisePropertyChanged(nameof(this.TourFinishedVisibility));
         }
     }
 }

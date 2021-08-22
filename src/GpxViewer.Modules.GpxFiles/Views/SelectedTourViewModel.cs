@@ -8,6 +8,7 @@ using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
+using PropertyTools.DataAnnotations;
 
 namespace GpxViewer.Modules.GpxFiles.Views
 {
@@ -15,6 +16,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
     {
         private ILoadedGpxFileTourInfo _tour;
 
+        [Category("Metadata")]
         public string Name
         {
             get => _tour.RawTrackOrRoute.Name ?? string.Empty;
@@ -31,6 +33,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
+        [Category("Metadata")]
         public string Description
         {
             get => _tour.RawTrackOrRoute.Description ?? string.Empty;
@@ -47,6 +50,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
+        [Category("Metadata")]
         public GpxTrackState State
         {
             get => _tour.RawTourExtensionData.State;
@@ -63,10 +67,13 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
+        [Category("Metrics")]
         public string DistanceKm => _tour.DistanceKm.ToString("N1");
 
+        [Category("Metrics")]
         public string ElevationUpMeters => _tour.ElevationUpMeters.ToString("N0");
 
+        [Category("Metrics")]
         public string ElevationDownMeters => _tour.ElevationDownMeters.ToString("N0");
 
         public SelectedTourViewModel(ILoadedGpxFileTourInfo tour)

@@ -36,6 +36,9 @@ namespace GpxViewer.Shell.Converters
                 case GpxViewerIconKind.ElevationDownMeters:
                     return PackIconKind.ArrowDown;
 
+                case GpxViewerIconKind.Checked:
+                    return PackIconKind.Check;
+
                 default:
                     return null;
             }
