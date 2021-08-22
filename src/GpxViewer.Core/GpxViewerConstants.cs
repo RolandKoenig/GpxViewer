@@ -9,7 +9,7 @@ namespace GpxViewer.Core
     public static class GpxViewerConstants
     {
         public const string REGION_MAP = "MapRegion";
-        public const string REGION_TOUR_DETAILS = "TourDetails";
+        public const string REGION_ELEVATION_PROFILE = "ElevationProfile";
         public const string REGION_FILE_TREE = "FileTree";
         public const string REGION_TOUR_INFO = "TourInfo";
     }

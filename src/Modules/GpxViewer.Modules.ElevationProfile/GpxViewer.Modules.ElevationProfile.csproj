@@ -26,6 +26,7 @@
     <ProjectReference Include="..\..\..\subtrees\Mapsui\Mapsui.Geometries\Mapsui.Geometries.csproj" />
     <ProjectReference Include="..\..\..\subtrees\Mapsui\Mapsui\Mapsui.csproj" />
     <ProjectReference Include="..\..\GpxViewer.Core\GpxViewer.Core.csproj" />
+    <ProjectReference Include="..\GpxViewer.Modules.GpxFiles\GpxViewer.Modules.GpxFiles.csproj" />
   </ItemGroup>
 
 </Project>

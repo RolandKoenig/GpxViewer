@@ -89,8 +89,8 @@
                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
                     <GroupBox Grid.Row="2"
-                              Header="Tour Detail">
-                        <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TOUR_DETAILS}" />
+                              Header="Elevation profile">
+                        <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_ELEVATION_PROFILE}" />
                     </GroupBox>
                 </Grid>
             </Grid>
