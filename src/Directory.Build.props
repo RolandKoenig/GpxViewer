@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Roland König</Authors>
+    <Company>Roland König</Company>
+    <Description></Description>
+    <Copyright>©2021 by Roland König</Copyright>
+    <PackageProjectUrl>https://github.com/RolandKoenig/GpxViewer</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/RolandKoenig/GpxViewer</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Version>0.1.0</Version>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Product>RK GpxViewer</Product>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+  </PropertyGroup>
+</Project>

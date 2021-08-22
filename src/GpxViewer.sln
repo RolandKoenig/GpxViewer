@@ -46,7 +46,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Tests", "..\subtrees
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Modules.GpxFiles.Tests", "GpxViewer.Modules.GpxFiles.Tests\GpxViewer.Modules.GpxFiles.Tests.csproj", "{1E553C58-AC04-4B77-BC71-E72861EE850A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GpxViewer.Shell.Tests", "GpxViewer.Shell.Tests\GpxViewer.Shell.Tests.csproj", "{F0F6BFDE-EC7F-478D-8638-DFB7D70769D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Shell.Tests", "GpxViewer.Shell.Tests\GpxViewer.Shell.Tests.csproj", "{F0F6BFDE-EC7F-478D-8638-DFB7D70769D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_RootSrc", "_RootSrc", "{D26106B3-5A0B-4494-A8FC-B606B23AB602}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers", "Analyzers", "{FBBABECF-CEE8-4842-BBD3-688AE86190AF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Analyzers", "Analyzers\GpxViewer.Analyzers\GpxViewer.Analyzers.csproj", "{C48C078C-0C3B-41E8-BD85-E7DD8F553798}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Analyzers.Test", "Analyzers\GpxViewer.Analyzers.Test\GpxViewer.Analyzers.Test.csproj", "{F5805E83-8DC4-473C-AC9A-DDD01259C399}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -117,6 +128,14 @@ Global
 		{F0F6BFDE-EC7F-478D-8638-DFB7D70769D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0F6BFDE-EC7F-478D-8638-DFB7D70769D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0F6BFDE-EC7F-478D-8638-DFB7D70769D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C48C078C-0C3B-41E8-BD85-E7DD8F553798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C48C078C-0C3B-41E8-BD85-E7DD8F553798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C48C078C-0C3B-41E8-BD85-E7DD8F553798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C48C078C-0C3B-41E8-BD85-E7DD8F553798}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5805E83-8DC4-473C-AC9A-DDD01259C399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5805E83-8DC4-473C-AC9A-DDD01259C399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5805E83-8DC4-473C-AC9A-DDD01259C399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5805E83-8DC4-473C-AC9A-DDD01259C399}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,6 +153,8 @@ Global
 		{FB142F3F-DF93-4FBF-B1CE-F3C3E356AAA5} = {60AA90C3-83C7-434B-8DDD-4DF7080F320F}
 		{22F28B51-5BFE-4C98-9925-912A85188FCE} = {60AA90C3-83C7-434B-8DDD-4DF7080F320F}
 		{8B3B2131-C828-4AD6-BE68-3CA9675F5BB6} = {82952984-3B22-4EC8-8210-8883DF7336A1}
+		{C48C078C-0C3B-41E8-BD85-E7DD8F553798} = {FBBABECF-CEE8-4842-BBD3-688AE86190AF}
+		{F5805E83-8DC4-473C-AC9A-DDD01259C399} = {FBBABECF-CEE8-4842-BBD3-688AE86190AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {310B6985-646D-4ACE-AB15-42C7B617D16A}
