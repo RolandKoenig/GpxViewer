@@ -136,6 +136,7 @@ namespace GpxViewer.Shell
             moduleCatalog.AddModule<ShellModule>();
             moduleCatalog.AddModule<Modules.GpxFiles.GpxFilesModule>();
             moduleCatalog.AddModule<Modules.Map.MapModule>();
+            moduleCatalog.AddModule<Modules.ElevationProfile.ElevationProfileModule>();
         }
 
         protected override void ConfigureViewModelLocator()
