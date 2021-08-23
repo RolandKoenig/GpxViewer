@@ -15,7 +15,8 @@
     prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <lvc:CartesianChart Series="{Binding SeriesCollection}"
-                            Visibility="{Binding Path=ElevationProfileVisibility}">
+                            Visibility="{Binding Path=ElevationProfileVisibility}"
+                            DisableAnimations="True">
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="Distance (km)"
                           LabelFormatter="{Binding Path=LabelKmFormatter}"/>

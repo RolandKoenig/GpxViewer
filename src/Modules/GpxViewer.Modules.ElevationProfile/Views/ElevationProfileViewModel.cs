@@ -41,8 +41,11 @@ namespace GpxViewer.Modules.ElevationProfile.Views
 
             if (singleSelectedTour != null)
             {
+                // Build a list of ObservablePoints before adding them to ChartValues<ObservablePoint> collection because of better performance
+                // see https://lvcharts.net/App/examples/v1/Wpf/Performance%20Tips
+
                 var actDistanceM = 0.0;
-                var chartValues = new ChartValues<ObservablePoint>();
+                var generatedChartValues = new List<ObservablePoint>();
                 foreach (var actSegment in singleSelectedTour.Segments)
                 {
                     GpxWaypoint? lastPoint = null;
@@ -51,20 +54,23 @@ namespace GpxViewer.Modules.ElevationProfile.Views
                         if (lastPoint == null)
                         {
                             lastPoint = actPoint;
-                            chartValues.Add(new ObservablePoint(
+                            generatedChartValues.Add(new ObservablePoint(
                                 actDistanceM / 1000.0, 
                                 actPoint.Elevation ?? 0.0));
                             continue;
                         }
 
                         actDistanceM += GeoCalculator.CalculateDistanceMeters(lastPoint, actPoint);
-                        chartValues.Add(new ObservablePoint(
+                        generatedChartValues.Add(new ObservablePoint(
                             actDistanceM / 1000.0, 
                             actPoint.Elevation ?? 0.0));
 
                         lastPoint = actPoint;
                     }
                 }
+
+                var chartValues = new ChartValues<ObservablePoint>();
+                chartValues.AddRange(generatedChartValues);
                 _lineSeries.Values = chartValues;
             }
 
