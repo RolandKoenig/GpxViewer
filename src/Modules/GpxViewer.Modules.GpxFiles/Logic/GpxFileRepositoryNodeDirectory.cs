@@ -10,8 +10,6 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 {
     internal class GpxFileRepositoryNodeDirectory : GpxFileRepositoryNode
     {
-        public override string NodeText => Path.GetFileName(this.DirectoryPath.Path);
-
         public override LoadedGpxFile? AssociatedGpxFile => null;
 
         public FileOrDirectoryPath DirectoryPath { get; }
@@ -33,6 +31,18 @@ namespace GpxViewer.Modules.GpxFiles.Logic
                 this.ChildNodes.Add(
                     new GpxFileRepositoryNodeFile(new FileOrDirectoryPath(actFilePath)));
             }
+        }
+
+        /// <inheritdoc />
+        protected override bool AreThisNodesContentsChanged()
+        {
+            return false;
+        }
+
+        /// <inheritdoc />
+        protected override string GetNodeText()
+        {
+            return Path.GetFileName(this.DirectoryPath.Path);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using FirLib.Core.Patterns.ObjectPooling;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
 
 namespace GpxViewer.Modules.GpxFiles.Logic
@@ -8,9 +9,40 @@ namespace GpxViewer.Modules.GpxFiles.Logic
     {
         public ObservableCollection<GpxFileRepositoryNode> ChildNodes { get; } = new();
 
-        public abstract string NodeText { get; }
+        public string NodeText
+        {
+            get
+            {
+                using (_ = PooledStringBuilders.Current.UseStringBuilder(out var strBuilder))
+                {
+                    strBuilder.Append(this.GetNodeText());
+                    if (this.ContentsChanged) { strBuilder.Append('*'); }
+                    return strBuilder.ToString();
+                }
+            }
+        }
 
         public abstract LoadedGpxFile? AssociatedGpxFile { get; }
+
+        public bool ContentsChanged
+        {
+            get
+            {
+                if (this.AreThisNodesContentsChanged()) { return true; }
+                foreach (var actChildNode in this.ChildNodes)
+                {
+                    if (actChildNode.ContentsChanged) { return true; }
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// This method checks only this node, not child nodes.
+        /// </summary>
+        protected abstract bool AreThisNodesContentsChanged();
+
+        protected abstract string GetNodeText();
 
         /// <inheritdoc />
         public IEnumerable<ILoadedGpxFile> GetAllAssociatedGpxFiles()

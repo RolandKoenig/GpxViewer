@@ -13,6 +13,8 @@ namespace GpxViewer.Core.Commands
 
         CompositeCommand LoadDirectory { get; }
 
+        CompositeCommand Save { get; }
+
         CompositeCommand SaveAll { get; }
 
         CompositeCommand CloseAll { get; }

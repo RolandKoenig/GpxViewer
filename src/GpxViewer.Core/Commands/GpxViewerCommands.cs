@@ -16,6 +16,9 @@ namespace GpxViewer.Core.Commands
         public CompositeCommand LoadDirectory { get; } = new();
 
         /// <inheritdoc />
+        public CompositeCommand Save { get; } = new();
+
+        /// <inheritdoc />
         public CompositeCommand SaveAll { get; } = new();
 
         /// <inheritdoc />

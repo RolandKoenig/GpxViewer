@@ -14,27 +14,6 @@ namespace GpxViewer.Modules.GpxFiles.Logic
     {
         private Exception? _fileLoadError;
 
-        public override string NodeText
-        {
-            get
-            {
-                using(_ = PooledStringBuilders.Current.UseStringBuilder(out var strBuilder))
-                {
-                    strBuilder.Append(Path.GetFileName(this.FilePath.Path));
-                    if ((this.AssociatedGpxFile != null) &&
-                        (this.AssociatedGpxFile.ContentsChanged))
-                    {
-                        strBuilder.Append('*');
-                    }
-                    if (_fileLoadError != null)
-                    {
-                        strBuilder.Append(" ** Loading Error **");
-                    }
-                    return strBuilder.ToString();
-                }
-            }
-        }
-
         public override LoadedGpxFile? AssociatedGpxFile { get; }
 
         public FileOrDirectoryPath FilePath { get; }
@@ -58,6 +37,25 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         {
             this.FilePath = filePath;
             this.AssociatedGpxFile = new LoadedGpxFile(gpxFile);
+        }
+
+        /// <inheritdoc />
+        protected override bool AreThisNodesContentsChanged()
+        {
+            return this.AssociatedGpxFile?.ContentsChanged ?? false;
+        }
+
+        /// <inheritdoc />
+        protected override string GetNodeText()
+        {
+            if (this.AssociatedGpxFile != null)
+            {
+                return Path.GetFileName(this.FilePath.Path);
+            }
+            else
+            {
+                return $"{Path.GetFileName(this.FilePath.Path)} ** Loading Error **";
+            }
         }
     }
 }

@@ -48,6 +48,8 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
         public DelegateCommand Command_LoadFile { get; }
         public DelegateCommand Command_LoadDirectory { get; }
+        public DelegateCommand Command_Save { get; }
+        public DelegateCommand Command_SaveAll { get; }
         public DelegateCommand Command_CloseAll { get; }
 
         public FileTreeViewModel(GpxFileRepository fileRepo, IGpxViewerCommands gpxViewerCommands)
@@ -61,6 +63,16 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
             this.Command_LoadFile = new DelegateCommand(this.OnCommand_LoadFile_Execute);
             this.Command_LoadDirectory = new DelegateCommand(this.OnCommand_LoadDirectory_Execute);
+
+            this.Command_Save = new DelegateCommand(
+                this.OnCommand_Save_Execute,
+                () =>
+                    (_repoGpxFiles.SelectedNode?.AssociatedGpxFile != null) &&
+                    (_repoGpxFiles.SelectedNode.AssociatedGpxFile.ContentsChanged));
+            this.Command_SaveAll = new DelegateCommand(
+                this.OnCommand_SaveAll_Execute,
+                () => _repoGpxFiles.EnumerateNodesDeep().Any(actNode => actNode.AssociatedGpxFile?.ContentsChanged ?? false));
+
             this.Command_CloseAll = new DelegateCommand(
                 this.OnCommand_CloseAll_Execute,
                 () => this.TopLevelNodes.Count > 0);
@@ -85,17 +97,21 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 new MessageFocusFileRepositoryNodeRequest(nodeViewModel.Model));
         }
 
-        private static void TriggerNodeUIUpdate(FileTreeNodeViewModel currentNode, ILoadedGpxFile filteredFile)
+        private static bool TriggerNodeUIUpdate(FileTreeNodeViewModel currentNode, ILoadedGpxFile filteredFile)
         {
+            var result = false;
             if(currentNode.AssociatedGpxFile == filteredFile)
             {
                 currentNode.RaiseNodeTextChanged();
+                result = true;
             }
 
             foreach(var actChildNode in currentNode.ChildNodes)
             {
-                TriggerNodeUIUpdate(actChildNode, filteredFile);
+                var childNodeUpdated = TriggerNodeUIUpdate(actChildNode, filteredFile);
+                if(childNodeUpdated){ currentNode.RaiseNodeTextChanged(); }
             }
+            return result;
         }
 
         /// <inheritdoc />
@@ -107,6 +123,8 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
             _gpxViewerCommands.LoadFile.RegisterCommand(this.Command_LoadFile);
             _gpxViewerCommands.LoadDirectory.RegisterCommand(this.Command_LoadDirectory);
+            _gpxViewerCommands.Save.RegisterCommand(this.Command_Save);
+            _gpxViewerCommands.SaveAll.RegisterCommand(this.Command_SaveAll);
             _gpxViewerCommands.CloseAll.RegisterCommand(this.Command_CloseAll);
         }
 
@@ -119,6 +137,8 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
             _gpxViewerCommands.LoadFile.UnregisterCommand(this.Command_LoadFile);
             _gpxViewerCommands.LoadDirectory.UnregisterCommand(this.Command_LoadDirectory);
+            _gpxViewerCommands.Save.UnregisterCommand(this.Command_Save);
+            _gpxViewerCommands.SaveAll.UnregisterCommand(this.Command_SaveAll);
             _gpxViewerCommands.CloseAll.UnregisterCommand(this.Command_CloseAll);
         }
 
@@ -133,6 +153,9 @@ namespace GpxViewer.Modules.GpxFiles.Views
             {
                 TriggerNodeUIUpdate(actTopLevelNode, message.Tour.File);
             }
+
+            this.Command_Save.RaiseCanExecuteChanged();
+            this.Command_SaveAll.RaiseCanExecuteChanged();
         }
 
         private void OnGpxFileRepository_SelectedNodeChanged(object? sender, EventArgs e)
@@ -178,6 +201,16 @@ namespace GpxViewer.Modules.GpxFiles.Views
             if (string.IsNullOrEmpty(selectedPath)) { return; }
 
             _repoGpxFiles.SelectedNode = await _repoGpxFiles.LoadDirectory(new FileOrDirectoryPath(selectedPath));
+        }
+
+        private void OnCommand_Save_Execute()
+        {
+            
+        }
+
+        private void OnCommand_SaveAll_Execute()
+        {
+
         }
 
         private void OnCommand_CloseAll_Execute()

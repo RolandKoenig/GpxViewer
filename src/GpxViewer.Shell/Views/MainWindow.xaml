@@ -23,6 +23,8 @@
                 <MenuItem Header="Load Directory"
                           Command="{Binding Path=GpxViewerCommands.LoadDirectory}"/>
                 <Separator />
+                <MenuItem Header="Save"
+                          Command="{Binding Path=GpxViewerCommands.Save}" />
                 <MenuItem Header="Save All"
                           Command="{Binding Path=GpxViewerCommands.SaveAll}" />
                 <Separator />
