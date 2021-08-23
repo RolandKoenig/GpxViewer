@@ -34,7 +34,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         }
 
         /// <inheritdoc />
-        protected override bool AreThisNodesContentsChanged()
+        protected override bool HasThisNodesContentsChanged()
         {
             return false;
         }

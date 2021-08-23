@@ -41,6 +41,9 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 {
                     _repoGpxFiles.SelectedNode = value?.Model;
                 }
+
+                this.Command_Save.RaiseCanExecuteChanged();
+                this.Command_SaveAll.RaiseCanExecuteChanged();
             }
         }
 
@@ -66,9 +69,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
             this.Command_Save = new DelegateCommand(
                 this.OnCommand_Save_Execute,
-                () =>
-                    (_repoGpxFiles.SelectedNode?.AssociatedGpxFile != null) &&
-                    (_repoGpxFiles.SelectedNode.AssociatedGpxFile.ContentsChanged));
+                () => _repoGpxFiles.SelectedNode?.ContentsChanged ?? false);
             this.Command_SaveAll = new DelegateCommand(
                 this.OnCommand_SaveAll_Execute,
                 () => _repoGpxFiles.EnumerateNodesDeep().Any(actNode => actNode.AssociatedGpxFile?.ContentsChanged ?? false));
@@ -203,14 +204,56 @@ namespace GpxViewer.Modules.GpxFiles.Views
             _repoGpxFiles.SelectedNode = await _repoGpxFiles.LoadDirectory(new FileOrDirectoryPath(selectedPath));
         }
 
-        private void OnCommand_Save_Execute()
+        private async void OnCommand_Save_Execute()
         {
-            
+            var selectedNode = _repoGpxFiles.SelectedNode;
+            if (selectedNode == null) { return; }
+
+            var savedTours = new HashSet<ILoadedGpxFileTourInfo>();
+            try
+            {
+                await foreach (var actSaved in selectedNode.SaveAsync())
+                {
+                    foreach (var actSavedTour in actSaved.GetAllAssociatedTours())
+                    {
+                        if(savedTours.Contains(actSavedTour)){ continue; }
+                        savedTours.Add(actSavedTour);
+                    }
+                }
+            }
+            finally
+            {
+                foreach (var actSavedTour in savedTours)
+                {
+                    base.Messenger.Publish(new MessageTourConfigurationChanged(actSavedTour));
+                }
+            }
         }
 
-        private void OnCommand_SaveAll_Execute()
+        private async void OnCommand_SaveAll_Execute()
         {
-
+            var savedTours = new HashSet<ILoadedGpxFileTourInfo>();
+            try
+            {
+                foreach (var actNode in _repoGpxFiles.TopLevelNodes)
+                {
+                    await foreach (var actSaved in actNode.SaveAsync())
+                    {
+                        foreach (var actSavedTour in actSaved.GetAllAssociatedTours())
+                        {
+                            if(savedTours.Contains(actSavedTour)){ continue; }
+                            savedTours.Add(actSavedTour);
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                foreach (var actSavedTour in savedTours)
+                {
+                    base.Messenger.Publish(new MessageTourConfigurationChanged(actSavedTour));
+                }
+            }
         }
 
         private void OnCommand_CloseAll_Execute()

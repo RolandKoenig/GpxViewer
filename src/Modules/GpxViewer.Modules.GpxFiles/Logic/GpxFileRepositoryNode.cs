@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using FirLib.Core.Patterns.ObjectPooling;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
 
@@ -28,7 +29,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         {
             get
             {
-                if (this.AreThisNodesContentsChanged()) { return true; }
+                if (this.HasThisNodesContentsChanged()) { return true; }
                 foreach (var actChildNode in this.ChildNodes)
                 {
                     if (actChildNode.ContentsChanged) { return true; }
@@ -40,9 +41,34 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         /// <summary>
         /// This method checks only this node, not child nodes.
         /// </summary>
-        protected abstract bool AreThisNodesContentsChanged();
+        protected abstract bool HasThisNodesContentsChanged();
+
+        protected virtual ValueTask SaveThisNodesContentsAsync()
+        {
+            return ValueTask.CompletedTask;
+        }
 
         protected abstract string GetNodeText();
+
+        public async IAsyncEnumerable<GpxFileRepositoryNode> SaveAsync()
+        {
+            if (this.HasThisNodesContentsChanged())
+            {
+                await this.SaveThisNodesContentsAsync();
+                if (!this.HasThisNodesContentsChanged())
+                {
+                    yield return this;
+                }
+            }
+
+            foreach (var actChild in this.ChildNodes)
+            {
+                await foreach (var actSaved in actChild.SaveAsync())
+                {
+                    yield return actSaved;
+                }
+            }
+        }
 
         /// <inheritdoc />
         public IEnumerable<ILoadedGpxFile> GetAllAssociatedGpxFiles()

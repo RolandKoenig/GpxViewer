@@ -40,7 +40,17 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         }
 
         /// <inheritdoc />
-        protected override bool AreThisNodesContentsChanged()
+        protected override async ValueTask SaveThisNodesContentsAsync()
+        {
+            if (this.AssociatedGpxFile == null) { return; }
+
+            await Task.Factory.StartNew(
+                () => GpxFile.Serialize(this.AssociatedGpxFile.RawGpxFile, this.FilePath.Path));
+            this.AssociatedGpxFile.ContentsChanged = false;
+        }
+
+        /// <inheritdoc />
+        protected override bool HasThisNodesContentsChanged()
         {
             return this.AssociatedGpxFile?.ContentsChanged ?? false;
         }
