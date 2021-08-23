@@ -70,6 +70,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Modules.Elevation
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Modules.ElevationProfile.Tests", "Modules\GpxViewer.Modules.ElevationProfile.Tests\GpxViewer.Modules.ElevationProfile.Tests.csproj", "{067872D2-BBDB-43B5-B7C4-D507578A0A4E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpxViewer.Core.Tests", "GpxViewer.Core.Tests\GpxViewer.Core.Tests.csproj", "{60F324CB-E1D3-46C8-B1D3-0CCBC710336C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\subtrees\Mapsui\Mapsui.UI.Shared\Mapsui.UI.Shared.projitems*{fb142f3f-df93-4fbf-b1ce-f3c3e356aaa5}*SharedItemsImports = 5
@@ -159,6 +161,10 @@ Global
 		{067872D2-BBDB-43B5-B7C4-D507578A0A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{067872D2-BBDB-43B5-B7C4-D507578A0A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{067872D2-BBDB-43B5-B7C4-D507578A0A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60F324CB-E1D3-46C8-B1D3-0CCBC710336C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60F324CB-E1D3-46C8-B1D3-0CCBC710336C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60F324CB-E1D3-46C8-B1D3-0CCBC710336C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60F324CB-E1D3-46C8-B1D3-0CCBC710336C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

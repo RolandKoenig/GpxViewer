@@ -3,12 +3,93 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using FirLib.Core.Patterns.Mvvm;
+using FirLib.Formats.Gpx;
+using GpxViewer.Core.Patterns;
+using GpxViewer.Core.Util;
+using GpxViewer.Modules.GpxFiles.Interface.Messages;
+using GpxViewer.Modules.GpxFiles.Interface.Model;
+using LiveCharts;
+using LiveCharts.Defaults;
+using LiveCharts.Wpf;
 
 namespace GpxViewer.Modules.ElevationProfile.Views
 {
-    internal class ElevationProfileViewModel : ViewModelBase
-
+    internal class ElevationProfileViewModel : GpxViewerViewModelBase
     {
+        private LineSeries _lineSeries;
+
+        public SeriesCollection SeriesCollection { get; }
+        public Visibility ElevationProfileVisibility => _lineSeries.Values != null ? Visibility.Visible : Visibility.Collapsed;
+
+        public Func<double, string> LabelKmFormatter => (val) => val.ToString("N1");
+        public Func<double, string> LabelMFormatter => (val) => val.ToString("N0");
+
+        public ElevationProfileViewModel()
+        {
+            _lineSeries = new LineSeries();
+            _lineSeries.Values = null;
+
+            this.SeriesCollection = new SeriesCollection();
+            this.SeriesCollection.Add(_lineSeries);
+        }
+
+        private void RecreateChartValues(ILoadedGpxFileTourInfo? singleSelectedTour)
+        {
+            _lineSeries.Values = null;
+
+            if (singleSelectedTour != null)
+            {
+                var actDistanceM = 0.0;
+                var chartValues = new ChartValues<ObservablePoint>();
+                foreach (var actSegment in singleSelectedTour.Segments)
+                {
+                    GpxWaypoint? lastPoint = null;
+                    foreach (var actPoint in actSegment.Points)
+                    {
+                        if (lastPoint == null)
+                        {
+                            lastPoint = actPoint;
+                            chartValues.Add(new ObservablePoint(
+                                actDistanceM / 1000.0, 
+                                actPoint.Elevation ?? 0.0));
+                            continue;
+                        }
+
+                        actDistanceM += GeoCalculator.CalculateDistanceMeters(lastPoint, actPoint);
+                        chartValues.Add(new ObservablePoint(
+                            actDistanceM / 1000.0, 
+                            actPoint.Elevation ?? 0.0));
+
+                        lastPoint = actPoint;
+                    }
+                }
+                _lineSeries.Values = chartValues;
+            }
+
+            this.RaisePropertyChanged(nameof(this.ElevationProfileVisibility));
+        }
+
+        private void OnMessageReceived(MessageGpxFileRepositoryNodeSelectionChanged message)
+        {
+            ILoadedGpxFileTourInfo? singleSelectedTour = null;
+            if (message.SelectedNodes != null)
+            {
+                foreach(var actSelectedNode in message.SelectedNodes)
+                {
+                    foreach (var actTour in actSelectedNode.GetAllAssociatedTours())
+                    {
+                        if (singleSelectedTour != null)
+                        {
+                            this.RecreateChartValues(null);
+                            return;
+                        }
+                        singleSelectedTour = actTour;
+                    }
+                }
+            }
+            this.RecreateChartValues(singleSelectedTour);
+        }
     }
 }

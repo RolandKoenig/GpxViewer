@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FirLib.Formats.Gpx;
 
-namespace GpxViewer.Modules.GpxFiles.Logic
+namespace GpxViewer.Core.Util
 {
-    internal static class GeoCalculator
+    public static class GeoCalculator
     {
         /// <summary>
         /// Calculates the distance between two geographic coordinates.

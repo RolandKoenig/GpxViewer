@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FirLib.Core.Utils.Mathematics;
 using FirLib.Formats.Gpx;
 using GpxViewer.Core.GpxExtensions;
+using GpxViewer.Core.Util;
 using GpxViewer.Core.ValueObjects;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
 using TimeSpan = System.TimeSpan;
