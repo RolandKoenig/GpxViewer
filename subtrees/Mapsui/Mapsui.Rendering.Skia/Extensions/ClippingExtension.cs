@@ -8,6 +8,8 @@ namespace Mapsui.Rendering.Skia
 {
     public static class ClippingExtension
     {
+        public static bool EnableAutoSimplification = false;
+
         /// <summary>
         /// Converts a LineString (list of Mapsui points) in world coordinates to a Skia path
         /// </summary>
@@ -23,10 +25,34 @@ namespace Mapsui.Rendering.Skia
             var path = new SKPath();
             SKPoint lastPoint = SKPoint.Empty;
 
-            for (var i = 1; i < vertices.Count; i++)
+            // Calculate step size in which we iterate the list of vertices
+            var simplificationStep = 1;
+            if (EnableAutoSimplification && (vertices.Count > 50))
             {
+                simplificationStep = (int)Math.Max(viewport.Resolution / 5.0, 1.0);
+                if ((double)vertices.Count / (double)simplificationStep < 4.0)
+                {
+                    // Iterate at least in 4 steps through vertices list
+                    simplificationStep = (int)Math.Round(vertices.Count / 4.0); 
+                }
+            }
+
+            var lastRunPassed = false;
+            var lastIndex = 0;
+            for (var i = simplificationStep; !lastRunPassed; i+=simplificationStep)
+            {
+                // Ensure that we render the last point of the line
+                if (i >= vertices.Count)
+                {
+                    if (lastIndex == (vertices.Count - 1)) { break; }
+                    lastRunPassed = true;
+
+                    i = vertices.Count - 1;
+                }
+                lastIndex = i;
+
                 // Check each part of LineString, if it is inside or intersects the clipping rectangle
-                var intersect = LiangBarskyClip(vertices[i - 1], vertices[i], clipRect, out var intersectionPoint1, out var intersectionPoint2);
+                var intersect = LiangBarskyClip(vertices[i - simplificationStep], vertices[i], clipRect, out var intersectionPoint1, out var intersectionPoint2);
 
                 if (intersect != Intersection.CompleteOutside)
                 {

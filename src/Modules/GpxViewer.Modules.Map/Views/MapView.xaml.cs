@@ -9,6 +9,7 @@ using FirLib.Core;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
 using Mapsui.Layers;
+using Mapsui.Rendering.Skia;
 using Mapsui.Utilities;
 
 namespace GpxViewer.Modules.Map.Views
@@ -21,6 +22,9 @@ namespace GpxViewer.Modules.Map.Views
 
             if (FirLibApplication.IsLoaded)
             {
+                ClippingExtension.EnableAutoSimplification = true;
+                this.CtrlMap.MouseWheelAnimation.Duration = 50;
+
                 // Add main map layer
                 var mainLayer = OpenStreetMap.CreateTileLayer();
                 this.CtrlMap.Map.Layers.Add(mainLayer);
