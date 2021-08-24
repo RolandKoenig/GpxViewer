@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FirLib.Core.Patterns.Mvvm;
+using LiveCharts.Wpf;
 
 namespace GpxViewer.Modules.ElevationProfile.Views
 {

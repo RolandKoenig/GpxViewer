@@ -30,6 +30,8 @@ namespace GpxViewer.Modules.ElevationProfile.Views
         {
             _lineSeries = new LineSeries();
             _lineSeries.Values = null;
+            _lineSeries.PointGeometrySize = 0.0;
+            _lineSeries.LineSmoothness = 0.0;
 
             this.SeriesCollection = new SeriesCollection();
             this.SeriesCollection.Add(_lineSeries);
