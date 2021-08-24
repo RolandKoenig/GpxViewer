@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FirLib.Formats.Gpx;
+using GpxViewer.Modules.GpxFiles.Interface.Model;
 using Mapsui.Geometries;
 using Mapsui.Projection;
 
-namespace GpxViewer.Core
+namespace GpxViewer.Modules.Map.Util
 {
-    public static class GpxRenderingHelper
+    internal static class GpxRenderingHelper
     {
-        public static IGeometry? GpxWaypointsToMapsuiGeometry(this IEnumerable<GpxWaypoint> waypoints)
+        public static IGeometry? GpxWaypointsToMapsuiGeometry(
+            this IEnumerable<GpxWaypoint> waypoints,
+            ILoadedGpxFileTourInfo tour, ILoadedGpxFileTourSegmentInfo segment)
         {
             var linePoints = new List<Point>();
             foreach (var actPoint in waypoints)
@@ -20,7 +23,7 @@ namespace GpxViewer.Core
             }
             if (linePoints.Count < 2) { return null; }
 
-            return new LineString(linePoints);
+            return new GpxViewerLineString(tour, segment, linePoints);
         }
     }
 }

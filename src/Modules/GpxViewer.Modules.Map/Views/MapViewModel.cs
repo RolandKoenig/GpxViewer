@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using FirLib.Core.Patterns;
-using GpxViewer.Core;
 using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Messages;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
+using GpxViewer.Modules.Map.Util;
 using Mapsui.Geometries;
 using Mapsui.Layers;
 using Mapsui.Providers;
@@ -21,8 +21,6 @@ namespace GpxViewer.Modules.Map.Views
 {
     internal class MapViewModel : GpxViewerViewModelBase
     {
-        private IGpxFileRepository _gpxFileRepo;
-
         private MapModuleConfiguration _config;
 
         private MemoryLayer _layerLoadedGpxFiles;
@@ -35,6 +33,7 @@ namespace GpxViewer.Modules.Map.Views
 
         private VectorStyle _lineStyleSelected;
         private VectorStyle _lineStyleInitial;
+        private VectorStyle _lineStylePlanned;
         private VectorStyle _lineStyleSucceeded;
 
         public ObservableCollection<ILayer> AdditionalMapLayers { get; }
@@ -49,10 +48,9 @@ namespace GpxViewer.Modules.Map.Views
 
         public event EventHandler<RequestCurrentViewportEventArgs>? RequestCurrentViewport;
 
-        public MapViewModel(MapModuleConfiguration config, IGpxFileRepository gpxFileRepo)
+        public MapViewModel(MapModuleConfiguration config)
         {
             _config = config;
-            _gpxFileRepo = gpxFileRepo;
 
             this.ViewSettings = new MapViewSettings(_config);
 
@@ -72,6 +70,12 @@ namespace GpxViewer.Modules.Map.Views
                 Outline = null,
                 Line = { Color = Color.Gray, Width = 4 }
             };
+            _lineStylePlanned = new VectorStyle()
+            {
+                Fill = null,
+                Outline = null,
+                Line = { Color = Color.Yellow, Width = 4 }
+            };
             _lineStyleSucceeded = new VectorStyle
             {
                 Fill = null,
@@ -82,7 +86,7 @@ namespace GpxViewer.Modules.Map.Views
             {
                 Fill = null,
                 Outline = null,
-                 Line = {Color = Color.Blue, Width = 6}
+                Line = {Color = Color.Blue, Width = 6}
             };
 
             this.Command_ResetCamera = new DelegateCommand(this.OnCommand_ResetCamera);
@@ -139,9 +143,9 @@ namespace GpxViewer.Modules.Map.Views
             {
                 foreach (var actTour in toursToFocus)
                 {
-                    foreach (var actTrackSegment in actTour.Segments)
+                    foreach (var actTourSegment in actTour.Segments)
                     {
-                        var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
+                        var actGeometry = actTourSegment.Points.GpxWaypointsToMapsuiGeometry(actTour, actTourSegment);
                         if (actGeometry == null) { continue; }
 
                         boxBuilder.AddGeometry(actGeometry);
@@ -168,9 +172,9 @@ namespace GpxViewer.Modules.Map.Views
             var newFeatureList = new List<IFeature>();
             foreach (var actTour in _loadedTours)
             {
-                foreach (var actTrackSegment in actTour.Segments)
+                foreach (var actTourSegment in actTour.Segments)
                 {
-                    var actGeometry = actTrackSegment.Points.GpxWaypointsToMapsuiGeometry();
+                    var actGeometry = actTourSegment.Points.GpxWaypointsToMapsuiGeometry(actTour, actTourSegment);
                     if (actGeometry == null) { continue; }
 
                     newFeatureList.Add(new Feature()
@@ -178,15 +182,25 @@ namespace GpxViewer.Modules.Map.Views
                         Geometry = actGeometry,
                         Styles =
                         {
-                            actTour.RawTourExtensionData.State == GpxTrackState.Succeeded ? _lineStyleSucceeded : _lineStyleInitial
+                            this.GetLineStyle(actTour.RawTourExtensionData.State)
                         }
                     });
                 }
             }
             _layerLoadedGpxFilesProvider.ReplaceFeatures(newFeatureList);
             _layerLoadedGpxFiles.DataHasChanged();
+        }
 
-            this.ResetCamera(_loadedTours);
+        private VectorStyle GetLineStyle(GpxTrackState trackState)
+        {
+            switch (trackState)
+            {
+                case GpxTrackState.Succeeded: return _lineStyleSucceeded;
+                case GpxTrackState.Planned: return _lineStylePlanned;
+                case GpxTrackState.Unknown: return _lineStyleInitial;
+            }
+
+            return _lineStyleInitial;
         }
 
         private void UpdateLayer_SelectedGpxFiles()
@@ -198,7 +212,7 @@ namespace GpxViewer.Modules.Map.Views
             {
                 foreach (var actTourSegment in actTour.Segments)
                 {
-                    var actGeometry = actTourSegment.Points.GpxWaypointsToMapsuiGeometry();
+                    var actGeometry = actTourSegment.Points.GpxWaypointsToMapsuiGeometry(actTour, actTourSegment);
                     if (actGeometry == null) { continue; }
 
                     boxBuilder.AddGeometry(actGeometry);
@@ -265,6 +279,7 @@ namespace GpxViewer.Modules.Map.Views
             }
 
             this.UpdateLayer_LoadedGpxFiles();
+            this.ResetCamera(_loadedTours);
         }
 
         private void OnMessageReceived(MessageGpxFileRepositoryNodeSelectionChanged message)
@@ -291,7 +306,7 @@ namespace GpxViewer.Modules.Map.Views
 
         private void OnMessageReceived(MessageTourConfigurationChanged message)
         {
-            
+            this.UpdateLayer_LoadedGpxFiles();
         }
 
         private void OnMessageReceived(MessageGpxViewerExitPreview message)

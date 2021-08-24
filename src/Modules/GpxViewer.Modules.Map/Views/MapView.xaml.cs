@@ -5,11 +5,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using FirLib.Core;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
-using Mapsui.Geometries;
 using Mapsui.Layers;
 using Mapsui.Utilities;
 
@@ -17,8 +15,6 @@ namespace GpxViewer.Modules.Map.Views
 {
     internal partial class MapView : MvvmUserControl
     {
-        private ILayer? _mainLayer;
-
         public MapView()
         {
             this.InitializeComponent();
@@ -26,8 +22,8 @@ namespace GpxViewer.Modules.Map.Views
             if (FirLibApplication.IsLoaded)
             {
                 // Add main map layer
-                _mainLayer = OpenStreetMap.CreateTileLayer();
-                this.CtrlMap.Map.Layers.Add(_mainLayer);
+                var mainLayer = OpenStreetMap.CreateTileLayer();
+                this.CtrlMap.Map.Layers.Add(mainLayer);
 
                 this.HandleDataContextChanged<MapViewModel>(
                     this.OnThis_AttachToViewModel,
