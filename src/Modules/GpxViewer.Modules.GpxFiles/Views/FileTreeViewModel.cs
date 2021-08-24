@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FirLib.Core;
 using FirLib.Core.Utils.Collections;
 using FirLib.Core.ViewServices;
 using GpxViewer.Core.Commands;
@@ -44,6 +45,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
                 this.Command_Save.RaiseCanExecuteChanged();
                 this.Command_SaveAll.RaiseCanExecuteChanged();
+                this.Command_Close.RaiseCanExecuteChanged();
             }
         }
 
@@ -53,6 +55,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
         public DelegateCommand Command_LoadDirectory { get; }
         public DelegateCommand Command_Save { get; }
         public DelegateCommand Command_SaveAll { get; }
+        public DelegateCommand Command_Close { get; }
         public DelegateCommand Command_CloseAll { get; }
 
         public FileTreeViewModel(GpxFileRepository fileRepo, IGpxViewerCommands gpxViewerCommands)
@@ -68,12 +71,15 @@ namespace GpxViewer.Modules.GpxFiles.Views
             this.Command_LoadDirectory = new DelegateCommand(this.OnCommand_LoadDirectory_Execute);
 
             this.Command_Save = new DelegateCommand(
-                this.OnCommand_Save_Execute,
+                () => this.OnCommand_Save_ExecuteAsync().FireAndForget(),
                 () => _repoGpxFiles.SelectedNode?.ContentsChanged ?? false);
             this.Command_SaveAll = new DelegateCommand(
-                this.OnCommand_SaveAll_Execute,
+                () => this.OnCommand_SaveAll_ExecuteAsync().FireAndForget(),
                 () => _repoGpxFiles.EnumerateNodesDeep().Any(actNode => actNode.AssociatedGpxFile?.ContentsChanged ?? false));
 
+            this.Command_Close = new DelegateCommand(
+                this.OnCommand_Close_Execute,
+                () => _repoGpxFiles.SelectedNode != null);
             this.Command_CloseAll = new DelegateCommand(
                 this.OnCommand_CloseAll_Execute,
                 () => this.TopLevelNodes.Count > 0);
@@ -115,6 +121,23 @@ namespace GpxViewer.Modules.GpxFiles.Views
             return result;
         }
 
+        private static bool TriggerNodeUIUpdate(FileTreeNodeViewModel currentNode, HashSet<GpxFileRepositoryNode> models)
+        {
+            var result = false;
+            if(models.Contains(currentNode.Model))
+            {
+                currentNode.RaiseNodeTextChanged();
+                result = true;
+            }
+
+            foreach(var actChildNode in currentNode.ChildNodes)
+            {
+                var childNodeUpdated = TriggerNodeUIUpdate(actChildNode, models);
+                if(childNodeUpdated){ currentNode.RaiseNodeTextChanged(); }
+            }
+            return result;
+        }
+
         /// <inheritdoc />
         protected override void OnMvvmViewAttached()
         {
@@ -126,6 +149,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
             _gpxViewerCommands.LoadDirectory.RegisterCommand(this.Command_LoadDirectory);
             _gpxViewerCommands.Save.RegisterCommand(this.Command_Save);
             _gpxViewerCommands.SaveAll.RegisterCommand(this.Command_SaveAll);
+            _gpxViewerCommands.Close.RegisterCommand(this.Command_Close);
             _gpxViewerCommands.CloseAll.RegisterCommand(this.Command_CloseAll);
         }
 
@@ -140,12 +164,49 @@ namespace GpxViewer.Modules.GpxFiles.Views
             _gpxViewerCommands.LoadDirectory.UnregisterCommand(this.Command_LoadDirectory);
             _gpxViewerCommands.Save.UnregisterCommand(this.Command_Save);
             _gpxViewerCommands.SaveAll.UnregisterCommand(this.Command_SaveAll);
+            _gpxViewerCommands.Close.UnregisterCommand(this.Command_Close);
             _gpxViewerCommands.CloseAll.UnregisterCommand(this.Command_CloseAll);
         }
 
         private void OnMessageReceived(MessageGpxFileRepositoryContentsChanged message)
         {
             this.Command_CloseAll.RaiseCanExecuteChanged();
+
+            // Search parent nodes which should be updated
+            var nodesToUpdate = new HashSet<GpxFileRepositoryNode>();
+            if (message.AddedNodes != null)
+            {
+                foreach (var actAddedNode in message.AddedNodes)
+                {
+                    var actParent = (actAddedNode as GpxFileRepositoryNode)?.Parent;
+                    while(actParent != null)
+                    {
+                        nodesToUpdate.Add(actParent);
+                        actParent = actParent.Parent;
+                    }
+                }
+            }
+            if (message.RemovedNodes != null)
+            {
+                foreach (var actRemovedNode in message.RemovedNodes)
+                {
+                    var actParent = (actRemovedNode as GpxFileRepositoryNode)?.Parent;
+                    while(actParent != null)
+                    {
+                        nodesToUpdate.Add(actParent);
+                        actParent = actParent.Parent;
+                    }
+                }
+            }
+
+            // Stop here if there is nothing to update
+            if (nodesToUpdate.Count == 0) { return; }
+
+            // Update all viewmodels that may have changed
+            foreach (var actTopLevelNode in this.TopLevelNodes)
+            {
+                TriggerNodeUIUpdate(actTopLevelNode, nodesToUpdate);
+            }
         }
 
         private void OnMessageReceived(MessageTourConfigurationChanged message)
@@ -204,7 +265,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
             _repoGpxFiles.SelectedNode = await _repoGpxFiles.LoadDirectory(new FileOrDirectoryPath(selectedPath));
         }
 
-        private async void OnCommand_Save_Execute()
+        private async Task OnCommand_Save_ExecuteAsync()
         {
             var selectedNode = _repoGpxFiles.SelectedNode;
             if (selectedNode == null) { return; }
@@ -230,7 +291,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
-        private async void OnCommand_SaveAll_Execute()
+        private async Task OnCommand_SaveAll_ExecuteAsync()
         {
             var savedTours = new HashSet<ILoadedGpxFileTourInfo>();
             try
@@ -256,9 +317,63 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
-        private void OnCommand_CloseAll_Execute()
-        { 
-            _repoGpxFiles.CloseAllFiles();
+        private async void OnCommand_Close_Execute()
+        {
+            var selectedNode = _repoGpxFiles.SelectedNode;
+            if (selectedNode == null) { return; }
+
+            if (selectedNode.ContentsChanged)
+            {
+                var srvMessageBox = this.GetViewService<IMessageBoxService>();
+                var msgResult = await srvMessageBox.ShowAsync(
+                    "RK Gpx Viewer", "Save changes before close?", MessageBoxButtons.YesNoCancel);
+                switch (msgResult)
+                {
+                    case MessageBoxResult.Yes:
+                        await this.OnCommand_Save_ExecuteAsync();
+                        break;
+
+                    case MessageBoxResult.No:
+                        // Just close, no saving
+                        break;
+
+                    case MessageBoxResult.Cancel:
+                        return;
+
+                    default:
+                        throw new ArgumentException($"Unexpected MessageBoxResult {msgResult}");
+                }
+            }
+
+            _repoGpxFiles.Close(selectedNode);
+        }
+
+        private async void OnCommand_CloseAll_Execute()
+        {
+            if (_repoGpxFiles.ContentsChanged)
+            {
+                var srvMessageBox = this.GetViewService<IMessageBoxService>();
+                var msgResult = await srvMessageBox.ShowAsync(
+                    "RK Gpx Viewer", "Save changes before close?", MessageBoxButtons.YesNoCancel);
+                switch (msgResult)
+                {
+                    case MessageBoxResult.Yes:
+                        await this.OnCommand_SaveAll_ExecuteAsync();
+                        break;
+
+                    case MessageBoxResult.No:
+                        // Just close, no saving
+                        break;
+
+                    case MessageBoxResult.Cancel:
+                        return;
+
+                    default:
+                        throw new ArgumentException($"Unexpected MessageBoxResult {msgResult}");
+                }
+            }
+
+            _repoGpxFiles.CloseAll();
         }
     }
 }

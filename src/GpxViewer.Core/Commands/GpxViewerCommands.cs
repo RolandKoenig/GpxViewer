@@ -22,6 +22,9 @@ namespace GpxViewer.Core.Commands
         public CompositeCommand SaveAll { get; } = new();
 
         /// <inheritdoc />
+        public CompositeCommand Close { get; } = new();
+
+        /// <inheritdoc />
         public CompositeCommand CloseAll { get; } = new();
     }
 }

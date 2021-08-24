@@ -28,6 +28,8 @@
                 <MenuItem Header="Save All"
                           Command="{Binding Path=GpxViewerCommands.SaveAll}" />
                 <Separator />
+                <MenuItem Header="Close" 
+                          Command="{Binding Path=GpxViewerCommands.Close}" />
                 <MenuItem Header="Close All" 
                           Command="{Binding Path=GpxViewerCommands.CloseAll}" />
                 <Separator />

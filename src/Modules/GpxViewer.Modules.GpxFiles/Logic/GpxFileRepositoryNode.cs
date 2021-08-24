@@ -10,6 +10,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
     {
         public ObservableCollection<GpxFileRepositoryNode> ChildNodes { get; } = new();
 
+        public GpxFileRepositoryNode? Parent { get; set; }
+
         public string NodeText
         {
             get

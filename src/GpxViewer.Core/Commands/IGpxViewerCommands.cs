@@ -17,6 +17,8 @@ namespace GpxViewer.Core.Commands
 
         CompositeCommand SaveAll { get; }
 
+        CompositeCommand Close { get; }
+
         CompositeCommand CloseAll { get; }
     }
 }

@@ -31,6 +31,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             }
         }
 
+        public bool ContentsChanged => this.TopLevelNodes.Any(actNode => actNode.ContentsChanged);
+
         public event EventHandler? SelectedNodeChanged;
 
         public GpxFileRepository(IFirLibMessagePublisher msgPublisher)
@@ -74,7 +76,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             return loadedDir!;
         }
 
-        public void CloseAllFiles()
+        public void CloseAll()
         {
             var prevItems = this.TopLevelNodes.ToArray();
             this.TopLevelNodes.Clear();
@@ -82,6 +84,26 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             this.SelectedNode = null;
 
             _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this, null, prevItems));
+        }
+
+        public void Close(GpxFileRepositoryNode node)
+        {
+            if (node.Parent != null)
+            {
+                // Node is inside the tree as a child
+                if (this.SelectedNode == node) { this.SelectedNode = null; }
+                node.Parent.ChildNodes.Remove(node);
+
+                _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this, null, new IGpxFileRepositoryNode[]{ node }));
+            }
+            else
+            {
+                // Node is a top level node
+                if (this.SelectedNode == node) { this.SelectedNode = null; }
+                this.TopLevelNodes.Remove(node);
+                
+                _msgPublisher.Publish(new MessageGpxFileRepositoryContentsChanged(this, null, new IGpxFileRepositoryNode[]{ node }));
+            }
         }
 
         public GpxFileRepositoryNodeFile? TryGetFileNode(FileOrDirectoryPath filePath)

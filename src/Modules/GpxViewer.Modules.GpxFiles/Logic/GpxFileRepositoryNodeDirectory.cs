@@ -20,7 +20,9 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
             foreach (var actDirectory in Directory.GetDirectories(this.DirectoryPath.Path))
             {
-                this.ChildNodes.Add(new GpxFileRepositoryNodeDirectory(new FileOrDirectoryPath(actDirectory)));
+                var childDirectory = new GpxFileRepositoryNodeDirectory(new FileOrDirectoryPath(actDirectory));
+                childDirectory.Parent = this;
+                this.ChildNodes.Add(childDirectory);
             }
 
             foreach(var actFilePath in Directory.GetFiles(this.DirectoryPath.Path))
@@ -28,8 +30,9 @@ namespace GpxViewer.Modules.GpxFiles.Logic
                 var actFileExtension = Path.GetExtension(actFilePath);
                 if (!actFileExtension.Equals(".gpx", StringComparison.OrdinalIgnoreCase)){ continue; }
 
-                this.ChildNodes.Add(
-                    new GpxFileRepositoryNodeFile(new FileOrDirectoryPath(actFilePath)));
+                var childFile = new GpxFileRepositoryNodeFile(new FileOrDirectoryPath(actFilePath));
+                childFile.Parent = this;
+                this.ChildNodes.Add(childFile);
             }
         }
 
