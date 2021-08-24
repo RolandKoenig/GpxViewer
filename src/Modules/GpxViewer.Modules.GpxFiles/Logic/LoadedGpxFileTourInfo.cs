@@ -35,6 +35,10 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public double ElevationDownMeters { get; private set; } = 0.0;
 
+        public int CountSegments { get; private set; } = 0;
+
+        public int CountWaypoints { get; private set; } = 0;
+        
         public LoadedGpxFileTourInfo(LoadedGpxFile file, GpxRoute rawRouteData)
         {
             this.File = file;
@@ -47,7 +51,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             this.Segments = new List<LoadedGpxFileTourSegmentInfo>(1);
             this.Segments.Add(new LoadedGpxFileTourSegmentInfo(rawRouteData));
 
-            this.CalculateDistances();
+            this.CalculateTourMetrics();
         }
 
         public LoadedGpxFileTourInfo(LoadedGpxFile file, GpxTrack rawTrackData)
@@ -65,21 +69,25 @@ namespace GpxViewer.Modules.GpxFiles.Logic
                 this.Segments.Add(new LoadedGpxFileTourSegmentInfo(actSegment));
             }
 
-            this.CalculateDistances();
+            this.CalculateTourMetrics();
         }
 
-        public void CalculateDistances()
+        public void CalculateTourMetrics()
         {
             var distanceMeters = 0.0;
             var elevationUpMeters = 0.0;
             var elevationDownMeters = 0.0;
+            var segmentCount = 0;
+            var waypointCount = 0;
             foreach (var actSegment in this.Segments)
             {
                 if (actSegment.Points.Count <= 1) { continue; }
+                segmentCount++;
 
                 var lastPoint = actSegment.Points[0];
                 foreach (var actPoint in actSegment.Points.GetRange(1, actSegment.Points.Count -1))
                 {
+                    waypointCount++;
                     distanceMeters += GeoCalculator.CalculateDistanceMeters(
                         lastPoint, actPoint);
 
@@ -99,6 +107,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             this.DistanceKm = distanceMeters / 1000.0;
             this.ElevationUpMeters = elevationUpMeters;
             this.ElevationDownMeters = elevationDownMeters;
+            this.CountSegments = segmentCount;
+            this.CountWaypoints = waypointCount;
         }
     }
 }

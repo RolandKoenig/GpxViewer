@@ -76,6 +76,12 @@ namespace GpxViewer.Modules.GpxFiles.Views
         [Category("Metrics")]
         public string ElevationDownMeters => _tour.ElevationDownMeters.ToString("N0");
 
+        [Category("Metrics")]
+        public int CountSegments => _tour.CountSegments;
+
+        [Category("Metrics")]
+        public int CountWaypoints => _tour.CountWaypoints;
+        
         public SelectedTourViewModel(ILoadedGpxFileTourInfo tour)
         {
             _tour = tour;

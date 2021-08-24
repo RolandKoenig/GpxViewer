@@ -16,6 +16,10 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
 
         double ElevationDownMeters { get; }
 
+        int CountSegments { get; }
+
+        int CountWaypoints { get; }
+
         ILoadedGpxFile File { get; }
 
         GpxTrack? RawTrackData { get; }
