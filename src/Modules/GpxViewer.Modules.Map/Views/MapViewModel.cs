@@ -122,6 +122,8 @@ namespace GpxViewer.Modules.Map.Views
             timer.Tick += (_, _) =>
             {
                 timer.Stop();
+
+                if (_loadedTours.Count > 0) { return; }
                 this.RequestNavigateToBoundingBox?.Invoke(
                     this,
                     new RequestNavigateToBoundingBoxEventArgs(initialBoundingBox));

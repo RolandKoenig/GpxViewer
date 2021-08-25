@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using GpxViewer.Shell.Views;
 using Prism.Ioc;
@@ -13,6 +15,7 @@ using GpxViewer.Core.Commands;
 using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Messages;
 using GpxViewer.Core.Utils;
+using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Shell.Interface.Services;
 using GpxViewer.Shell.Utils;
 using Prism.DryIoc;
@@ -26,6 +29,7 @@ namespace GpxViewer.Shell
     /// </summary>
     public partial class App : PrismApplication, IGpxViewerSkinService
     {
+        private string[]? _startupArgs;
         private AppSkin _skin;
 
         public AppSkin Skin
@@ -57,6 +61,8 @@ namespace GpxViewer.Shell
         /// <inheritdoc />
         protected override void OnStartup(StartupEventArgs e)
         {
+            _startupArgs = e.Args;
+
             // Initialize base application logic
             FirLibApplication.Loader
                 .ConfigureCurrentThreadAsMainGuiThread()
@@ -129,6 +135,21 @@ namespace GpxViewer.Shell
         protected override Window CreateShell()
         {
             return this.Container.Resolve<MainWindow>();
+        }
+
+        /// <inheritdoc />
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+
+            if (_startupArgs is { Length: > 0 })
+            {
+                var messenger = FirLibMessenger.GetByName(FirLibConstants.MESSENGER_NAME_GUI);
+                messenger.Publish(
+                    new MessageLoadGpxFilesRequest(
+                        _startupArgs.Where(File.Exists), 
+                        null));
+            }
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
