@@ -285,7 +285,6 @@ namespace GpxViewer.Modules.Map.Views
         private void OnMessageReceived(MessageGpxFileRepositoryNodeSelectionChanged message)
         {
             _selectedTours.Clear();
-
             if(message.SelectedNodes != null)
             {
                 foreach (var actSelectedNode in message.SelectedNodes)

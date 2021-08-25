@@ -14,6 +14,8 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
 
         IEnumerable<ILoadedGpxFileTourInfo> Tours { get; }
 
+        IEnumerable<ILoadedGpxFileWaypointInfo> Waypoints { get; }
+
         bool ContentsChanged { get; set; }
     }
 }

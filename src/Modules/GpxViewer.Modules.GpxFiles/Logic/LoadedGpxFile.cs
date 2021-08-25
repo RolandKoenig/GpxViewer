@@ -14,15 +14,19 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public List<LoadedGpxFileTourInfo> Tours { get; }
 
+        public List<LoadedGpxFileWaypointInfo> Waypoints { get; }
+
         IEnumerable<ILoadedGpxFileTourInfo> ILoadedGpxFile.Tours => this.Tours;
+
+        IEnumerable<ILoadedGpxFileWaypointInfo> ILoadedGpxFile.Waypoints => this.Waypoints;
 
         public bool ContentsChanged { get; set; }
 
         public LoadedGpxFile(GpxFile gpxFile)
         {
             this.RawGpxFile = gpxFile;
-            this.Tours = new List<LoadedGpxFileTourInfo>();
 
+            this.Tours = new List<LoadedGpxFileTourInfo>();
             foreach (var actRawRouteInfo in gpxFile.Routes)
             {
                 this.Tours.Add(new LoadedGpxFileTourInfo(this, actRawRouteInfo));
@@ -30,6 +34,12 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             foreach(var actRawTrackData in gpxFile.Tracks)
             {
                 this.Tours.Add(new LoadedGpxFileTourInfo(this, actRawTrackData));
+            }
+
+            this.Waypoints = new List<LoadedGpxFileWaypointInfo>(gpxFile.Waypoints.Count);
+            foreach (var actRawWaypointInfo in gpxFile.Waypoints)
+            {
+                this.Waypoints.Add(new LoadedGpxFileWaypointInfo(this, actRawWaypointInfo));
             }
         }
     }
