@@ -260,7 +260,7 @@ namespace GpxViewer.Modules.Map.Views
             {
                 foreach(var actRemovedNode in message.RemovedNodes)
                 {
-                    foreach (var actTour in actRemovedNode.GetAllAssociatedTours())
+                    foreach (var actTour in actRemovedNode.GetAssociatedToursDeep())
                     {
                         _loadedTours.Remove(actTour);
                     }
@@ -271,7 +271,7 @@ namespace GpxViewer.Modules.Map.Views
             {
                 foreach(var actAddedNode in message.AddedNodes)
                 {
-                    foreach(var actTour in actAddedNode.GetAllAssociatedTours())
+                    foreach(var actTour in actAddedNode.GetAssociatedToursDeep())
                     {
                         _loadedTours.Add(actTour);
                     }
@@ -290,7 +290,7 @@ namespace GpxViewer.Modules.Map.Views
             {
                 foreach (var actSelectedNode in message.SelectedNodes)
                 {
-                    _selectedTours.AddRange(actSelectedNode.GetAllAssociatedTours());
+                    _selectedTours.AddRange(actSelectedNode.GetAssociatedToursDeep());
                 }
             }
 
@@ -301,7 +301,7 @@ namespace GpxViewer.Modules.Map.Views
 
         private void OnMessageReceived(MessageFocusFileRepositoryNodeRequest message)
         {
-            this.ResetCamera(message.Node.GetAllAssociatedTours());
+            this.ResetCamera(message.Node.GetAssociatedToursDeep());
         }
 
         private void OnMessageReceived(MessageTourConfigurationChanged message)

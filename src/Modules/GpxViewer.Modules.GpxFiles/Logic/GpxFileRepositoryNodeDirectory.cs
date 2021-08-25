@@ -5,14 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GpxViewer.Core.ValueObjects;
+using GpxViewer.Modules.GpxFiles.Interface.Model;
 
 namespace GpxViewer.Modules.GpxFiles.Logic
 {
     internal class GpxFileRepositoryNodeDirectory : GpxFileRepositoryNode
     {
-        public override LoadedGpxFile? AssociatedGpxFile => null;
-
         public FileOrDirectoryPath DirectoryPath { get; }
+
+        /// <inheritdoc />
+        public override bool CanSave
+        {
+            get
+            {
+                return this.ChildNodes.Any(actChild => actChild.CanSave);
+            }
+        }
 
         public GpxFileRepositoryNodeDirectory(FileOrDirectoryPath directory)
         {
@@ -46,6 +54,18 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         protected override string GetNodeText()
         {
             return Path.GetFileName(this.DirectoryPath.Path);
+        }
+
+        /// <inheritdoc />
+        public override ILoadedGpxFile? GetAssociatedGpxFile()
+        {
+            return null;
+        }
+
+        /// <inheritdoc />
+        public override ILoadedGpxFileTourInfo? GetAssociatedTour()
+        {
+            return null;
         }
     }
 }

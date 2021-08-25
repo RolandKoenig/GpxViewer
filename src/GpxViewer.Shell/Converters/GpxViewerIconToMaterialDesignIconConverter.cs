@@ -22,7 +22,7 @@ namespace GpxViewer.Shell.Converters
                     return PackIconKind.Folder;
                 
                 case GpxViewerIconKind.GpxFile:
-                    return PackIconKind.Routes;
+                    return PackIconKind.File;
 
                 case GpxViewerIconKind.Tour:
                     return PackIconKind.Routes;

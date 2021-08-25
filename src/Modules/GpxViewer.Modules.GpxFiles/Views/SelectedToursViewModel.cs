@@ -28,7 +28,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
             {
                 foreach(var actSelectedNode in message.SelectedNodes)
                 {
-                    foreach (var actTour in actSelectedNode.GetAllAssociatedTours())
+                    foreach (var actTour in actSelectedNode.GetAssociatedToursDeep())
                     {
                         this.SelectedTours.Add(new SelectedTourViewModel(actTour));
                     }

@@ -25,8 +25,6 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             }
         }
 
-        public abstract LoadedGpxFile? AssociatedGpxFile { get; }
-
         public bool ContentsChanged
         {
             get
@@ -39,6 +37,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
                 return false;
             }
         }
+
+        public abstract bool CanSave { get; }
 
         /// <summary>
         /// This method checks only this node, not child nodes.
@@ -54,7 +54,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public async IAsyncEnumerable<GpxFileRepositoryNode> SaveAsync()
         {
-            if (this.HasThisNodesContentsChanged())
+            if (this.HasThisNodesContentsChanged() && this.CanSave)
             {
                 await this.SaveThisNodesContentsAsync();
                 if (!this.HasThisNodesContentsChanged())
@@ -72,14 +72,19 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             }
         }
 
+        public abstract ILoadedGpxFile? GetAssociatedGpxFile();
+
+        public abstract ILoadedGpxFileTourInfo? GetAssociatedTour();
+
         /// <inheritdoc />
-        public IEnumerable<ILoadedGpxFile> GetAllAssociatedGpxFiles()
+        public IEnumerable<ILoadedGpxFile> GetAssociatedGpxFilesDeep()
         {
-            if (this.AssociatedGpxFile != null) { yield return this.AssociatedGpxFile; }
+            var gpxFile = this.GetAssociatedGpxFile();
+            if (gpxFile != null) { yield return gpxFile; }
 
             foreach (var actChildNode in this.ChildNodes)
             {
-                foreach(var actAssociatedGpxFile in actChildNode.GetAllAssociatedGpxFiles())
+                foreach(var actAssociatedGpxFile in actChildNode.GetAssociatedGpxFilesDeep())
                 {
                     yield return actAssociatedGpxFile;
                 }
@@ -87,19 +92,17 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         }
 
         /// <inheritdoc />
-        public IEnumerable<ILoadedGpxFileTourInfo> GetAllAssociatedTours()
+        public IEnumerable<ILoadedGpxFileTourInfo> GetAssociatedToursDeep()
         {
-            if (this.AssociatedGpxFile != null)
+            var actLocalTour = this.GetAssociatedTour();
+            if (actLocalTour != null)
             {
-                foreach(var actTour in this.AssociatedGpxFile.Tours)
-                {
-                    yield return actTour;
-                }
+                yield return actLocalTour;
             }
 
             foreach (var actChildNode in this.ChildNodes)
             {
-                foreach(var actTour in actChildNode.GetAllAssociatedTours())
+                foreach(var actTour in actChildNode.GetAssociatedToursDeep())
                 {
                     yield return actTour;
                 }

@@ -18,7 +18,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
         public string NodeText => this.Model.NodeText;
 
-        public LoadedGpxFile? AssociatedGpxFile => this.Model.AssociatedGpxFile;
+        public LoadedGpxFile? AssociatedGpxFile => this.Model.GetAssociatedGpxFile() as LoadedGpxFile;
 
         public TransformedObservableCollection<FileTreeNodeViewModel, GpxFileRepositoryNode> ChildNodes { get; }
 
@@ -26,25 +26,26 @@ namespace GpxViewer.Modules.GpxFiles.Views
         {
             get
             {
-                if (this.AssociatedGpxFile == null) { return GpxViewerIconKind.Folder; }
-                else { return GpxViewerIconKind.Tour; }
+                if (this.Model.GetAssociatedTour() != null) { return GpxViewerIconKind.Tour; }
+                else if (this.Model.GetAssociatedGpxFile() != null) { return GpxViewerIconKind.GpxFile; }
+                else { return GpxViewerIconKind.Folder; }
             }
         }
 
         public Visibility TourStatsVisibility =>
-            this.AssociatedGpxFile != null ? Visibility.Visible : Visibility.Collapsed;
+            this.Model.GetAssociatedGpxFile() != null ? Visibility.Visible : Visibility.Collapsed;
 
         public double ElevationUpMeters => 
-            this.AssociatedGpxFile?.Tours.Sum(actTour => actTour.ElevationUpMeters) ?? 0.0;
+            this.Model.GetAssociatedToursDeep()?.Sum(actTour => actTour.ElevationUpMeters) ?? 0.0;
 
         public double ElevationDownMeters =>
-            this.AssociatedGpxFile?.Tours.Sum(actTour => actTour.ElevationDownMeters) ?? 0.0;
+            this.Model.GetAssociatedToursDeep()?.Sum(actTour => actTour.ElevationDownMeters) ?? 0.0;
 
         public double DistanceKm =>
-            this.AssociatedGpxFile?.Tours.Sum(actTour => actTour.DistanceKm) ?? 0.0;
+            this.Model.GetAssociatedToursDeep()?.Sum(actTour => actTour.DistanceKm) ?? 0.0;
 
         public Visibility TourFinishedVisibility =>
-            this.AssociatedGpxFile?.Tours.FirstOrDefault()?.RawTourExtensionData.State == GpxTrackState.Succeeded
+            this.Model.GetAssociatedToursDeep()?.All(actTour => actTour.RawTourExtensionData.State == GpxTrackState.Succeeded) ?? false
                 ? Visibility.Visible
                 : Visibility.Collapsed;
 

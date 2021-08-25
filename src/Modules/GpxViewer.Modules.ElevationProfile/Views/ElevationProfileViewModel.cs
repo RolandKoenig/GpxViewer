@@ -86,7 +86,7 @@ namespace GpxViewer.Modules.ElevationProfile.Views
             {
                 foreach(var actSelectedNode in message.SelectedNodes)
                 {
-                    foreach (var actTour in actSelectedNode.GetAllAssociatedTours())
+                    foreach (var actTour in actSelectedNode.GetAssociatedToursDeep())
                     {
                         if (singleSelectedTour != null)
                         {

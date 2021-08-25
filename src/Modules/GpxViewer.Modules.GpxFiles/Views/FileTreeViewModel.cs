@@ -75,7 +75,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 () => _repoGpxFiles.SelectedNode?.ContentsChanged ?? false);
             this.Command_SaveAll = new DelegateCommand(
                 () => this.OnCommand_SaveAll_ExecuteAsync().FireAndForget(),
-                () => _repoGpxFiles.EnumerateNodesDeep().Any(actNode => actNode.AssociatedGpxFile?.ContentsChanged ?? false));
+                () => _repoGpxFiles.EnumerateNodesDeep().Any(actNode => actNode.ContentsChanged));
 
             this.Command_Close = new DelegateCommand(
                 this.OnCommand_Close_Execute,
@@ -270,12 +270,20 @@ namespace GpxViewer.Modules.GpxFiles.Views
             var selectedNode = _repoGpxFiles.SelectedNode;
             if (selectedNode == null) { return; }
 
+            // Search for savable node up the tree
+            while (selectedNode is { CanSave: false })
+            {
+                selectedNode = selectedNode.Parent;
+            }
+            if (selectedNode == null) { return; }
+
+            // Save current node
             var savedTours = new HashSet<ILoadedGpxFileTourInfo>();
             try
             {
                 await foreach (var actSaved in selectedNode.SaveAsync())
                 {
-                    foreach (var actSavedTour in actSaved.GetAllAssociatedTours())
+                    foreach (var actSavedTour in actSaved.GetAssociatedToursDeep())
                     {
                         if(savedTours.Contains(actSavedTour)){ continue; }
                         savedTours.Add(actSavedTour);
@@ -300,7 +308,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 {
                     await foreach (var actSaved in actNode.SaveAsync())
                     {
-                        foreach (var actSavedTour in actSaved.GetAllAssociatedTours())
+                        foreach (var actSavedTour in actSaved.GetAssociatedToursDeep())
                         {
                             if(savedTours.Contains(actSavedTour)){ continue; }
                             savedTours.Add(actSavedTour);

@@ -7,16 +7,20 @@ using System.Threading.Tasks;
 using FirLib.Core.Patterns.ObjectPooling;
 using FirLib.Formats.Gpx;
 using GpxViewer.Core.ValueObjects;
+using GpxViewer.Modules.GpxFiles.Interface.Model;
 
 namespace GpxViewer.Modules.GpxFiles.Logic
 {
     internal class GpxFileRepositoryNodeFile : GpxFileRepositoryNode
     {
+        private LoadedGpxFile? _gpxFile;
+        private LoadedGpxFileTourInfo? _tour;
         private Exception? _fileLoadError;
 
-        public override LoadedGpxFile? AssociatedGpxFile { get; }
-
         public FileOrDirectoryPath FilePath { get; }
+
+        /// <inheritdoc />
+        public override bool CanSave => true;
 
         public GpxFileRepositoryNodeFile(FileOrDirectoryPath filePath)
         {
@@ -24,41 +28,72 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
             try
             {
-                this.AssociatedGpxFile = new LoadedGpxFile(GpxFile.Deserialize(filePath.Path));
+                _gpxFile = new LoadedGpxFile(GpxFile.Deserialize(filePath.Path));
             }
             catch (Exception e)
             {
-                this.AssociatedGpxFile = null;
+                _gpxFile = null;
                 _fileLoadError = e;
             }
+            
+            this.InitializeProperties();
         }
 
         public GpxFileRepositoryNodeFile(GpxFile gpxFile, FileOrDirectoryPath filePath)
         {
             this.FilePath = filePath;
-            this.AssociatedGpxFile = new LoadedGpxFile(gpxFile);
+            _gpxFile = new LoadedGpxFile(gpxFile);
+
+            this.InitializeProperties();
+        }
+
+        private void InitializeProperties()
+        {
+            if (_gpxFile == null)
+            {
+                _tour = null;
+                return;
+            }
+
+            switch (_gpxFile.Tours.Count)
+            {
+                case 1:
+                    _tour = _gpxFile.Tours[0];
+                    break;
+
+                case > 1:
+                {
+                    foreach (var actTour in _gpxFile.Tours)
+                    {
+                        var newChildNode = new GpxFileRepositoryNodeTour(_gpxFile, actTour);
+                        newChildNode.Parent = this;
+                        this.ChildNodes.Add(newChildNode);
+                    }
+                    break;
+                }
+            }
         }
 
         /// <inheritdoc />
         protected override async ValueTask SaveThisNodesContentsAsync()
         {
-            if (this.AssociatedGpxFile == null) { return; }
+            if (_gpxFile == null) { return; }
 
             await Task.Factory.StartNew(
-                () => GpxFile.Serialize(this.AssociatedGpxFile.RawGpxFile, this.FilePath.Path));
-            this.AssociatedGpxFile.ContentsChanged = false;
+                () => GpxFile.Serialize(_gpxFile.RawGpxFile, this.FilePath.Path));
+            _gpxFile.ContentsChanged = false;
         }
 
         /// <inheritdoc />
         protected override bool HasThisNodesContentsChanged()
         {
-            return this.AssociatedGpxFile?.ContentsChanged ?? false;
+            return _gpxFile?.ContentsChanged ?? false;
         }
 
         /// <inheritdoc />
         protected override string GetNodeText()
         {
-            if (this.AssociatedGpxFile != null)
+            if (_gpxFile != null)
             {
                 return Path.GetFileName(this.FilePath.Path);
             }
@@ -66,6 +101,18 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             {
                 return $"{Path.GetFileName(this.FilePath.Path)} ** Loading Error **";
             }
+        }
+
+        /// <inheritdoc />
+        public override ILoadedGpxFile? GetAssociatedGpxFile()
+        {
+            return _gpxFile;
+        }
+
+        /// <inheritdoc />
+        public override ILoadedGpxFileTourInfo? GetAssociatedTour()
+        {
+            return _tour;
         }
     }
 }
