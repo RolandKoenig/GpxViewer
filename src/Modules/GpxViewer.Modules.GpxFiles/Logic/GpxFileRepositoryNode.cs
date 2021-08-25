@@ -79,11 +79,13 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         /// <inheritdoc />
         public IEnumerable<ILoadedGpxFile> GetAssociatedGpxFilesDeep()
         {
-            var gpxFile = this.GetAssociatedGpxFile();
-            if (gpxFile != null) { yield return gpxFile; }
+            var thisGpxFile = this.GetAssociatedGpxFile();
+            if (thisGpxFile != null) { yield return thisGpxFile; }
 
             foreach (var actChildNode in this.ChildNodes)
             {
+                if(actChildNode is GpxFileRepositoryNodeTour){ continue; }
+
                 foreach(var actAssociatedGpxFile in actChildNode.GetAssociatedGpxFilesDeep())
                 {
                     yield return actAssociatedGpxFile;

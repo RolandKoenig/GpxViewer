@@ -10,6 +10,8 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
     {
         string NodeText { get; }
 
+        ILoadedGpxFile? GetAssociatedGpxFile();
+
         IEnumerable<ILoadedGpxFile> GetAssociatedGpxFilesDeep();
 
         IEnumerable<ILoadedGpxFileTourInfo> GetAssociatedToursDeep();

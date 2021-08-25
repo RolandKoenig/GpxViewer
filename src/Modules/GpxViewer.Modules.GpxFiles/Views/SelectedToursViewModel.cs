@@ -37,9 +37,10 @@ namespace GpxViewer.Modules.GpxFiles.Views
                         this.SelectedTours.Add(new SelectedTourViewModel(actTour));
                     }
 
-                    foreach (var actFile in actSelectedNode.GetAssociatedGpxFilesDeep())
+                    var associatedGpxFile = actSelectedNode.GetAssociatedGpxFile();
+                    if (associatedGpxFile != null)
                     {
-                        foreach (var actWaypoint in actFile.Waypoints)
+                        foreach (var actWaypoint in associatedGpxFile.Waypoints)
                         {
                             this.SelectedFileWaypoints.Add(actWaypoint);
                         }

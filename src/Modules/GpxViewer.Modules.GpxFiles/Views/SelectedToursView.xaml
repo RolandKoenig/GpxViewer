@@ -50,10 +50,10 @@
                 <DataGrid ItemsSource="{Binding Path=SelectedFileWaypoints}"
                           AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="200" Header="Name"
+                        <DataGridTextColumn Width="250" Header="Name"
                                             IsReadOnly="True"
                                             Binding="{Binding Path=RawWaypointData.Name}" />
-                        <DataGridTextColumn Width="100" Header="Elevation"
+                        <DataGridTextColumn Width="150" Header="Elevation (m)"
                                             IsReadOnly="True"
                                             Binding="{Binding Path=RawWaypointData.Elevation, StringFormat=F0}" />
                     </DataGrid.Columns>
