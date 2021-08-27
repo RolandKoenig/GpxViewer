@@ -15,13 +15,13 @@ namespace FirLib.Core.Infrastructure.Services
             _services = new ConcurrentDictionary<Type, object>();
         }
 
-        public void Register<TServiceType>(TServiceType serviceInstance)
+        public void Register<TServiceType>(TServiceType serviceSingletonInstance)
             where TServiceType : class
         {
-            this.Register(typeof(TServiceType), serviceInstance);
+            this.Register(typeof(TServiceType), serviceSingletonInstance);
         }
 
-        public void Register(Type serviceType, object serviceInstance)
+        public void Register(Type serviceType, object serviceSingletonInstance)
         {
             EnsureInterfaceType(serviceType);
 
@@ -30,7 +30,7 @@ namespace FirLib.Core.Infrastructure.Services
                 throw new FirLibException($"A service of type {serviceType.FullName} is already registered!");
             }
 
-            _services[serviceType] = serviceInstance;
+            _services[serviceType] = serviceSingletonInstance;
         }
 
         public TServiceType GetService<TServiceType>()
