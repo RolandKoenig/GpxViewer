@@ -7,6 +7,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:firlibMvvm="http://www.rolandk.de/firlib/patterns/mvvm"
     xmlns:gpxvCore="clr-namespace:GpxViewer.Core;assembly=GpxViewer.Core"
+    xmlns:gpxvControls="clr-namespace:GpxViewer.Core.Controls;assembly=GpxViewer.Core"
     xmlns:local="clr-namespace:GpxViewer.Shell.Views"
     mc:Ignorable="d"
     WindowState="Maximized"
@@ -19,20 +20,44 @@
               Style="{StaticResource MainMenuStyle}">
             <MenuItem Header="File">
                 <MenuItem Header="Load File"
-                          Command="{Binding Path=GpxViewerCommands.LoadFile}"/>
+                          Command="{Binding Path=GpxViewerCommands.LoadFile}" />
                 <MenuItem Header="Load Directory"
-                          Command="{Binding Path=GpxViewerCommands.LoadDirectory}"/>
+                          Command="{Binding Path=GpxViewerCommands.LoadDirectory}" />
                 <Separator />
+
                 <MenuItem Header="Save"
                           Command="{Binding Path=GpxViewerCommands.Save}" />
                 <MenuItem Header="Save All"
                           Command="{Binding Path=GpxViewerCommands.SaveAll}" />
                 <Separator />
+
                 <MenuItem Header="Close" 
                           Command="{Binding Path=GpxViewerCommands.Close}" />
                 <MenuItem Header="Close All" 
                           Command="{Binding Path=GpxViewerCommands.CloseAll}" />
                 <Separator />
+
+                <MenuItem Header="Recently Opened"
+                          IsEnabled="{Binding Path=RecentlyOpenedAvailable}"
+                          ItemsSource="{Binding Path=RecentlyOpened}">
+                    <MenuItem.ItemTemplate>
+                        <DataTemplate DataType="{x:Type local:RecentlyOpenedViewModel}">
+                            <StackPanel Orientation="Horizontal">
+                                <gpxvControls:GpxViewerIcon IconKind="{Binding Path=IconKind, Mode=OneTime}"
+                                                            Margin="0,0,10,0"/>
+                                <TextBlock Text="{Binding Path=ShortPath, Mode=OneTime}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </MenuItem.ItemTemplate>
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <Setter Property="CommandParameter" Value="{Binding Path=Model, Mode=OneTime}" />
+                            <Setter Property="Command" Value="{Binding Path=Command_Load, Mode=OneTime}" />
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
+                <Separator />
+
                 <MenuItem Header="Exit" />
             </MenuItem>
             <MenuItem Header="Skin">

@@ -12,4 +12,11 @@ namespace GpxViewer.Shell
 
         Dark
     }
+
+    public enum RecentlyOpenedType
+    {
+        Directory,
+
+        File
+    }
 }

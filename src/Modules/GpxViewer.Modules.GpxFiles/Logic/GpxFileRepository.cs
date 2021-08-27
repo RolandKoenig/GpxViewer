@@ -48,32 +48,58 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public async Task<GpxFileRepositoryNodeFile> LoadFile(FileOrDirectoryPath filePath)
         {
+            GpxFileRepositoryNodeFile result;
+
             var existingFileNode = this.TryGetFileNode(filePath);
-            if (existingFileNode != null) { return existingFileNode; }
-
-            GpxFileRepositoryNodeFile? loadedFile = null;
-            await Task.Factory.StartNew(() =>
+            if (existingFileNode != null)
+            { 
+                result = existingFileNode;
+            }
+            else
             {
-                loadedFile = new GpxFileRepositoryNodeFile(filePath);
-            });
-            this.AddTopLevelNode(loadedFile!);
+                GpxFileRepositoryNodeFile? loadedFile = null;
+                await Task.Factory.StartNew(() =>
+                {
+                    loadedFile = new GpxFileRepositoryNodeFile(filePath);
+                });
+                this.AddTopLevelNode(loadedFile!);
 
-            return loadedFile!;
+                result = loadedFile!;
+            }
+
+            _msgPublisher.Publish(new MessageGpxFilesLoaded(
+                new []{ filePath },
+                new []{ result }));
+
+            return result;
         }
 
         public async Task<GpxFileRepositoryNodeDirectory> LoadDirectory(FileOrDirectoryPath directoryPath)
         {
+            GpxFileRepositoryNodeDirectory result;
+
             var existingDirNode = this.TryGetDirectoryNode(directoryPath);
-            if (existingDirNode != null) { return existingDirNode; }
-
-            GpxFileRepositoryNodeDirectory? loadedDir = null;
-            await Task.Factory.StartNew(() =>
+            if (existingDirNode != null)
             {
-                loadedDir = new GpxFileRepositoryNodeDirectory(directoryPath);
-            });
-            this.AddTopLevelNode(loadedDir!);
+                result = existingDirNode;
+            }
+            else
+            {
+                GpxFileRepositoryNodeDirectory? loadedDir = null;
+                await Task.Factory.StartNew(() =>
+                {
+                    loadedDir = new GpxFileRepositoryNodeDirectory(directoryPath);
+                });
+                this.AddTopLevelNode(loadedDir!);
 
-            return loadedDir!;
+                result = loadedDir!;
+            }
+
+            _msgPublisher.Publish(new MessageGpxDirectoriesLoaded(
+                new []{ directoryPath },
+                new []{ result }));
+
+            return result;
         }
 
         public void CloseAll()

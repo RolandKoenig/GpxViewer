@@ -7,6 +7,7 @@ using FirLib.Core.Services.ConfigurationFiles;
 using GpxViewer.Core.Messages;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Core.Utils;
+using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using Prism.Ioc;
 
 namespace GpxViewer.Shell

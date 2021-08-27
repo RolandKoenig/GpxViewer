@@ -30,4 +30,8 @@
     <ProjectReference Include="..\Modules\GpxViewer.Modules.Map\GpxViewer.Modules.Map.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 </Project>
