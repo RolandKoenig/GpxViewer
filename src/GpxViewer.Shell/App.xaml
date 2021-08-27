@@ -16,6 +16,7 @@
 
                 <!-- Common resources -->
                 <ResourceDictionary Source="Assets/Converters.xaml" />
+                <ResourceDictionary Source="Assets/DataTemplates.xaml" />
 
                 <!-- Common styles (independent from skin) -->
                 <ResourceDictionary Source="Assets/Skins/CommonStyles.xaml" />

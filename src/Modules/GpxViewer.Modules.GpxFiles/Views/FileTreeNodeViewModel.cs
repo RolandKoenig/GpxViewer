@@ -28,7 +28,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
             {
                 if (this.Model.GetAssociatedTour() != null) { return GpxViewerIconKind.Tour; }
                 else if (this.Model.GetAssociatedGpxFile() != null) { return GpxViewerIconKind.GpxFile; }
-                else { return GpxViewerIconKind.Folder; }
+                else { return GpxViewerIconKind.Directory; }
             }
         }
 

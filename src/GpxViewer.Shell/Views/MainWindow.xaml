@@ -20,21 +20,27 @@
               Style="{StaticResource MainMenuStyle}">
             <MenuItem Header="File">
                 <MenuItem Header="Load File"
-                          Command="{Binding Path=GpxViewerCommands.LoadFile}" />
+                          Command="{Binding Path=GpxViewerCommands.LoadFile}"
+                          Icon="{x:Static gpxvCore:GpxViewerIconKind.LoadGpxFile}" />
                 <MenuItem Header="Load Directory"
-                          Command="{Binding Path=GpxViewerCommands.LoadDirectory}" />
+                          Command="{Binding Path=GpxViewerCommands.LoadDirectory}"
+                          Icon="{x:Static gpxvCore:GpxViewerIconKind.LoadDirectory}"/>
                 <Separator />
 
                 <MenuItem Header="Save"
-                          Command="{Binding Path=GpxViewerCommands.Save}" />
+                          Command="{Binding Path=GpxViewerCommands.Save}"
+                          Icon="{x:Static gpxvCore:GpxViewerIconKind.Save}"/>
                 <MenuItem Header="Save All"
-                          Command="{Binding Path=GpxViewerCommands.SaveAll}" />
+                          Command="{Binding Path=GpxViewerCommands.SaveAll}"
+                          Icon="{x:Static gpxvCore:GpxViewerIconKind.SaveAll}"/>
                 <Separator />
 
                 <MenuItem Header="Close" 
-                          Command="{Binding Path=GpxViewerCommands.Close}" />
+                          Command="{Binding Path=GpxViewerCommands.Close}"
+                          Icon="{x:Static gpxvCore:GpxViewerIconKind.Close}"/>
                 <MenuItem Header="Close All" 
-                          Command="{Binding Path=GpxViewerCommands.CloseAll}" />
+                          Command="{Binding Path=GpxViewerCommands.CloseAll}"
+                          Icon="{x:Static gpxvCore:GpxViewerIconKind.CloseAll}"/>
                 <Separator />
 
                 <MenuItem Header="Recently Opened"
@@ -58,7 +64,8 @@
                 </MenuItem>
                 <Separator />
 
-                <MenuItem Header="Exit" />
+                <MenuItem Header="Exit"
+                          Command="{Binding Path=Command_Exit}"/>
             </MenuItem>
             <MenuItem Header="Skin">
                 <MenuItem Header="Dark"

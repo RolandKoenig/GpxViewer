@@ -18,11 +18,29 @@ namespace GpxViewer.Shell.Converters
             var gpxViewerIcon = (GpxViewerIconKind) value;
             switch (gpxViewerIcon)
             {
-                case GpxViewerIconKind.Folder:
+                case GpxViewerIconKind.Directory:
                     return PackIconKind.Folder;
                 
                 case GpxViewerIconKind.GpxFile:
                     return PackIconKind.File;
+
+                case GpxViewerIconKind.LoadDirectory:
+                    return PackIconKind.FolderOpen;
+
+                case GpxViewerIconKind.LoadGpxFile:
+                    return PackIconKind.FolderOpenOutline;
+
+                case GpxViewerIconKind.Save:
+                    return PackIconKind.ContentSave;
+
+                case GpxViewerIconKind.SaveAll:
+                    return PackIconKind.ContentSaveAll;
+
+                case GpxViewerIconKind.Close:
+                    return PackIconKind.CloseCircle;
+
+                case GpxViewerIconKind.CloseAll:
+                    return PackIconKind.CloseCircleMultiple;
 
                 case GpxViewerIconKind.Tour:
                     return PackIconKind.Routes;
@@ -38,6 +56,9 @@ namespace GpxViewer.Shell.Converters
 
                 case GpxViewerIconKind.Checked:
                     return PackIconKind.Check;
+
+                case GpxViewerIconKind.Exit:
+                    return PackIconKind.CloseOutline;
 
                 default:
                     return null;

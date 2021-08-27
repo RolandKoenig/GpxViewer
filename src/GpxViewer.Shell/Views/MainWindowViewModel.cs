@@ -34,6 +34,8 @@ namespace GpxViewer.Shell.Views
 
         public DelegateCommand<RecentlyOpenedInfo> Command_LoadRecentlyOpened { get; }
 
+        public DelegateCommand Command_Exit { get; }
+
         public MainWindowViewModel(
             ShellModuleConfiguration config, 
             IGpxViewerCommands gpxViewerCommands, IGpxViewerSkinService skinService)
@@ -54,6 +56,7 @@ namespace GpxViewer.Shell.Views
             // Handle skin change
             this.Command_SetSkin = new DelegateCommand<string>(this.OnCommand_SetSkin_Execute);
             this.Command_LoadRecentlyOpened = new DelegateCommand<RecentlyOpenedInfo>(this.OnCommand_LoadRecentlyOpened_Execute);
+            this.Command_Exit = new DelegateCommand(this.OnCommand_Exit_Execute);
         }
 
         public void NotifyOSFileDrop(IEnumerable<string> fileDropItems)
@@ -110,6 +113,11 @@ namespace GpxViewer.Shell.Views
                     this.Messenger.Publish(new MessageLoadGpxFilesRequest(null, new []{ recentlyOpened.Path }));
                     break;
             }
+        }
+
+        private void OnCommand_Exit_Execute()
+        {
+            this.CloseWindow(null);
         }
 
         private void OnMessageReceived(MessageGpxFilesLoaded message)

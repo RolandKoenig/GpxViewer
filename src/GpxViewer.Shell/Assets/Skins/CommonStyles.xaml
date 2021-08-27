@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:propTools="http://propertytools.org/wpf"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-                    xmlns:gpxViewerCoreControls="clr-namespace:GpxViewer.Core.Controls;assembly=GpxViewer.Core">
-    
+                    xmlns:gpxvCoreControls="clr-namespace:GpxViewer.Core.Controls;assembly=GpxViewer.Core">
+
     <!-- GpxViewer main colors -->
     <Color x:Key="ColorPrimary">#0975C6</Color>
     <Color x:Key="ColorSecondary">#00CCFF</Color>
@@ -49,12 +49,12 @@
         <Setter Property="Margin" Value="0,3,0,0" />
     </Style>
 
-    <Style TargetType="{x:Type gpxViewerCoreControls:GpxViewerIcon}">
+    <Style TargetType="{x:Type gpxvCoreControls:GpxViewerIcon}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type gpxViewerCoreControls:GpxViewerIcon}">
+                <ControlTemplate TargetType="{x:Type gpxvCoreControls:GpxViewerIcon}">
                     <materialDesign:PackIcon Kind="{TemplateBinding Property=IconKind, Converter={StaticResource Converter_GpxViewerIconToMaterialDesignIcon}}"
-                                             Margin="3"
+                                             
                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </ControlTemplate>
             </Setter.Value>

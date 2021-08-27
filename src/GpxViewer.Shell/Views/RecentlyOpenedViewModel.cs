@@ -35,7 +35,7 @@ namespace GpxViewer.Shell.Views
 
         public GpxViewerIconKind IconKind => this.Model.Type == RecentlyOpenedType.File
             ? GpxViewerIconKind.GpxFile
-            : GpxViewerIconKind.Folder;
+            : GpxViewerIconKind.Directory;
 
         public DelegateCommand<RecentlyOpenedInfo> Command_Load { get; }
 

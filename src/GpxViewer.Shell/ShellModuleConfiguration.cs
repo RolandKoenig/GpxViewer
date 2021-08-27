@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FirLib.Core;
 using FirLib.Core.Patterns;
 using FirLib.Core.Utils.Mathematics;
 using GpxViewer.Shell.Utils;

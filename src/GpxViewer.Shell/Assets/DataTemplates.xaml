@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:gpxvCore="clr-namespace:GpxViewer.Core;assembly=GpxViewer.Core"
+                    xmlns:gpxvCoreControls="clr-namespace:GpxViewer.Core.Controls;assembly=GpxViewer.Core">
+
+    <DataTemplate DataType="{x:Type gpxvCore:GpxViewerIconKind}">
+        <gpxvCoreControls:GpxViewerIcon IconKind="{Binding}" />
+    </DataTemplate>
+
+</ResourceDictionary>

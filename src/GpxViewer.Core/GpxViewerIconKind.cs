@@ -8,9 +8,21 @@ namespace GpxViewer.Core
 {
     public enum GpxViewerIconKind
     {
-        Folder,
+        Directory,
 
         GpxFile,
+
+        LoadDirectory,
+
+        LoadGpxFile,
+
+        Save,
+
+        SaveAll,
+
+        Close,
+
+        CloseAll,
 
         Tour,
 
@@ -21,5 +33,7 @@ namespace GpxViewer.Core
         ElevationDownMeters,
 
         Checked,
+
+        Exit
     }
 }
