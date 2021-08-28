@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Web;
 using GpxViewer.Shell.Views;
 using Prism.Ioc;
 using System.Windows;
@@ -82,8 +83,9 @@ namespace GpxViewer.Shell
                 foreach (var actArg in e.Args)
                 {
                     if (strBuilder.Length > 0) { strBuilder.Append(';'); }
-                    if (actArg.Length > 0) { strBuilder.Append(actArg); }
+                    if (actArg.Length > 0) { strBuilder.Append(HttpUtility.UrlEncode(actArg)); }
                 }
+
                 srvSingleInstance.TrySendMessageToMainInstance(strBuilder.ToString());
 
                 // Cancel startup here
@@ -102,39 +104,6 @@ namespace GpxViewer.Shell
 
             // Trigger normal startup
             base.OnStartup(e);
-        }
-
-        private void OnSrvSingleInstance_MessageReceived(object? sender, MessageReceivedEventArgs e)
-        {
-            var messenger = FirLibMessenger.GetByName(FirLibConstants.MESSENGER_NAME_GUI);
-
-            try
-            {
-                // Process incoming message
-                if (!string.IsNullOrEmpty(e.Message))
-                {
-                    var filesOrDirectories = e.Message.Split(';').Where(actPart => !string.IsNullOrEmpty(actPart));
-
-                    messenger.Publish(new MessageLoadGpxFilesRequest(
-                        filesOrDirectories.Where(File.Exists),
-                        filesOrDirectories.Where(Directory.Exists)));
-                }
-
-                // Bring main window to front
-                var mainWindow = this.MainWindow;
-                if (mainWindow != null)
-                {
-                    if (mainWindow.WindowState == WindowState.Minimized)
-                    {
-                        mainWindow.WindowState = WindowState.Normal;
-                    }
-                    mainWindow.Activate();
-                }
-            }
-            catch
-            {
-                // Do nothing if this failed
-            }
         }
 
         /// <inheritdoc />
@@ -239,6 +208,41 @@ namespace GpxViewer.Shell
                 else { viewModelName = $"{viewName}ViewModel, {viewAssemblyName}"; }
                 return Type.GetType(viewModelName);
             });
+        }
+
+        private void OnSrvSingleInstance_MessageReceived(object? sender, MessageReceivedEventArgs e)
+        {
+            var messenger = FirLibMessenger.GetByName(FirLibConstants.MESSENGER_NAME_GUI);
+
+            try
+            {
+                // Process incoming message
+                if (!string.IsNullOrEmpty(e.Message))
+                {
+                    var filesOrDirectories = e.Message.Split(';')
+                        .Select(actPart => HttpUtility.UrlDecode(actPart) ?? "")
+                        .Where(actPart => !string.IsNullOrEmpty(actPart));
+
+                    messenger.Publish(new MessageLoadGpxFilesRequest(
+                        filesOrDirectories.Where(File.Exists),
+                        filesOrDirectories.Where(Directory.Exists)));
+                }
+
+                // Bring main window to front
+                var mainWindow = this.MainWindow;
+                if (mainWindow != null)
+                {
+                    if (mainWindow.WindowState == WindowState.Minimized)
+                    {
+                        mainWindow.WindowState = WindowState.Normal;
+                    }
+                    mainWindow.Activate();
+                }
+            }
+            catch
+            {
+                // Do nothing if this failed
+            }
         }
     }
 }
