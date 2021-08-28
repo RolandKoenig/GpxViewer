@@ -2,13 +2,16 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using GpxViewer.Shell.Views;
 using Prism.Ioc;
 using System.Windows;
 using FirLib.Core;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Messaging;
+using FirLib.Core.Services;
 using FirLib.Core.Services.ConfigurationFiles;
+using FirLib.Core.Services.SingleApplicationInstance;
 using FirLib.Formats.Gpx;
 using GpxViewer.Core;
 using GpxViewer.Core.Commands;
@@ -68,7 +71,29 @@ namespace GpxViewer.Shell
                 .ConfigureCurrentThreadAsMainGuiThread()
                 .AttachToWpfEnvironment()
                 .AddConfigurationFileService("RKGpxViewer")
+                .AddSingleApplicationInstanceService_Using_WM_COPYDATA("GpxViewer_SingleInstance")
                 .Load();
+
+            // Check for single instance
+            var srvSingleInstance = FirLibApplication.Current.Services.GetService<ISingleApplicationInstanceService>();
+            if (!srvSingleInstance.IsMainInstance)
+            {
+                var strBuilder = new StringBuilder();
+                foreach (var actArg in e.Args)
+                {
+                    if (strBuilder.Length > 0) { strBuilder.Append(';'); }
+                    if (actArg.Length > 0) { strBuilder.Append(actArg); }
+                }
+                srvSingleInstance.TrySendMessageToMainInstance(strBuilder.ToString());
+
+                // Cancel startup here
+                this.Shutdown();
+                return;
+            }
+            else
+            {
+                srvSingleInstance.MessageReceived += this.OnSrvSingleInstance_MessageReceived;
+            }
 
             // Register GpxFile extensions
             GpxFile.RegisterExtensionType(typeof(TrackExtension));
@@ -77,6 +102,39 @@ namespace GpxViewer.Shell
 
             // Trigger normal startup
             base.OnStartup(e);
+        }
+
+        private void OnSrvSingleInstance_MessageReceived(object? sender, MessageReceivedEventArgs e)
+        {
+            var messenger = FirLibMessenger.GetByName(FirLibConstants.MESSENGER_NAME_GUI);
+
+            try
+            {
+                // Process incoming message
+                if (!string.IsNullOrEmpty(e.Message))
+                {
+                    var filesOrDirectories = e.Message.Split(';').Where(actPart => !string.IsNullOrEmpty(actPart));
+
+                    messenger.Publish(new MessageLoadGpxFilesRequest(
+                        filesOrDirectories.Where(File.Exists),
+                        filesOrDirectories.Where(Directory.Exists)));
+                }
+
+                // Bring main window to front
+                var mainWindow = this.MainWindow;
+                if (mainWindow != null)
+                {
+                    if (mainWindow.WindowState == WindowState.Minimized)
+                    {
+                        mainWindow.WindowState = WindowState.Normal;
+                    }
+                    mainWindow.Activate();
+                }
+            }
+            catch
+            {
+                // Do nothing if this failed
+            }
         }
 
         /// <inheritdoc />
@@ -101,7 +159,7 @@ namespace GpxViewer.Shell
 
             // Register existing services from FirLibApplication
             IConfigurationFileAccessors? configAccessors = null;
-            foreach (var actService in FirLibApplication.Current!.Services.GetAllServices())
+            foreach (var actService in FirLibApplication.Current.Services.GetAllServices())
             {
                 containerRegistry.RegisterSingleton(
                     actService.Item1,
