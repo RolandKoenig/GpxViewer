@@ -18,7 +18,7 @@ namespace FirLib.Core.Services.SingleApplicationInstance
 
         /// <inheritdoc />
 #pragma warning disable CS0067
-        public event EventHandler<ISingleApplicationInstanceService>? MessageReceived;
+        public event EventHandler<MessageReceivedEventArgs>? MessageReceived;
 #pragma warning restore CS0067
 
         public MutexBasedSingleApplicationInstanceService(string mutexName)

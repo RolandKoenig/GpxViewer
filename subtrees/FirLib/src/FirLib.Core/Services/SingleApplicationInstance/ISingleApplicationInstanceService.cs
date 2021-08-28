@@ -10,7 +10,7 @@ namespace FirLib.Core.Services.SingleApplicationInstance
 
         bool CanSendReceiveMessages { get; }
 
-        public event EventHandler<ISingleApplicationInstanceService> MessageReceived;
+        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
         bool TrySendMessageToMainInstance(string message);
     }
