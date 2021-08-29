@@ -90,6 +90,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Core.WinForms.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Core.Wpf.Tests", "..\subtrees\FirLib\src\FirLib.Core.Wpf.Tests\FirLib.Core.Wpf.Tests.csproj", "{6196B4BA-8185-46DE-AC2E-5E0A5F1A7345}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Formats.Gpx.Tests", "..\subtrees\FirLib\src\FirLib.Formats.Gpx.Tests\FirLib.Formats.Gpx.Tests.csproj", "{1C79E813-89DE-4F50-990D-72DAE38C5BF3}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\subtrees\Mapsui\Mapsui.UI.Shared\Mapsui.UI.Shared.projitems*{fb142f3f-df93-4fbf-b1ce-f3c3e356aaa5}*SharedItemsImports = 5
@@ -637,6 +639,26 @@ Global
 		{6196B4BA-8185-46DE-AC2E-5E0A5F1A7345}.Release|x64.Build.0 = Release|Any CPU
 		{6196B4BA-8185-46DE-AC2E-5E0A5F1A7345}.Release|x86.ActiveCfg = Release|Any CPU
 		{6196B4BA-8185-46DE-AC2E-5E0A5F1A7345}.Release|x86.Build.0 = Release|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Debug|ARM.Build.0 = Debug|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Debug|x64.Build.0 = Debug|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Debug|x86.Build.0 = Debug|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Release|ARM.ActiveCfg = Release|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Release|ARM.Build.0 = Release|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Release|ARM64.Build.0 = Release|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Release|x64.ActiveCfg = Release|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Release|x64.Build.0 = Release|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Release|x86.ActiveCfg = Release|Any CPU
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -668,6 +690,7 @@ Global
 		{86ADDDA3-3FB0-453B-88B7-93E49076AFBA} = {82952984-3B22-4EC8-8210-8883DF7336A1}
 		{263E9911-C1A2-4037-A4D4-C3342622E9B8} = {82952984-3B22-4EC8-8210-8883DF7336A1}
 		{6196B4BA-8185-46DE-AC2E-5E0A5F1A7345} = {82952984-3B22-4EC8-8210-8883DF7336A1}
+		{1C79E813-89DE-4F50-990D-72DAE38C5BF3} = {82952984-3B22-4EC8-8210-8883DF7336A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {310B6985-646D-4ACE-AB15-42C7B617D16A}
