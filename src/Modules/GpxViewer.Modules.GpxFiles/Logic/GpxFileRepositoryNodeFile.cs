@@ -28,7 +28,9 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
             try
             {
-                _gpxFile = new LoadedGpxFile(GpxFile.Deserialize(filePath.Path));
+                _gpxFile = new LoadedGpxFile(GpxFile.Deserialize(
+                    filePath.Path, 
+                    GpxFileDeserializationMethod.Compatibility));
             }
             catch (Exception e)
             {

@@ -39,7 +39,8 @@
 
                     <StackPanel Grid.Column="0" 
                                 Orientation="Horizontal">
-                        <gpxViewerCoreControls:GpxViewerIcon IconKind="{Binding Path=IconKind}" />
+                        <gpxViewerCoreControls:GpxViewerIcon IconKind="{Binding Path=IconKind}"
+                                                             Margin="4,0,4,0"/>
                         <TextBlock Text="{Binding Path=NodeText}"
                                    VerticalAlignment="Center"/>
                     </StackPanel>
@@ -48,7 +49,7 @@
                                 Orientation="Horizontal"
                                 Visibility="{Binding Path=TourFinishedVisibility}">
                         <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
-                                                             IconKind="Checked" />
+                                                             IconKind="Checked"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="4"
