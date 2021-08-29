@@ -8,15 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Formats\**" />
-    <Compile Remove="Patterns\BackgroundLoops\**" />
-    <EmbeddedResource Remove="Formats\**" />
-    <EmbeddedResource Remove="Patterns\BackgroundLoops\**" />
-    <None Remove="Formats\**" />
-    <None Remove="Patterns\BackgroundLoops\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.1" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.1" />
@@ -24,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FirLib.Core\FirLib.Core.csproj" />
+    <ProjectReference Include="..\FirLib.Formats.Gpx\FirLib.Formats.Gpx.csproj" />
   </ItemGroup>
 
 </Project>

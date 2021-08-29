@@ -21,9 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Core.Wpf.TestApp", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Core.WinForms", "FirLib.Core.WinForms\FirLib.Core.WinForms.csproj", "{97FDEBFD-7ED7-4CEA-AF06-D222EB7821AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirLib.Core.Wpf.Tests", "FirLib.Core.Wpf.Tests\FirLib.Core.Wpf.Tests.csproj", "{3146CC5C-E793-4F1E-A992-0A8277068C70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Core.Wpf.Tests", "FirLib.Core.Wpf.Tests\FirLib.Core.Wpf.Tests.csproj", "{3146CC5C-E793-4F1E-A992-0A8277068C70}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Core.WinForms.Tests", "FirLib.Core.WinForms.Tests\FirLib.Core.WinForms.Tests.csproj", "{E488C1AB-824B-47B5-8FE5-5A2A2021F7BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirLib.Formats.Gpx.Tests", "FirLib.Formats.Gpx.Tests\FirLib.Formats.Gpx.Tests.csproj", "{46794B09-C2B4-497A-9574-022C43E2799D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{E488C1AB-824B-47B5-8FE5-5A2A2021F7BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E488C1AB-824B-47B5-8FE5-5A2A2021F7BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E488C1AB-824B-47B5-8FE5-5A2A2021F7BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46794B09-C2B4-497A-9574-022C43E2799D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46794B09-C2B4-497A-9574-022C43E2799D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46794B09-C2B4-497A-9574-022C43E2799D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46794B09-C2B4-497A-9574-022C43E2799D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
