@@ -8,6 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="FileLoad\Test_Gpx1_0.gpx" />
+    <None Remove="FileLoad\Test_Gpx1_1.gpx" />
+    <None Remove="FileLoad\Test_Gpx1_1_on_xml_1_1.gpx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="FileLoad\Test_Gpx1_0.gpx" />
+    <EmbeddedResource Include="FileLoad\Test_Gpx1_1_on_xml_1_1.gpx" />
+    <EmbeddedResource Include="FileLoad\Test_Gpx1_1.gpx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.1" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.1" />
@@ -15,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FirLib.Core\FirLib.Core.csproj" />
     <ProjectReference Include="..\FirLib.Formats.Gpx\FirLib.Formats.Gpx.csproj" />
   </ItemGroup>
 
