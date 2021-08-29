@@ -29,8 +29,7 @@ namespace FirLib.Core.Services.SingleApplicationInstance
         /// <inheritdoc />
         public bool TrySendMessageToMainInstance(string message)
         {
-            throw new InvalidOperationException(
-                $"The {nameof(MutexBasedSingleApplicationInstanceService)} is not able to send/received messages!");
+            return false;
         }
 
         public void Dispose()
