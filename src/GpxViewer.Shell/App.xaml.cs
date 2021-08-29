@@ -72,7 +72,7 @@ namespace GpxViewer.Shell
                 .ConfigureCurrentThreadAsMainGuiThread()
                 .AttachToWpfEnvironment()
                 .AddConfigurationFileService("RKGpxViewer")
-                .AddSingleApplicationInstanceService_Using_WM_COPYDATA("GpxViewer_SingleInstance")
+                .AddSingleApplicationInstanceService_Using_WM_COPYDATA("RKGpxViewer_SingleInstance")
                 .Load();
 
             // Check for single instance
