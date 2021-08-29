@@ -4,9 +4,11 @@ using GpxViewer.Core.Patterns;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GpxViewer.Core.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Shell.Interface.Services;
 using GpxViewer.Shell.Utils;
+using FirLib.Core.ViewServices;
 
 namespace GpxViewer.Shell.Views
 {
@@ -20,6 +22,8 @@ namespace GpxViewer.Shell.Views
             get { return _title; }
             set { this.SetProperty(ref _title, value); }
         }
+
+        public bool ExitApproved { get; private set; }
 
         public ShellModuleConfiguration Configuration { get; }
 
@@ -115,8 +119,39 @@ namespace GpxViewer.Shell.Views
             }
         }
 
-        private void OnCommand_Exit_Execute()
+        private async void OnCommand_Exit_Execute()
         {
+            var msgSaveBeforeExitPreview = new MessageGpxViewerSaveBeforeExit_Preview();
+            this.Messenger.Publish(msgSaveBeforeExitPreview);
+            if (msgSaveBeforeExitPreview.AnyUnsavedChanges)
+            {
+                var srvMessageBox = this.GetViewService<IMessageBoxService>();
+                var msgResult = await srvMessageBox.ShowAsync(
+                    "RK Gpx Viewer", "Save changes before exit?", MessageBoxButtons.YesNoCancel);
+                switch (msgResult)
+                {
+                    case MessageBoxResult.Yes:
+                        var msgSaveBeforeExit_Save = new MessageGpxViewerSaveBeforeExit_Save();
+                        this.Messenger.Publish(msgSaveBeforeExit_Save);
+                        foreach (var actSaveTask in msgSaveBeforeExit_Save.SaveTasks)
+                        {
+                            await actSaveTask;
+                        }
+                        break;
+
+                    case MessageBoxResult.No:
+                        // Just close, no saving
+                        break;
+
+                    case MessageBoxResult.Cancel:
+                        return;
+
+                    default:
+                        throw new ArgumentException($"Unexpected MessageBoxResult {msgResult}");
+                }
+            }
+
+            this.ExitApproved = true;
             this.CloseWindow(null);
         }
 

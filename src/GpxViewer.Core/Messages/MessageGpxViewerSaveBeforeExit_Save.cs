@@ -10,5 +10,13 @@ namespace GpxViewer.Core.Messages
 {
     [FirLibMessage]
     [MessagePossibleSource(FirLibConstants.MESSENGER_NAME_GUI)]
-    public record MessageGpxViewerExit();
+    public class MessageGpxViewerSaveBeforeExit_Save
+    {
+        public List<Task> SaveTasks { get; }
+
+        public MessageGpxViewerSaveBeforeExit_Save()
+        {
+            this.SaveTasks = new List<Task>();
+        }
+    }
 }

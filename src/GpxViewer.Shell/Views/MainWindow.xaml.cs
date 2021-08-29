@@ -1,5 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
 
@@ -19,6 +22,21 @@ namespace GpxViewer.Shell.Views
                 this.AllowDrop = true;
                 this.DragOver += this.OnDragOver;
                 this.Drop += this.OnDrop;
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+
+            if (this.DataContext is MainWindowViewModel { ExitApproved: false } viewModel)
+            {
+                e.Cancel = true;
+
+                this.Dispatcher.BeginInvoke(
+                    new Action(() => viewModel.Command_Exit.Execute(null)),
+                    DispatcherPriority.Normal);
             }
         }
 

@@ -10,5 +10,5 @@ namespace GpxViewer.Core.Messages
 {
     [FirLibMessage]
     [MessagePossibleSource(FirLibConstants.MESSENGER_NAME_GUI)]
-    public record MessageGpxViewerExitPreview();
+    public record MessageGpxViewerOnExit();
 }

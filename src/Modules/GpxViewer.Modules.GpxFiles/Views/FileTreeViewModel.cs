@@ -8,6 +8,7 @@ using FirLib.Core;
 using FirLib.Core.Utils.Collections;
 using FirLib.Core.ViewServices;
 using GpxViewer.Core.Commands;
+using GpxViewer.Core.Messages;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Core.ValueObjects;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
@@ -218,6 +219,19 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
             this.Command_Save.RaiseCanExecuteChanged();
             this.Command_SaveAll.RaiseCanExecuteChanged();
+        }
+
+        private void OnMessageReceived(MessageGpxViewerSaveBeforeExit_Preview message)
+        {
+            if (_repoGpxFiles.ContentsChanged)
+            {
+                message.AnyUnsavedChanges = true;
+            }
+        }
+
+        private void OnMessageReceived(MessageGpxViewerSaveBeforeExit_Save message)
+        {
+            message.SaveTasks.Add(this.OnCommand_SaveAll_ExecuteAsync());
         }
 
         private void OnGpxFileRepository_SelectedNodeChanged(object? sender, EventArgs e)

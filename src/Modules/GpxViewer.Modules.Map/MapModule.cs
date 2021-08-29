@@ -39,7 +39,7 @@ namespace GpxViewer.Modules.Map
                 () => _config);
         }
 
-        private void OnMessageReceived(MessageGpxViewerExit message)
+        private void OnMessageReceived(MessageGpxViewerOnExit message)
         {
             if (_config == null) { return; }
 

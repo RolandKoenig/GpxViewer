@@ -112,8 +112,8 @@ namespace GpxViewer.Shell
             base.OnExit(e);
 
             var messenger = FirLibMessenger.GetByName(FirLibConstants.MESSENGER_NAME_GUI);
-            messenger.Publish(new MessageGpxViewerExitPreview());
-            messenger.Publish(new MessageGpxViewerExit());
+            messenger.Publish(new MessageGpxViewerOnExitPreview());
+            messenger.Publish(new MessageGpxViewerOnExit());
         }
 
         /// <inheritdoc />

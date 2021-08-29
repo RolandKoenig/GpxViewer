@@ -36,7 +36,7 @@ namespace GpxViewer.Shell
 
         }
 
-        private void OnMessageReceived(MessageGpxViewerExit message)
+        private void OnMessageReceived(MessageGpxViewerOnExit message)
         {
             try
             {

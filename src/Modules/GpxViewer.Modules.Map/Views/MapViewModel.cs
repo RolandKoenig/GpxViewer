@@ -310,7 +310,7 @@ namespace GpxViewer.Modules.Map.Views
             this.UpdateLayer_LoadedGpxFiles();
         }
 
-        private void OnMessageReceived(MessageGpxViewerExitPreview message)
+        private void OnMessageReceived(MessageGpxViewerOnExitPreview message)
         {
             var currentViewPort = this.TryGetCurrentViewport();
             if (currentViewPort != null)
