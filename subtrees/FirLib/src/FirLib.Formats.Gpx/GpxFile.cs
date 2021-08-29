@@ -205,45 +205,65 @@ namespace FirLib.Formats.Gpx
             }
         }
 
-        public static GpxFile Deserialize(TextReader textReader)
+        public static GpxFile Deserialize(TextReader textReader, GpxFileDeserializationMethod method)
         {
-            // Read whole file to memory to do some checking / manipulations first
-            //  - Correct xml namespace
-            //  - Correct xml version (.Net does not support xml 1.1)
-            var fullText = textReader.ReadToEnd();
-            var gpxVersion = fullText.Contains("xmlns=\"http://www.topografix.com/GPX/1/1\"") ? GpxVersion.V1_1 : GpxVersion.V1_0;
-
-            
-            using (var strReader = new StringReader(fullText))
+            switch (method)
             {
-                // Discard initial xml header
-                if (fullText.StartsWith("<?xml"))
-                {
-                    strReader.ReadLine();
-                }
+                case GpxFileDeserializationMethod.Compatibility:
+                    // Read whole file to memory to do some checking / manipulations first
+                    //  - Correct xml namespace
+                    //  - Correct xml version (.Net does not support xml 1.1)
+                    var fullText = textReader.ReadToEnd();
+                    var gpxVersion = fullText.Contains("xmlns=\"http://www.topografix.com/GPX/1/1\"") ? GpxVersion.V1_1 : GpxVersion.V1_0;
 
-                // Try to deserialize
-                if (GetSerializer(gpxVersion).Deserialize(strReader) is not GpxFile result)
-                {
-                    throw new GpxFileException($"Unable to deserialize {nameof(GpxFile)}: Unknown error");
-                }
-                return result;
+                    using (var strReader = new StringReader(fullText))
+                    {
+                        // Discard initial xml header
+                        // In this way the XmlSerializer does also try to read xml 1.1 content
+                        if (fullText.StartsWith("<?xml"))
+                        {
+                            var endTagIndex = fullText.IndexOf("?>", StringComparison.Ordinal);
+                            if (endTagIndex < 0)
+                            {
+                                throw new InvalidOperationException($"Unable to process xml declaration!");
+                            }
+                            strReader.ReadBlock(new char[endTagIndex + 2], 0, endTagIndex + 2);
+                        }
+
+                        // Try to deserialize
+                        if (GetSerializer(gpxVersion).Deserialize(strReader) is not GpxFile result1)
+                        {
+                            throw new GpxFileException($"Unable to deserialize {nameof(GpxFile)}: Unknown error");
+                        }
+                        return result1;
+                    }
+
+                case GpxFileDeserializationMethod.OnlyGpx1_1:
+                    if (GetSerializer(GpxVersion.V1_1).Deserialize(textReader) is not GpxFile result2)
+                    {
+                        throw new GpxFileException($"Unable to deserialize {nameof(GpxFile)}: Unknown error");
+                    }
+                    return result2;
+
+                default:
+                    throw new ArgumentException($"Unknown deserialization method {method}", nameof(method));
             }
+
         }
 
-        public static GpxFile Deserialize(Stream stream)
+        public static GpxFile Deserialize(Stream stream, GpxFileDeserializationMethod method)
         {
             using var streamReader = new StreamReader(stream);
 
-            return Deserialize(streamReader);
+            return Deserialize(streamReader, method);
 
         }
 
-        public static GpxFile Deserialize(string sourceFile)
+        public static GpxFile Deserialize(string sourceFile, GpxFileDeserializationMethod method)
         {
             using var fileStream = File.OpenRead(sourceFile);
 
-            return Deserialize(fileStream);
+            return Deserialize(fileStream, method);
         }
     }
 }

@@ -12,14 +12,30 @@ namespace FirLib.Formats.Gpx.Tests.FileLoad
     public class FileLoadTests
     {
         [TestMethod]
-        public void GpxVersion1_1()
+        public void GpxVersion1_1_CompatibilityMode()
         {
             var resLink = new AssemblyResourceLink(
                 typeof(FileLoadTests),
                 "Test_Gpx1_1.gpx");
             using var inStream = resLink.OpenRead();
 
-            var gpxFile = GpxFile.Deserialize(inStream);
+            var gpxFile = GpxFile.Deserialize(inStream, GpxFileDeserializationMethod.Compatibility);
+
+            Assert.IsNotNull(gpxFile);
+            Assert.IsNotNull(gpxFile.Metadata);
+            Assert.AreEqual("Kösseine", gpxFile!.Metadata!.Name);
+            Assert.AreEqual(1, gpxFile.Tracks.Count);
+        }
+
+        [TestMethod]
+        public void GpxVersion1_1_Gpx1_1Mode()
+        {
+            var resLink = new AssemblyResourceLink(
+                typeof(FileLoadTests),
+                "Test_Gpx1_1.gpx");
+            using var inStream = resLink.OpenRead();
+
+            var gpxFile = GpxFile.Deserialize(inStream, GpxFileDeserializationMethod.OnlyGpx1_1);
 
             Assert.IsNotNull(gpxFile);
             Assert.IsNotNull(gpxFile.Metadata);
@@ -35,7 +51,7 @@ namespace FirLib.Formats.Gpx.Tests.FileLoad
                 "Test_Gpx1_1_on_xml_1_1.gpx");
             using var inStream = resLink.OpenRead();
 
-            var gpxFile = GpxFile.Deserialize(inStream);
+            var gpxFile = GpxFile.Deserialize(inStream, GpxFileDeserializationMethod.Compatibility);
 
             Assert.IsNotNull(gpxFile);
             Assert.IsNotNull(gpxFile.Metadata);
@@ -51,7 +67,7 @@ namespace FirLib.Formats.Gpx.Tests.FileLoad
                 "Test_Gpx1_0.gpx");
             using var inStream = resLink.OpenRead();
 
-            var gpxFile = GpxFile.Deserialize(inStream);
+            var gpxFile = GpxFile.Deserialize(inStream, GpxFileDeserializationMethod.Compatibility);
 
             Assert.IsNotNull(gpxFile);
             Assert.IsNotNull(gpxFile.Metadata);
@@ -67,7 +83,7 @@ namespace FirLib.Formats.Gpx.Tests.FileLoad
                 "Test_Gpx1_0.gpx");
             using var inStream = resLink.OpenRead();
 
-            var gpxFile = GpxFile.Deserialize(inStream);
+            var gpxFile = GpxFile.Deserialize(inStream, GpxFileDeserializationMethod.Compatibility);
             var outStrBuilder = new StringBuilder(33000);
             using (var strWriter = new StringWriter(outStrBuilder))
             {
