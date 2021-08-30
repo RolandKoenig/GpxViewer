@@ -45,10 +45,7 @@ namespace FirLib.Core.Infrastructure
 
         public FirLibApplicationLoader ConfigureCurrentThreadAsMainGuiThread()
         {
-            var prevThreadName = Thread.CurrentThread.Name;
             this.AddLoadAction(() => Thread.CurrentThread.Name = FirLibConstants.MESSENGER_NAME_GUI);
-            this.AddUnloadAction(() => Thread.CurrentThread.Name = prevThreadName);
-
             return this;
         }
 

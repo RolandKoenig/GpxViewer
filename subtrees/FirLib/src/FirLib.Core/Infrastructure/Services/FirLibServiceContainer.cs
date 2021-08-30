@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FirLib.Core.Infrastructure.Services
 {
-    public class FirLibServiceContainer
+    public class FirLibServiceContainer : IDisposable
     {
         private ConcurrentDictionary<Type, object> _services;
 
@@ -15,7 +15,7 @@ namespace FirLib.Core.Infrastructure.Services
             _services = new ConcurrentDictionary<Type, object>();
         }
 
-        internal void Unload()
+        public void Dispose()
         {
             var prevServices = _services.Values.ToList();
             _services.Clear();

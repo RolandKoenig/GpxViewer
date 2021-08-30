@@ -83,7 +83,7 @@ namespace FirLib.Core.Infrastructure
                 }
             }
 
-            this.Services.Unload();
+            this.Services.Dispose();
         }
     }
 }

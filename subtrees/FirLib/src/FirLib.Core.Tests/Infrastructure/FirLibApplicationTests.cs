@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns;
@@ -81,6 +82,20 @@ namespace FirLib.Core.Tests.Infrastructure
                 Assert.IsFalse(disposeOnServiceCalled, nameof(disposeOnServiceCalled));
             }
             Assert.IsTrue(disposeOnServiceCalled, nameof(disposeOnServiceCalled));
+        }
+
+        [TestMethod]
+        public void ConfigureCurrentThreadAsMainGuiThread()
+        {
+            using (_ = FirLibApplication.GetLoader()
+                .ConfigureCurrentThreadAsMainGuiThread()
+                .Load())
+            {
+                Assert.AreEqual(FirLibConstants.MESSENGER_NAME_GUI, Thread.CurrentThread.Name);
+            }
+
+            // Thread.Name remains the same because the property can only be written once
+            Assert.AreEqual(FirLibConstants.MESSENGER_NAME_GUI, Thread.CurrentThread.Name);
         }
     }
 }
