@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
+using System.Linq;
 using System.Text;
 
 namespace FirLib.Core.Infrastructure.Services
@@ -13,6 +13,18 @@ namespace FirLib.Core.Infrastructure.Services
         public FirLibServiceContainer()
         {
             _services = new ConcurrentDictionary<Type, object>();
+        }
+
+        internal void Unload()
+        {
+            var prevServices = _services.Values.ToList();
+            _services.Clear();
+
+            foreach (var actService in prevServices)
+            {
+                if(actService is not IDisposable actDisposable){ continue; }
+                actDisposable.Dispose();
+            }
         }
 
         public void Register<TServiceType>(TServiceType serviceSingletonInstance)

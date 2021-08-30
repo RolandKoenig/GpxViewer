@@ -8,6 +8,7 @@ namespace FirLib.Core.Infrastructure
     public class FirLibApplication
     {
         private static FirLibApplication? s_current;
+        private static FirLibApplicationLoader? s_currentLoader;
 
         public static FirLibApplication Current
         {
@@ -20,8 +21,6 @@ namespace FirLib.Core.Infrastructure
                 return s_current;
             }
         }
-
-        public static FirLibApplicationLoader Loader { get; } = new();
 
         public static bool IsLoaded => s_current != null;
 
@@ -36,20 +35,53 @@ namespace FirLib.Core.Infrastructure
                 throw new FirLibException($"{nameof(FirLibApplication)} is already loaded!");
             }
 
+            s_currentLoader = loader;
             s_current = new FirLibApplication(loader.GetContext());
+        }
+
+        internal static void Unload(FirLibApplicationLoader loader)
+        {
+            if (s_current == null)
+            {
+                throw new FirLibException($"{nameof(FirLibApplication)} is already unloaded!");
+            }
+            if (s_currentLoader != loader)
+            {
+                throw new FirLibException($"{nameof(FirLibApplication)} was loaded by another loader!");
+            }
+
+            s_current.UnloadInternal();
+            s_current = null;
+            s_currentLoader = null;
         }
 
         internal FirLibApplication(FirLibApplicationContext context)
         {
             _context = context;
 
-            if(_context.StartupActions != null)
+            if(_context.LoadActions != null)
             {
-                foreach(var actStartupAction in _context.StartupActions)
+                foreach(var actStartupAction in _context.LoadActions)
                 {
                     actStartupAction();
                 }
             }
+        }
+
+        public static FirLibApplicationLoader GetLoader()
+        {
+            return new FirLibApplicationLoader();
+        }
+
+        private void UnloadInternal()
+        {
+            if (_context.UnloadActions == null) { return; }
+            foreach (var actUnloadAction in _context.UnloadActions)
+            {
+                actUnloadAction();
+            }
+
+            this.Services.Unload();
         }
     }
 }

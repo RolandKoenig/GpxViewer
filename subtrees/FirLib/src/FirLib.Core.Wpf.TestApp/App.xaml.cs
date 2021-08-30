@@ -21,7 +21,7 @@ namespace FirLib.Tests.Wpf
             base.OnStartup(e);
 
             // Initialize base application logic
-            FirLibApplication.Loader
+            FirLibApplication.GetLoader()
                 .AttachToWpfEnvironment()
                 .Load();
         }

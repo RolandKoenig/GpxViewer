@@ -17,15 +17,24 @@ namespace FirLib.Core
     {
         public static FirLibApplicationLoader AttachToWpfEnvironment(this FirLibApplicationLoader loader)
         {
-            Application.Current.DispatcherUnhandledException += CurrentOnDispatcherUnhandledException;
-
             var uiMessenger = new FirLibMessenger();
-            uiMessenger.CustomSynchronizationContextEqualityChecker = CheckForEqualSynchronizationContexts;
-            uiMessenger.ConnectToGlobalMessaging(
-                FirLibMessengerThreadingBehavior.EnsureMainSyncContextOnSyncCalls,
-                FirLibConstants.MESSENGER_NAME_GUI,
-                SynchronizationContext.Current);
 
+            loader.AddLoadAction(() =>
+            {
+                Application.Current.DispatcherUnhandledException += CurrentOnDispatcherUnhandledException;
+
+                uiMessenger.CustomSynchronizationContextEqualityChecker = CheckForEqualSynchronizationContexts;
+                uiMessenger.ConnectToGlobalMessaging(
+                    FirLibMessengerThreadingBehavior.EnsureMainSyncContextOnSyncCalls,
+                    FirLibConstants.MESSENGER_NAME_GUI,
+                    SynchronizationContext.Current);
+            });
+            loader.AddUnloadAction(() =>
+            {
+                Application.Current.DispatcherUnhandledException -= CurrentOnDispatcherUnhandledException;
+                uiMessenger.DisconnectFromGlobalMessaging();
+            });
+            
             return loader;
         }
 
@@ -55,7 +64,7 @@ namespace FirLib.Core
 
         public static System.Windows.Forms.IWin32Window GetIWin32Window(this System.Windows.Media.Visual visual)
         {
-            var source = (System.Windows.Interop.HwndSource)System.Windows.PresentationSource.FromVisual(visual)!;
+            var source = (System.Windows.Interop.HwndSource)PresentationSource.FromVisual(visual)!;
             System.Windows.Forms.IWin32Window win = new Win32WindowHandleWrapper(source.Handle);
             return win;
         }

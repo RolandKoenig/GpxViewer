@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using FirLib.Core.Infrastructure.Services;
+using FirLib.Core.Patterns;
 
 namespace FirLib.Core.Infrastructure
 {
@@ -19,24 +20,37 @@ namespace FirLib.Core.Infrastructure
 
         internal FirLibApplicationContext GetContext() => _context;
 
-        public FirLibApplicationLoader AddStartupAction(Action action)
+        public FirLibApplicationLoader AddLoadAction(Action action)
         {
-            _context.StartupActions ??= new List<Action>();
-            _context.StartupActions.Add(action);
+            _context.LoadActions ??= new List<Action>();
+            _context.LoadActions.Add(action);
+
+            return this;
+        }
+
+        public FirLibApplicationLoader AddUnloadAction(Action action)
+        {
+            _context.UnloadActions ??= new List<Action>();
+            _context.UnloadActions.Add(action);
 
             return this;
         }
 
         public FirLibApplicationLoader ConfigureCurrentThreadAsMainGuiThread()
         {
-            Thread.CurrentThread.Name = FirLibConstants.MESSENGER_NAME_GUI;
+            var prevThreadName = Thread.CurrentThread.Name;
+            this.AddLoadAction(() => Thread.CurrentThread.Name = FirLibConstants.MESSENGER_NAME_GUI);
+            this.AddUnloadAction(() => Thread.CurrentThread.Name = prevThreadName);
 
             return this;
         }
 
-        public void Load()
+        public IDisposable Load()
         {
             FirLibApplication.Load(this);
+
+            return new DummyDisposable(
+                () => FirLibApplication.Unload(this));
         }
     }
 }
