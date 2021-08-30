@@ -68,7 +68,7 @@ namespace GpxViewer.Shell
             _startupArgs = e.Args;
 
             // Initialize base application logic
-            FirLibApplication.Loader
+            FirLibApplication.GetLoader()
                 .ConfigureCurrentThreadAsMainGuiThread()
                 .AttachToWpfEnvironment()
                 .AddConfigurationFileService("RKGpxViewer")
