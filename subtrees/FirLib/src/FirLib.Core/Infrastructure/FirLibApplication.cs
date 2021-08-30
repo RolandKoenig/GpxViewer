@@ -75,10 +75,12 @@ namespace FirLib.Core.Infrastructure
 
         private void UnloadInternal()
         {
-            if (_context.UnloadActions == null) { return; }
-            foreach (var actUnloadAction in _context.UnloadActions)
+            if (_context.UnloadActions != null)
             {
-                actUnloadAction();
+                foreach (var actUnloadAction in _context.UnloadActions)
+                {
+                    actUnloadAction();
+                }
             }
 
             this.Services.Unload();

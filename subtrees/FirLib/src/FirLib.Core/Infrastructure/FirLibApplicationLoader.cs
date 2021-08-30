@@ -36,6 +36,13 @@ namespace FirLib.Core.Infrastructure
             return this;
         }
 
+        public FirLibApplicationLoader AddService(Type serviceType, object serviceSingleton)
+        {
+            this.Services.Register(
+                serviceType, serviceSingleton);
+            return this;
+        }
+
         public FirLibApplicationLoader ConfigureCurrentThreadAsMainGuiThread()
         {
             var prevThreadName = Thread.CurrentThread.Name;
