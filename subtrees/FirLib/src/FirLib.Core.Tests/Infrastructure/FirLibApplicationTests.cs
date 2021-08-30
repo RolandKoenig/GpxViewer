@@ -87,15 +87,31 @@ namespace FirLib.Core.Tests.Infrastructure
         [TestMethod]
         public void ConfigureCurrentThreadAsMainGuiThread()
         {
-            using (_ = FirLibApplication.GetLoader()
-                .ConfigureCurrentThreadAsMainGuiThread()
-                .Load())
-            {
-                Assert.AreEqual(FirLibConstants.MESSENGER_NAME_GUI, Thread.CurrentThread.Name);
-            }
+            Exception? occurredException = null;
 
-            // Thread.Name remains the same because the property can only be written once
-            Assert.AreEqual(FirLibConstants.MESSENGER_NAME_GUI, Thread.CurrentThread.Name);
+            var dummyThread = new Thread(() =>
+            {
+                // Delegate this test to an own thread because change of Thread.Name can not be reversed
+
+                try
+                {
+                    using (_ = FirLibApplication.GetLoader()
+                        .ConfigureCurrentThreadAsMainGuiThread()
+                        .Load())
+                    {
+                        Assert.AreEqual(FirLibConstants.MESSENGER_NAME_GUI, Thread.CurrentThread.Name);
+                    }
+                    Assert.AreEqual(FirLibConstants.MESSENGER_NAME_GUI, Thread.CurrentThread.Name);
+                }
+                catch (Exception e)
+                {
+                    occurredException = e;
+                }
+            });
+            dummyThread.Start();
+            dummyThread.Join();
+
+            Assert.IsNull(occurredException, occurredException?.ToString() ?? string.Empty);
         }
     }
 }
