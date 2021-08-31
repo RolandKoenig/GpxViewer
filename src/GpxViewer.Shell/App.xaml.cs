@@ -34,6 +34,7 @@ namespace GpxViewer.Shell
     public partial class App : PrismApplication, IGpxViewerSkinService
     {
         private string[]? _startupArgs;
+        private IDisposable? _firLibAppDisposable;
         private AppSkin _skin;
 
         public AppSkin Skin
@@ -68,7 +69,7 @@ namespace GpxViewer.Shell
             _startupArgs = e.Args;
 
             // Initialize base application logic
-            FirLibApplication.GetLoader()
+            _firLibAppDisposable = FirLibApplication.GetLoader()
                 .ConfigureCurrentThreadAsMainGuiThread()
                 .AttachToWpfEnvironment()
                 .AddConfigurationFileService("RKGpxViewer")
@@ -114,6 +115,9 @@ namespace GpxViewer.Shell
             var messenger = FirLibMessenger.GetByName(FirLibConstants.MESSENGER_NAME_GUI);
             messenger.Publish(new MessageGpxViewerOnExitPreview());
             messenger.Publish(new MessageGpxViewerOnExit());
+
+            _firLibAppDisposable?.Dispose();
+            _firLibAppDisposable = null;
         }
 
         /// <inheritdoc />
