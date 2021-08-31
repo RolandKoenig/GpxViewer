@@ -75,14 +75,17 @@ namespace FirLib.Core.Infrastructure
 
         private void UnloadInternal()
         {
-            if (_context.UnloadActions != null)
+            // Call unload actions in reverse order
+            var unloadActions = _context.UnloadActions;
+            if (unloadActions is { Count: > 0 })
             {
-                foreach (var actUnloadAction in _context.UnloadActions)
+                for (var loop = unloadActions.Count - 1; loop > -1; loop--)
                 {
-                    actUnloadAction();
+                    unloadActions[loop]();
                 }
             }
 
+            // Dispose registered services
             this.Services.Dispose();
         }
     }
