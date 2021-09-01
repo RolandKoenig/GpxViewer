@@ -10,6 +10,7 @@ using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
 using Mapsui.Layers;
 using Mapsui.Rendering.Skia;
+using Mapsui.UI;
 using Mapsui.Utilities;
 
 namespace GpxViewer.Modules.Map.Views
