@@ -4,11 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using FirLib;
-using FirLib.Core;
 using FirLib.Core.Checking;
 
-namespace SeeingSharp.Util
+namespace FirLib.Core.Utils.IO.AssemblyResources
 {
     /// <summary>
     /// A class that helps for locating and loading assembly resource files.

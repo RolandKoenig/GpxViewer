@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using FirLib.Core.Utils.IO.AssemblyResources;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SeeingSharp.Util;
 
 namespace FirLib.Formats.Gpx.Tests.FileLoad
 {

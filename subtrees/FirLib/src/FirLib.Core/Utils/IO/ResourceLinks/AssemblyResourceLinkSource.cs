@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using FirLib;
 using FirLib.Core.Checking;
+using FirLib.Core.Utils.IO.AssemblyResources;
 
-namespace SeeingSharp.Util
+namespace FirLib.Core.Utils.IO.ResourceLinks
 {
     public class AssemblyResourceLinkSource : ResourceLink
     {

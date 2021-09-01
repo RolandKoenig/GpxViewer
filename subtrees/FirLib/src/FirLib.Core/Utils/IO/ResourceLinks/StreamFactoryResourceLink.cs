@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using FirLib;
 using FirLib.Core.Checking;
 
-namespace SeeingSharp.Util
+namespace FirLib.Core.Utils.IO.ResourceLinks
 {
     public class StreamFactoryResourceLink : ResourceLink
     {
