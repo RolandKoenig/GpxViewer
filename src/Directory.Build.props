@@ -10,7 +10,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Version>0.1.0</Version>
     <PackageVersion>0.1.0</PackageVersion>
-    <Product>RK GpxViewer</Product>
+    <Product>GpxViewer</Product>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 </Project>

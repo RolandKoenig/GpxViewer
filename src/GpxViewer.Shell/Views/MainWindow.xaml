@@ -75,7 +75,6 @@
                           Command="{Binding Path=Command_SetSkin}"
                           CommandParameter="Light"/>
             </MenuItem>
-            <MenuItem Header="Help" />
         </Menu>
 
         <Grid Style="{StaticResource ShellMainGrid}">
