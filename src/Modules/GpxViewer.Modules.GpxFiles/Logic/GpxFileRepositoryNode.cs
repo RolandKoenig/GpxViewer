@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using FirLib.Core.Patterns.ObjectPooling;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
@@ -40,6 +42,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public abstract bool CanSave { get; }
 
+        public virtual bool HasError => false;
+
         /// <summary>
         /// This method checks only this node, not child nodes.
         /// </summary>
@@ -51,6 +55,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         }
 
         protected abstract string GetNodeText();
+
+        public virtual Exception? GetErrorDetails() => null;
 
         public async IAsyncEnumerable<GpxFileRepositoryNode> SaveAsync()
         {

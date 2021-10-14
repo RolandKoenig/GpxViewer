@@ -60,6 +60,9 @@ namespace GpxViewer.Shell.Converters
                 case GpxViewerIconKind.Exit:
                     return PackIconKind.CloseOutline;
 
+                case GpxViewerIconKind.Error:
+                    return PackIconKind.Error;
+
                 default:
                     return null;
             }

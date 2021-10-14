@@ -40,9 +40,21 @@
                     <StackPanel Grid.Column="0" 
                                 Orientation="Horizontal">
                         <gpxViewerCoreControls:GpxViewerIcon IconKind="{Binding Path=IconKind}"
-                                                             Margin="4,0,4,0"/>
+                                                             Margin="4,0,4,0">
+                            <gpxViewerCoreControls:GpxViewerIcon.Style>
+                                <Style TargetType="gpxViewerCoreControls:GpxViewerIcon"
+                                       BasedOn="{StaticResource {x:Type gpxViewerCoreControls:GpxViewerIcon}}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=HasError}" Value="True">
+                                            <Setter Property="Foreground" Value="Red" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </gpxViewerCoreControls:GpxViewerIcon.Style>
+                        </gpxViewerCoreControls:GpxViewerIcon>
                         <TextBlock Text="{Binding Path=NodeText}"
-                                   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center">
+                        </TextBlock>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2"

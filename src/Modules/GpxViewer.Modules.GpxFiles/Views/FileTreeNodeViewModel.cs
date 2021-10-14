@@ -22,11 +22,14 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
         public TransformedObservableCollection<FileTreeNodeViewModel, GpxFileRepositoryNode> ChildNodes { get; }
 
+        public bool HasError => this.Model.HasError;
+
         public GpxViewerIconKind IconKind
         {
             get
             {
-                if (this.Model.GetAssociatedTour() != null) { return GpxViewerIconKind.Tour; }
+                if (this.Model.HasError) { return GpxViewerIconKind.Error; }
+                else if (this.Model.GetAssociatedTour() != null) { return GpxViewerIconKind.Tour; }
                 else if (this.Model.GetAssociatedGpxFile() != null) { return GpxViewerIconKind.GpxFile; }
                 else { return GpxViewerIconKind.Directory; }
             }
@@ -44,10 +47,17 @@ namespace GpxViewer.Modules.GpxFiles.Views
         public double DistanceKm =>
             this.Model.GetAssociatedToursDeep()?.Sum(actTour => actTour.DistanceKm) ?? 0.0;
 
-        public Visibility TourFinishedVisibility =>
-            this.Model.GetAssociatedToursDeep()?.All(actTour => actTour.RawTourExtensionData.State == GpxTrackState.Succeeded) ?? false
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+        public Visibility TourFinishedVisibility 
+        {
+            get
+            {
+                if (this.Model.HasError) { return Visibility.Collapsed; }
+                
+                return this.Model.GetAssociatedToursDeep()?.All(actTour => actTour.RawTourExtensionData.State == GpxTrackState.Succeeded) ?? false
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+        }
 
         public FileTreeNodeViewModel(GpxFileRepositoryNode model)
         {

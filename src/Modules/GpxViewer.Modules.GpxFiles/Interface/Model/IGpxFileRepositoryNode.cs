@@ -10,6 +10,10 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
     {
         string NodeText { get; }
 
+        bool HasError { get; }
+
+        Exception? GetErrorDetails();
+
         ILoadedGpxFile? GetAssociatedGpxFile();
 
         IEnumerable<ILoadedGpxFile> GetAssociatedGpxFilesDeep();

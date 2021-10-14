@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FirLib.Core.Patterns.ObjectPooling;
 using FirLib.Formats.Gpx;
 using GpxViewer.Core.ValueObjects;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
@@ -21,6 +20,9 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         /// <inheritdoc />
         public override bool CanSave => true;
+
+        /// <inheritdoc />
+        public override bool HasError => _fileLoadError != null;
 
         public GpxFileRepositoryNodeFile(FileOrDirectoryPath filePath)
         {
@@ -95,14 +97,13 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         /// <inheritdoc />
         protected override string GetNodeText()
         {
-            if (_gpxFile != null)
-            {
-                return Path.GetFileName(this.FilePath.Path);
-            }
-            else
-            {
-                return $"{Path.GetFileName(this.FilePath.Path)} ** Loading Error **";
-            }
+            return Path.GetFileName(this.FilePath.Path);
+        }
+
+        /// <inheritdoc />
+        public override Exception? GetErrorDetails()
+        {
+            return _fileLoadError;
         }
 
         /// <inheritdoc />

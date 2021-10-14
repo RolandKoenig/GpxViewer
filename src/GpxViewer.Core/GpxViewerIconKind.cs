@@ -34,6 +34,8 @@ namespace GpxViewer.Core
 
         Checked,
 
-        Exit
+        Exit,
+
+        Error
     }
 }
