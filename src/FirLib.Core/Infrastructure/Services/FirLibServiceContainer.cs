@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
+using System.Linq;
 using System.Text;
 
 namespace FirLib.Core.Infrastructure.Services
 {
-    public class FirLibServiceContainer
+    public class FirLibServiceContainer : IDisposable
     {
         private ConcurrentDictionary<Type, object> _services;
 
@@ -15,13 +15,25 @@ namespace FirLib.Core.Infrastructure.Services
             _services = new ConcurrentDictionary<Type, object>();
         }
 
-        public void Register<TServiceType>(TServiceType serviceInstance)
-            where TServiceType : class
+        public void Dispose()
         {
-            this.Register(typeof(TServiceType), serviceInstance);
+            var prevServices = _services.Values.ToList();
+            _services.Clear();
+
+            foreach (var actService in prevServices)
+            {
+                if(actService is not IDisposable actDisposable){ continue; }
+                actDisposable.Dispose();
+            }
         }
 
-        public void Register(Type serviceType, object serviceInstance)
+        public void Register<TServiceType>(TServiceType serviceSingletonInstance)
+            where TServiceType : class
+        {
+            this.Register(typeof(TServiceType), serviceSingletonInstance);
+        }
+
+        public void Register(Type serviceType, object serviceSingletonInstance)
         {
             EnsureInterfaceType(serviceType);
 
@@ -30,7 +42,7 @@ namespace FirLib.Core.Infrastructure.Services
                 throw new FirLibException($"A service of type {serviceType.FullName} is already registered!");
             }
 
-            _services[serviceType] = serviceInstance;
+            _services[serviceType] = serviceSingletonInstance;
         }
 
         public TServiceType GetService<TServiceType>()
@@ -55,6 +67,17 @@ namespace FirLib.Core.Infrastructure.Services
                 return serviceInstance as TServiceType;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Enumerates over all registered services.
+        /// </summary>
+        public IEnumerable<(Type, object)> GetAllServices()
+        {
+            foreach (var actPair in _services)
+            {
+                yield return (actPair.Key, actPair.Value);
+            }
         }
 
         private static void EnsureInterfaceType(Type type)

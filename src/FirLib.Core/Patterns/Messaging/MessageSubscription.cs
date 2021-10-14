@@ -6,7 +6,7 @@ namespace FirLib.Core.Patterns.Messaging
     /// This class holds all information about message subscriptions. It implements IDisposable for unsubscribing
     /// from the message.
     /// </summary>
-    public class MessageSubscription : IDisposable
+    public class MessageSubscription : IDisposable, ICheckDisposed
     {
         // Main members for publishing
         private FirLibMessenger? _messenger;

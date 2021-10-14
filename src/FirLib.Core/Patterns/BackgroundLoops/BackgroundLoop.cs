@@ -384,7 +384,7 @@ namespace FirLib.Core.Patterns.BackgroundLoops
         /// <summary>
         /// Synchronization object for threads within <see cref="BackgroundLoop"/> class.
         /// </summary>
-        private class BackgroundLoopSynchronizationContext : SynchronizationContext
+        internal class BackgroundLoopSynchronizationContext : SynchronizationContext
         {
             private BackgroundLoop _owner;
 

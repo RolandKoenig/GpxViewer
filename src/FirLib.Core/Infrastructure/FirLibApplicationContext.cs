@@ -7,7 +7,9 @@ namespace FirLib.Core.Infrastructure
 {
     internal class FirLibApplicationContext
     {
-        public List<Action>? StartupActions { get; set; }
+        public List<Action>? LoadActions { get; set; }
+
+        public List<Action>? UnloadActions { get; set; }
 
         public FirLibServiceContainer Services { get; } = new();
     }

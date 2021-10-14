@@ -15,7 +15,7 @@ namespace FirLib.Core.Patterns.Messaging
     /// What 'messenger' actually is, see here a short explanation:
     /// http://stackoverflow.com/questions/22747954/mvvm-light-toolkit-messenger-uses-event-aggregator-or-mediator-pattern
     /// </summary>
-    public class FirLibMessenger : IFirLibMessagePublisher
+    public class FirLibMessenger : IFirLibMessagePublisher, IFirLibMessageSubscriber
     {
         public const string METHOD_NAME_MESSAGE_RECEIVED = "OnMessageReceived";
 

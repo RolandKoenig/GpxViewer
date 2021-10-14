@@ -15,6 +15,14 @@ namespace FirLib.Core.ViewServices
             {
                 return new WpfOpenFileDialogService(window);
             }
+            else if (viewServiceType == typeof(IOpenDirectoryViewService))
+            {
+                return new WpfOpenDirectoryViewService(window);
+            }
+            else if (viewServiceType == typeof(IMessageBoxService))
+            {
+                return new WpfMessageBoxService(window);
+            }
 
             return TryGetViewService((UIElement) window, viewServiceType);
         }

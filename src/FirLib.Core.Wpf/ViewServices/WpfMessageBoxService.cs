@@ -20,25 +20,49 @@ namespace FirLib.Core.ViewServices
         /// <inheritdoc />
         public Task<MessageBoxResult> ShowAsync(string title, string message, MessageBoxButtons buttons)
         {
-            //MessageBoxButton b;
-            //switch (buttons)
-            //{
-            //    case MessageBoxButtons.Ok:
-            //        break;
+            switch (buttons)
+            {
+                case MessageBoxButtons.Ok:
+                    return Task.FromResult(FromWpfMessageBoxResult(
+                        MessageBox.Show(message, title, MessageBoxButton.OK)));
 
-            //    case MessageBoxButtons.OkCancel:
-            //        break;
-                
-            //    case MessageBoxButtons.YesNo:
-            //        break;
+                case MessageBoxButtons.OkCancel:
+                    return Task.FromResult(FromWpfMessageBoxResult(
+                        MessageBox.Show(message, title, MessageBoxButton.OKCancel)));
 
-            //    case MessageBoxButtons.YesNoCancel:
-            //        break;
-            //}
+                case MessageBoxButtons.YesNo:
+                    return Task.FromResult(FromWpfMessageBoxResult(
+                        MessageBox.Show(message, title, MessageBoxButton.YesNo)));
 
-            //MessageBox.Show(message, title, )
+                case MessageBoxButtons.YesNoCancel:
+                    return Task.FromResult(FromWpfMessageBoxResult(
+                        MessageBox.Show(message, title, MessageBoxButton.YesNoCancel)));
 
-            throw new NotImplementedException();
+                default:
+                    throw new ArgumentException($"MessageBoxButtons {buttons} not handled!");
+            }
+        }
+
+        private static MessageBoxResult FromWpfMessageBoxResult(System.Windows.MessageBoxResult result)
+        {
+            switch (result)
+            {
+                case System.Windows.MessageBoxResult.None:
+                case System.Windows.MessageBoxResult.Cancel:
+                    return MessageBoxResult.Cancel;
+
+                case System.Windows.MessageBoxResult.Yes:
+                    return MessageBoxResult.Yes;
+
+                case System.Windows.MessageBoxResult.No:
+                    return MessageBoxResult.No;
+
+                case System.Windows.MessageBoxResult.OK:
+                    return MessageBoxResult.Ok;
+
+                default:
+                    throw new ArgumentException($"System.Windows.MessageBoxResult {result} not handled!");
+            }
         }
     }
 }

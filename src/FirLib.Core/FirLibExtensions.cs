@@ -13,6 +13,11 @@ namespace FirLib.Core
     /// </summary>
     public static class FirLibExtensions
     {
+        public static async void FireAndForget(this Task task)
+        {
+            await task;
+        }
+
         public static string ToCommaSeparatedString(this IEnumerable enumerable, string separator = ", ")
         {
             var strBuilder = PooledStringBuilders.Current.TakeStringBuilder();
