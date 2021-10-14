@@ -54,7 +54,7 @@ namespace GpxViewer.Shell.Views
             }
 
             // Update application title string
-            this.Title = FirLibApplication.Current.ProductFullName;
+            this.Title = FirLibApplication.IsLoaded ? FirLibApplication.Current.ProductFullName : string.Empty;
 
             // Handle skin change
             this.Command_SetSkin = new DelegateCommand<string>(this.OnCommand_SetSkin_Execute);
