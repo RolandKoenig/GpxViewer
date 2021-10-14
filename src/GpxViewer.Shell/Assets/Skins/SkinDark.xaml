@@ -52,7 +52,8 @@
     <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="{StaticResource Accent700Foreground}" po:Freeze="True" /> 
 
     <!-- Custom Styles -->
-    <Style TargetType="{x:Type local:MainWindow}">
+    <Style TargetType="{x:Type Window}"
+           x:Key="GpxViewerWindowStyle">
         <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
         <Setter Property="TextElement.Foreground" Value="{DynamicResource MaterialDesignBody}" />
     </Style>

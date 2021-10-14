@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Threading;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
+using GpxViewer.Core.ViewServices.AboutDialog;
 
 namespace GpxViewer.Shell.Views
 {
@@ -19,6 +20,10 @@ namespace GpxViewer.Shell.Views
 
             if (FirLibApplication.IsLoaded)
             {
+                // Register view services
+                this.ViewServices.Add(new AboutDialogService(this));
+
+                // Register events
                 this.AllowDrop = true;
                 this.DragOver += this.OnDragOver;
                 this.Drop += this.OnDrop;

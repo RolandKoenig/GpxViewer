@@ -10,6 +10,7 @@ using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Shell.Interface.Services;
 using GpxViewer.Shell.Utils;
 using FirLib.Core.ViewServices;
+using GpxViewer.Core.ViewServices;
 
 namespace GpxViewer.Shell.Views
 {
@@ -33,6 +34,8 @@ namespace GpxViewer.Shell.Views
         public DelegateCommand<string> Command_SetSkin { get; }
 
         public DelegateCommand<RecentlyOpenedInfo> Command_LoadRecentlyOpened { get; }
+
+        public DelegateCommand Command_ShowAboutDialog { get; }
 
         public DelegateCommand Command_Exit { get; }
 
@@ -59,6 +62,11 @@ namespace GpxViewer.Shell.Views
             // Handle skin change
             this.Command_SetSkin = new DelegateCommand<string>(this.OnCommand_SetSkin_Execute);
             this.Command_LoadRecentlyOpened = new DelegateCommand<RecentlyOpenedInfo>(this.OnCommand_LoadRecentlyOpened_Execute);
+            this.Command_ShowAboutDialog = new DelegateCommand(async () =>
+            {
+                var srvAboutDlg = this.GetViewService<IAboutDialogService>();
+                await srvAboutDlg.ShowAboutDialogAsync();
+            });
             this.Command_Exit = new DelegateCommand(this.OnCommand_Exit_Execute);
         }
 

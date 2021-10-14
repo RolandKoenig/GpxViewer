@@ -1,0 +1,42 @@
+﻿<firlibMvvm:MvvmWindow x:Class="GpxViewer.Core.ViewServices.AboutDialog.AboutDialogWindow"
+            x:ClassModifier="internal"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:prop="http://propertytools.org/wpf"
+            xmlns:firlibMvvm="http://www.rolandk.de/firlib/patterns/mvvm"
+            xmlns:local="clr-namespace:GpxViewer.Core.ViewServices.AboutDialog"
+            mc:Ignorable="d"
+            Title="About" 
+            Style="{DynamicResource GpxViewerWindowStyle}"
+            Width="800" Height="450">
+    <Window.DataContext>
+        <local:AboutDialogWindowViewModel />
+    </Window.DataContext>
+
+    <Grid Style="{DynamicResource ShellMainGrid}">
+        <DockPanel LastChildFill="True">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                        FlowDirection="RightToLeft">
+                <Button Width="100" Margin="3" 
+                        Content="Close"
+                        Command="{Binding Path=Command_Close}" />
+            </StackPanel>
+
+            <prop:PropertyGrid SelectedObject="{Binding}"
+                               Visibility="{Binding Path=SelectedToursEditVisibility}" 
+                               TabVisibility="Collapsed"
+                               CategoryControlType="Template"
+                               Style="{DynamicResource GpxViewerPropertyGrid}">
+                <prop:PropertyGrid.CategoryControlTemplate>
+                    <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
+                        <ContentPresenter />
+                    </ControlTemplate>
+                </prop:PropertyGrid.CategoryControlTemplate>
+            </prop:PropertyGrid>
+
+        </DockPanel>
+    </Grid>
+
+</firlibMvvm:MvvmWindow>

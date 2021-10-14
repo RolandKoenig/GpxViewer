@@ -13,6 +13,7 @@
     WindowState="Maximized"
     prism:ViewModelLocator.AutoWireViewModel="True"
     d:DataContext="{x:Static local:DesignData.MainWindowVM}"
+    Style="{DynamicResource GpxViewerWindowStyle}"
     Title="{Binding Title}" Height="350" Width="525">
 
     <DockPanel LastChildFill="True">
@@ -74,6 +75,10 @@
                 <MenuItem Header="Light"
                           Command="{Binding Path=Command_SetSkin}"
                           CommandParameter="Light"/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About"
+                          Command="{Binding Path=Command_ShowAboutDialog}" />
             </MenuItem>
         </Menu>
 
