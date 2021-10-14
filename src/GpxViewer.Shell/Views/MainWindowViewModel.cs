@@ -4,6 +4,7 @@ using GpxViewer.Core.Patterns;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FirLib.Core.Infrastructure;
 using GpxViewer.Core.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Shell.Interface.Services;
@@ -14,14 +15,9 @@ namespace GpxViewer.Shell.Views
 {
     internal class MainWindowViewModel : GpxViewerViewModelBase
     {
-        private string _title = "RK GPX Viewer";
         private IGpxViewerSkinService _srvSkin;
 
-        public string Title
-        {
-            get { return _title; }
-            set { this.SetProperty(ref _title, value); }
-        }
+        public string Title { get; }
 
         public bool ExitApproved { get; private set; }
 
@@ -56,6 +52,9 @@ namespace GpxViewer.Shell.Views
             {
                 _srvSkin.Skin = configuredSkin;
             }
+
+            // Update application title string
+            this.Title = FirLibApplication.Current.ProductFullName;
 
             // Handle skin change
             this.Command_SetSkin = new DelegateCommand<string>(this.OnCommand_SetSkin_Execute);

@@ -71,6 +71,7 @@ namespace GpxViewer.Shell
             // Initialize base application logic
             _firLibAppDisposable = FirLibApplication.GetLoader()
                 .ConfigureCurrentThreadAsMainGuiThread()
+                .SetProductInfoFromAssembly(Assembly.GetExecutingAssembly())
                 .AttachToWpfEnvironment()
                 .AddConfigurationFileService("RKGpxViewer")
                 .AddSingleApplicationInstanceService_Using_WM_COPYDATA("RKGpxViewer_SingleInstance")
