@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using FirLib.Core.Patterns.Mvvm;
 using FirLib.Formats.Gpx;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Core.Util;
@@ -22,9 +21,6 @@ namespace GpxViewer.Modules.ElevationProfile.Views
 
         public SeriesCollection SeriesCollection { get; }
         public Visibility ElevationProfileVisibility => _lineSeries.Values != null ? Visibility.Visible : Visibility.Collapsed;
-
-        public Func<double, string> LabelKmFormatter => (val) => val.ToString("N1");
-        public Func<double, string> LabelMFormatter => (val) => val.ToString("N0");
 
         public ElevationProfileViewModel()
         {

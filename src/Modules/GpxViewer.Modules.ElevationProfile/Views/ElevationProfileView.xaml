@@ -18,13 +18,15 @@
                             Visibility="{Binding Path=ElevationProfileVisibility}"
                             DisableAnimations="True">
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Distance (km)"
-                          LabelFormatter="{Binding Path=LabelKmFormatter}"/>
+                <lvc:Axis Title="Distance (km)"/>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Elevation (m)"
-                          LabelFormatter="{Binding Path=LabelMFormatter}"/>
+                <lvc:Axis Title="Elevation (m)"/>
             </lvc:CartesianChart.AxisY>
+
+            <lvc:CartesianChart.DataTooltip>
+                <local:ChartToolTipView />
+            </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
     </Grid>
 </firlibMvvm:MvvmUserControl>
