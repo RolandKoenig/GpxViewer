@@ -15,7 +15,5 @@ namespace GpxViewer.Modules.Map
         public double LastViewportMaxX { get; set; }
 
         public double LastViewportMaxY { get; set; }
-
-        public string RenderMethod { get; set; } = string.Empty;
     }
 }

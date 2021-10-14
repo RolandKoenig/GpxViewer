@@ -10,7 +10,6 @@ using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
 using Mapsui.Layers;
 using Mapsui.Rendering.Skia;
-using Mapsui.UI;
 using Mapsui.Utilities;
 
 namespace GpxViewer.Modules.Map.Views
@@ -38,7 +37,7 @@ namespace GpxViewer.Modules.Map.Views
 
         private void ApplyViewSettings(MapViewSettings viewSettings)
         {
-            this.CtrlMap.RenderMode = viewSettings.RenderMode;
+            // Apply view settings to MapControl
         }
 
         private void OnThis_AttachToViewModel(MapViewModel viewModel)
@@ -110,7 +109,6 @@ namespace GpxViewer.Modules.Map.Views
             switch (e.PropertyName)
             {
                 case "":
-                case nameof(MapViewSettings.RenderMode):
                     this.ApplyViewSettings(viewModel.ViewSettings);
                     break;
             }

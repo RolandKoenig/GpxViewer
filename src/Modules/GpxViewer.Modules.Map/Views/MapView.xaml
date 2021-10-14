@@ -18,10 +18,12 @@
     </firlibMvvm:MvvmUserControl.Resources>
 
     <Grid>
-        <maps:MapControl x:Name="CtrlMap" />
+        <maps:MapControl x:Name="CtrlMap" 
+                         RenderMode="Skia" />
 
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left"
                     Background="#AAAAAAAA"
+                    Style="{DynamicResource MapOverlayStyle}"
                     Margin="{StaticResource MapPanelMargin}"
                     Orientation="Horizontal">
             <Button Content="Reset Camera" 
@@ -30,22 +32,6 @@
             <Button Content="Focus Selected"
                     Margin="{StaticResource MapPanelContentMargin}" 
                     Command="{Binding Path=Command_FocusSelectedTour}"/>
-        </StackPanel>
-
-        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                    Style="{DynamicResource MapOverlayStyle}"
-                    Margin="{StaticResource MapPanelMargin}"
-                    Orientation="Horizontal">
-
-            <TextBlock Text="Render mode:"
-                       Margin="{StaticResource MapPanelContentMargin}"
-                       VerticalAlignment="Center"/>
-            <ComboBox SelectedItem="{Binding Path=ViewSettings.RenderMode}"
-                      Margin="{StaticResource MapPanelContentMargin}"
-                      Width="100">
-                <maps:RenderMode>Skia</maps:RenderMode>
-                <maps:RenderMode>Wpf</maps:RenderMode>
-            </ComboBox>
         </StackPanel>
     </Grid>
 </firlibMvvm:MvvmUserControl>

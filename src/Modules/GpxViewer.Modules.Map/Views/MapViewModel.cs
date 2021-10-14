@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using FirLib.Core.Patterns;
-using FirLib.Core.Utils.IO.AssemblyResources;
 using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Messages;
 using GpxViewer.Core.Patterns;
@@ -15,7 +14,6 @@ using GpxViewer.Modules.GpxFiles.Interface.Model;
 using GpxViewer.Modules.Map.Util;
 using Mapsui.Geometries;
 using Mapsui.Layers;
-using Mapsui.Projection;
 using Mapsui.Providers;
 using Mapsui.Styles;
 

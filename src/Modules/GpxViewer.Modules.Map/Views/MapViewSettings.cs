@@ -12,27 +12,6 @@ namespace GpxViewer.Modules.Map.Views
     {
         private MapModuleConfiguration _moduleConfig;
 
-        public RenderMode RenderMode
-        {
-            get
-            {
-                if(Enum.TryParse(typeof(RenderMode), _moduleConfig.RenderMethod, out var result))
-                {
-                    return (RenderMode)result!;
-                }
-                return RenderMode.Wpf;
-            }
-            set
-            {
-                var valueStr = value.ToString();
-                if (valueStr != _moduleConfig.RenderMethod)
-                {
-                    _moduleConfig.RenderMethod = valueStr;
-                    this.RaisePropertyChanged(nameof(this.RenderMode));
-                }
-            }
-        }
-
         public MapViewSettings(MapModuleConfiguration moduleConfig)
         {
             _moduleConfig = moduleConfig;
