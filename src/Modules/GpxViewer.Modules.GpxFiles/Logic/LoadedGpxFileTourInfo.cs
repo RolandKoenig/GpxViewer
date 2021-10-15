@@ -27,7 +27,11 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public List<LoadedGpxFileTourSegmentInfo> Segments { get; }
 
+        public List<LoadedGpxFileWaypointInfo> Waypoints { get; }
+
         IEnumerable<ILoadedGpxFileTourSegmentInfo> ILoadedGpxFileTourInfo.Segments => this.Segments;
+
+        IEnumerable<ILoadedGpxFileWaypointInfo> ILoadedGpxFileTourInfo.Waypoints => this.Waypoints;
 
         public double DistanceKm { get; private set; } = 0.0;
 
@@ -37,7 +41,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public int CountSegments { get; private set; } = 0;
 
-        public int CountWaypoints { get; private set; } = 0;
+        public int CountWaypointsWithinSegments { get; private set; } = 0;
         
         public LoadedGpxFileTourInfo(LoadedGpxFile file, GpxRoute rawRouteData)
         {
@@ -50,6 +54,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
             this.Segments = new List<LoadedGpxFileTourSegmentInfo>(1);
             this.Segments.Add(new LoadedGpxFileTourSegmentInfo(rawRouteData));
+
+            this.Waypoints = file.Waypoints;
 
             this.CalculateTourMetrics();
         }
@@ -68,6 +74,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             {
                 this.Segments.Add(new LoadedGpxFileTourSegmentInfo(actSegment));
             }
+
+            this.Waypoints = file.Waypoints;
 
             this.CalculateTourMetrics();
         }
@@ -108,7 +116,7 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             this.ElevationUpMeters = elevationUpMeters;
             this.ElevationDownMeters = elevationDownMeters;
             this.CountSegments = segmentCount;
-            this.CountWaypoints = waypointCount;
+            this.CountWaypointsWithinSegments = waypointCount;
         }
     }
 }

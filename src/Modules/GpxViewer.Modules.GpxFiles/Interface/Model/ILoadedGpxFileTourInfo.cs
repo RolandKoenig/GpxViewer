@@ -18,7 +18,7 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
 
         int CountSegments { get; }
 
-        int CountWaypoints { get; }
+        int CountWaypointsWithinSegments { get; }
 
         ILoadedGpxFile File { get; }
 
@@ -31,5 +31,7 @@ namespace GpxViewer.Modules.GpxFiles.Interface.Model
         TourExtension RawTourExtensionData { get; }
 
         IEnumerable<ILoadedGpxFileTourSegmentInfo> Segments { get; }
+
+        IEnumerable<ILoadedGpxFileWaypointInfo> Waypoints { get; }
     }
 }

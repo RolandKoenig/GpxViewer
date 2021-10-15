@@ -80,7 +80,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
         public int CountSegments => _tour.CountSegments;
 
         [Category("Metrics")]
-        public int CountWaypoints => _tour.CountWaypoints;
+        public int CountWaypoints => _tour.CountWaypointsWithinSegments;
         
         public SelectedTourViewModel(ILoadedGpxFileTourInfo tour)
         {

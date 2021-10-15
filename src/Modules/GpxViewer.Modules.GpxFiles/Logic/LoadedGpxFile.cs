@@ -26,6 +26,12 @@ namespace GpxViewer.Modules.GpxFiles.Logic
         {
             this.RawGpxFile = gpxFile;
 
+            this.Waypoints = new List<LoadedGpxFileWaypointInfo>(gpxFile.Waypoints.Count);
+            foreach (var actRawWaypointInfo in gpxFile.Waypoints)
+            {
+                this.Waypoints.Add(new LoadedGpxFileWaypointInfo(this, actRawWaypointInfo));
+            }
+
             this.Tours = new List<LoadedGpxFileTourInfo>();
             foreach (var actRawRouteInfo in gpxFile.Routes)
             {
@@ -34,12 +40,6 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             foreach(var actRawTrackData in gpxFile.Tracks)
             {
                 this.Tours.Add(new LoadedGpxFileTourInfo(this, actRawTrackData));
-            }
-
-            this.Waypoints = new List<LoadedGpxFileWaypointInfo>(gpxFile.Waypoints.Count);
-            foreach (var actRawWaypointInfo in gpxFile.Waypoints)
-            {
-                this.Waypoints.Add(new LoadedGpxFileWaypointInfo(this, actRawWaypointInfo));
             }
         }
     }

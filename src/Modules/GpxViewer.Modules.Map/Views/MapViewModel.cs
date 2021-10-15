@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using FirLib.Core.Patterns;
+using FirLib.Core.Utils.IO.AssemblyResources;
 using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Messages;
 using GpxViewer.Core.Patterns;
@@ -14,6 +15,7 @@ using GpxViewer.Modules.GpxFiles.Interface.Model;
 using GpxViewer.Modules.Map.Util;
 using Mapsui.Geometries;
 using Mapsui.Layers;
+using Mapsui.Projection;
 using Mapsui.Providers;
 using Mapsui.Styles;
 
@@ -31,10 +33,8 @@ namespace GpxViewer.Modules.Map.Views
         private MemoryProvider _layerSelectedGpxFilesProvider;
         private List<ILoadedGpxFileTourInfo> _selectedTours;
 
-        //private MemoryLayer _layerPointsSelected;
-        //private MemoryProvider _layerPointsSelectedProvider;
-        //private MemoryLayer _layerPoints;
-        //private MemoryProvider _layerPointsProvider;
+        private MemoryLayer _layerPoints;
+        private MemoryProvider _layerPointsProvider;
 
         private VectorStyle _lineStyleSelected;
         private VectorStyle _lineStyleInitial;
@@ -69,28 +69,17 @@ namespace GpxViewer.Modules.Map.Views
             _layerSelectedGpxFiles.DataSource = _layerSelectedGpxFilesProvider;
             _selectedTours = new List<ILoadedGpxFileTourInfo>();
 
-            //_layerPoints = new MemoryLayer();
-            //_layerPointsProvider = new MemoryProvider();
-            //_layerPoints.DataSource = _layerPointsProvider;
-            //_layerPoints.Style = new SymbolStyle()
-            //{
-            //    BitmapId = BitmapRegistry.Instance.Register(
-            //        new AssemblyResourceLink(typeof(MapModule), "Assets", "TourStartGray.png").OpenRead()),
-            //    SymbolScale = 0.15,
-            //    Opacity = 0.5f,
-            //    SymbolOffset = new Offset(0, 88)
-            //};
-
-            //_layerPointsSelected = new MemoryLayer();
-            //_layerPointsSelectedProvider = new MemoryProvider();
-            //_layerPointsSelected.DataSource = _layerPointsSelectedProvider;
-            //_layerPointsSelected.Style = new SymbolStyle()
-            //{
-            //    BitmapId = BitmapRegistry.Instance.Register(
-            //        new AssemblyResourceLink(typeof(MapModule), "Assets", "TourStart.png").OpenRead()),
-            //    SymbolScale = 0.30, 
-            //    SymbolOffset = new Offset(0, 88)
-            //};
+            _layerPoints = new MemoryLayer();
+            _layerPointsProvider = new MemoryProvider();
+            _layerPoints.DataSource = _layerPointsProvider;
+            _layerPoints.Style = new SymbolStyle()
+            {
+                BitmapId = BitmapRegistry.Instance.Register(
+                    new AssemblyResourceLink(typeof(MapModule), "Assets", "TourStartGray.png").OpenRead()),
+                SymbolScale = 0.15,
+                Opacity = 0.9f,
+                SymbolOffset = new Offset(0, 88)
+            };
 
             _lineStyleInitial = new VectorStyle
             {
@@ -125,8 +114,7 @@ namespace GpxViewer.Modules.Map.Views
             this.AdditionalMapLayers = new ObservableCollection<ILayer>();
             this.AdditionalMapLayers.Add(_layerSelectedGpxFiles);
             this.AdditionalMapLayers.Add(_layerLoadedGpxFiles);
-            //this.AdditionalMapLayers.Add(_layerPoints);
-            //this.AdditionalMapLayers.Add(_layerPointsSelected);
+            this.AdditionalMapLayers.Add(_layerPoints);
         }
 
         /// <inheritdoc />
@@ -211,33 +199,35 @@ namespace GpxViewer.Modules.Map.Views
             return _lineStyleInitial;
         }
 
-        //private void UpdateLayer_Points()
-        //{
-        //    var newFeaturesSelectedPoints = new List<IFeature>();
-        //    var newFeaturesNormalPoints = new List<IFeature>();
-        //    foreach (var actTour in _loadedTours)
-        //    {
-        //        var isSelected = _selectedTours.Contains(actTour);
+        private void UpdateLayer_Points()
+        {
+            var newFeaturesNormalPoints = new List<IFeature>();
 
-        //        foreach (var actTourSegment in actTour.Segments)
-        //        {
-        //            var startPoint = actTourSegment.Points.FirstOrDefault();
-        //            if(startPoint == null){ continue; }
+            var selectedTour = _selectedTours.FirstOrDefault();
+            if ((selectedTour != null) &&
+                (_selectedTours.Count == 1))
+            {
+                foreach (var actWaypoint in selectedTour.Waypoints)
+                {
+                    // Create point
+                    var point = SphericalMercator.FromLonLat(
+                        actWaypoint.RawWaypointData.Longitude,
+                        actWaypoint.RawWaypointData.Latitude);
+                    var feature = new Feature();
+                    feature.Geometry = point;
+                    feature.Styles.Add(new LabelStyle()
+                    {
+                        Text = actWaypoint.RawWaypointData.Name, 
+                        Opacity = 0.8f,
+                        Offset = new Offset(0, 1.0, isRelative:true)
+                    });
+                    newFeaturesNormalPoints.Add(feature);
+                }
+            }
 
-        //            var point = SphericalMercator.FromLonLat(startPoint.Longitude, startPoint.Latitude);
-        //            var feature = new Feature();
-        //            feature.Geometry = point;
-
-        //            if (isSelected) { newFeaturesSelectedPoints.Add(feature); }
-        //            else { newFeaturesNormalPoints.Add(feature); }
-        //        }
-
-        //    }
-        //    _layerPointsSelectedProvider.ReplaceFeatures(newFeaturesSelectedPoints);
-        //    _layerPointsSelected.DataHasChanged();
-        //    _layerPointsProvider.ReplaceFeatures(newFeaturesNormalPoints);
-        //    _layerPoints.DataHasChanged();
-        //}
+            _layerPointsProvider.ReplaceFeatures(newFeaturesNormalPoints);
+            _layerPoints.DataHasChanged();
+        }
 
         private void UpdateLayer_LoadedGpxFiles()
         {
@@ -339,7 +329,7 @@ namespace GpxViewer.Modules.Map.Views
             }
 
             this.UpdateLayer_LoadedGpxFiles();
-            //this.UpdateLayer_Points();
+            this.UpdateLayer_Points();
             this.ResetCamera(_loadedTours);
         }
 
@@ -355,7 +345,7 @@ namespace GpxViewer.Modules.Map.Views
             }
 
             this.UpdateLayer_SelectedGpxFiles();
-            //this.UpdateLayer_Points();
+            this.UpdateLayer_Points();
 
             this.Command_FocusSelectedTour.RaiseCanExecuteChanged();
         }
@@ -368,7 +358,7 @@ namespace GpxViewer.Modules.Map.Views
         private void OnMessageReceived(MessageTourConfigurationChanged message)
         {
             this.UpdateLayer_LoadedGpxFiles();
-            //this.UpdateLayer_Points();
+            this.UpdateLayer_Points();
         }
 
         private void OnMessageReceived(MessageGpxViewerOnExitPreview message)
