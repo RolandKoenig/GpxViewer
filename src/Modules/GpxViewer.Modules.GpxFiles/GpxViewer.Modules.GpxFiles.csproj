@@ -28,4 +28,18 @@
     <ProjectReference Include="..\..\GpxViewer.Core\GpxViewer.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\SelectedToursViewNormal - Copy.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>SelectedToursViewNormal.xaml.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\TourViews\SelectedToursViewError.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

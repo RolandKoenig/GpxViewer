@@ -6,61 +6,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:GpxViewer.Modules.GpxFiles.Views"
+    xmlns:localTourViews="clr-namespace:GpxViewer.Modules.GpxFiles.Views.TourViews"
     xmlns:prop="http://propertytools.org/wpf"
     xmlns:firlibMvvm="http://www.rolandk.de/firlib/patterns/mvvm"
     xmlns:prism="http://prismlibrary.com/"             
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d"
-    d:DataContext="{x:Static local:DesignData.SelectedToursVM}"
+    d:DataContext="{x:Static local:DesignData.SelectedToursVM_Normal}"
     d:DesignWidth="300" d:DesignHeight="200">
 
-    <firlibMvvm:MvvmUserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="Conv_BoolToVisibility" />
-    </firlibMvvm:MvvmUserControl.Resources>
-
-    <!-- TabControl not supported in MaterialDesign.
-         Workaround see https://stackoverflow.com/questions/41631602/xaml-material-design-tabcontrol-without-dragablz -->
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
- 
-        <StackPanel Grid.Row="0" 
-                    Orientation="Horizontal" Margin="2">
-            <RadioButton x:Name="rbTab1" 
-                         Style="{DynamicResource MaterialDesignTabRadioButton}"
-                         Margin="4" 
-                         IsChecked="True" 
-                         Content="Properties"/>
-            <RadioButton x:Name="rbTab2" 
-                         Style="{DynamicResource MaterialDesignTabRadioButton}"
-                         Margin="4"
-                         Content="Waypoints"/>
-        </StackPanel>
-
-        <Grid Grid.Row="1">
-            <Grid Visibility="{Binding IsChecked, ElementName=rbTab1, Converter={StaticResource Conv_BoolToVisibility}}">
-                <prop:PropertyGrid Visibility="{Binding Path=SelectedToursEditVisibility}" 
-                                   TabVisibility="Collapsed"
-                                   Style="{DynamicResource GpxViewerPropertyGrid}"
-                                   SelectedObjects="{Binding Path=SelectedTours}" />
-            </Grid>
-            <Grid Visibility="{Binding IsChecked, ElementName=rbTab2, Converter={StaticResource Conv_BoolToVisibility}}">
-                <DataGrid ItemsSource="{Binding Path=SelectedFileWaypoints}"
-                          AutoGenerateColumns="False"
-                          SelectionMode="Single">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Width="250" Header="Name"
-                                            IsReadOnly="True"
-                                            Binding="{Binding Path=RawWaypointData.Name}" />
-                        <DataGridTextColumn Width="150" Header="Elevation (m)"
-                                            IsReadOnly="True"
-                                            Binding="{Binding Path=RawWaypointData.Elevation, StringFormat=F0}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-        </Grid>
+        <localTourViews:SelectedToursViewNormal Visibility="{Binding Path=SelectedToursNormalViewVisibility}" />
+        <localTourViews:SelectedToursViewError Visibility="{Binding Path=SelectedToursErrorViewVisibility}" />
     </Grid>
 
 </firlibMvvm:MvvmUserControl>
