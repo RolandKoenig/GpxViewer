@@ -30,10 +30,38 @@ namespace GpxViewer.Core.Behaviors
         {
             if (sender is not BindableTreeViewSelectedItemBehavior senderBeh) { return; }
 
-            if (senderBeh.AssociatedObject.ItemContainerGenerator.ContainerFromItem(e.NewValue) is TreeViewItem itemContainer)
+            if (e.OldValue != null)
             {
-                itemContainer.IsSelected = true;
+                var oldTreeItem = FindContainerForItem(senderBeh.AssociatedObject.ItemContainerGenerator, e.OldValue);
+                if (oldTreeItem != null)
+                {
+                    oldTreeItem.IsSelected = false;
+                }
             }
+
+            if (e.NewValue != null)
+            {
+                var newTreeItem = FindContainerForItem(senderBeh.AssociatedObject.ItemContainerGenerator, e.NewValue);
+                if (newTreeItem != null)
+                {
+                    newTreeItem.IsSelected = true;
+                }
+            }
+        }
+
+        private static TreeViewItem? FindContainerForItem(ItemContainerGenerator containerGen, object item)
+        {
+            for (var loop = 0; loop < containerGen.Items.Count; loop++)
+            {
+                var actContainer = containerGen.ContainerFromIndex(loop);
+                if(actContainer is not TreeViewItem actTreeViewItem){ continue; }
+
+                if (actTreeViewItem.DataContext == item) { return actTreeViewItem; }
+
+                var resultInner = FindContainerForItem(actTreeViewItem.ItemContainerGenerator, item);
+                if (resultInner != null) { return resultInner; }
+            }
+            return null;
         }
 
         protected override void OnAttached()

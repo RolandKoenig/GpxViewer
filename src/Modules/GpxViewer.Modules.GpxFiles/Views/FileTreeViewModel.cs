@@ -47,6 +47,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 this.Command_Save.RaiseCanExecuteChanged();
                 this.Command_SaveAll.RaiseCanExecuteChanged();
                 this.Command_Close.RaiseCanExecuteChanged();
+                this.Command_DeselectAll.RaiseCanExecuteChanged();
             }
         }
 
@@ -58,6 +59,8 @@ namespace GpxViewer.Modules.GpxFiles.Views
         public DelegateCommand Command_SaveAll { get; }
         public DelegateCommand Command_Close { get; }
         public DelegateCommand Command_CloseAll { get; }
+
+        public DelegateCommand Command_DeselectAll { get; }
 
         public FileTreeViewModel(GpxFileRepository fileRepo, IGpxViewerCommands gpxViewerCommands)
         {
@@ -84,6 +87,10 @@ namespace GpxViewer.Modules.GpxFiles.Views
             this.Command_CloseAll = new DelegateCommand(
                 this.OnCommand_CloseAll_Execute,
                 () => this.TopLevelNodes.Count > 0);
+
+            this.Command_DeselectAll = new DelegateCommand(
+                () => this.SelectedNode = null,
+                () => this.SelectedNode != null);
         }
 
         public IEnumerable<FileTreeNodeViewModel> EnumerateAllNodes(IEnumerable<FileTreeNodeViewModel> currentLevel)
@@ -236,8 +243,6 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
         private void OnGpxFileRepository_SelectedNodeChanged(object? sender, EventArgs e)
         {
-            this.RaisePropertyChanged(nameof(this.SelectedNode));
-
             var newlySelectedNode = _repoGpxFiles.SelectedNode;
             if (newlySelectedNode != null)
             {
@@ -249,6 +254,9 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 this.Messenger.BeginPublish(
                     new MessageGpxFileRepositoryNodeSelectionChanged(null));
             }
+
+            this.SelectedNode = this.SelectedNode;
+            this.RaisePropertyChanged(nameof(this.SelectedNode));
         }
 
         private async void OnCommand_LoadFile_Execute()

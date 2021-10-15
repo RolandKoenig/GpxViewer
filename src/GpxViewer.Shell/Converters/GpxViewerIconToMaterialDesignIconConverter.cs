@@ -63,6 +63,9 @@ namespace GpxViewer.Shell.Converters
                 case GpxViewerIconKind.Error:
                     return PackIconKind.Error;
 
+                case GpxViewerIconKind.ClearSelection:
+                    return PackIconKind.SelectionOff;
+
                 default:
                     return null;
             }

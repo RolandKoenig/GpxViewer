@@ -36,6 +36,8 @@ namespace GpxViewer.Core
 
         Exit,
 
-        Error
+        Error,
+
+        ClearSelection
     }
 }

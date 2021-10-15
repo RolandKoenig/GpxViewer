@@ -16,90 +16,108 @@
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True" >
 
-    <TreeView ItemsSource="{Binding Path=TopLevelNodes}"
-              Grid.IsSharedSizeScope="True">
-        <behavior:Interaction.Behaviors>
-            <gpxvBehavior:BindableTreeViewSelectedItemBehavior SelectedItem="{Binding Path=SelectedNode, Mode=TwoWay}" />
-        </behavior:Interaction.Behaviors>
-    
-        <TreeView.ItemTemplate>
-            <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildNodes}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="C1" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="C2" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="C3" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="C4" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="C5" />
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0" 
-                                Orientation="Horizontal">
-                        <gpxViewerCoreControls:GpxViewerIcon IconKind="{Binding Path=IconKind}"
-                                                             Margin="4,0,4,0">
-                            <gpxViewerCoreControls:GpxViewerIcon.Style>
-                                <Style TargetType="gpxViewerCoreControls:GpxViewerIcon"
-                                       BasedOn="{StaticResource {x:Type gpxViewerCoreControls:GpxViewerIcon}}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=HasError}" Value="True">
-                                            <Setter Property="Foreground" Value="Red" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </gpxViewerCoreControls:GpxViewerIcon.Style>
-                        </gpxViewerCoreControls:GpxViewerIcon>
-                        <TextBlock Text="{Binding Path=NodeText}"
-                                   VerticalAlignment="Center">
-                        </TextBlock>
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Command="{Binding Path=Command_DeselectAll}"
+                      ToolTip="Deselect all">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <gpxViewerCoreControls:GpxViewerIcon IconKind="ClearSelection" />
+                        <TextBlock Text="Deselect all"
+                                   VerticalAlignment="Center"
+                                   Margin="3,0,0,0"/>
                     </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+        </Menu>
 
-                    <StackPanel Grid.Column="2"
-                                Orientation="Horizontal"
-                                Visibility="{Binding Path=TourFinishedVisibility}">
-                        <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
-                                                             IconKind="Checked"/>
-                    </StackPanel>
+        <TreeView ItemsSource="{Binding Path=TopLevelNodes}"
+                  Grid.IsSharedSizeScope="True">
+            <behavior:Interaction.Behaviors>
+                <gpxvBehavior:BindableTreeViewSelectedItemBehavior SelectedItem="{Binding Path=SelectedNode, Mode=TwoWay}" />
+            </behavior:Interaction.Behaviors>
+        
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildNodes}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="C1" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="C2" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="C3" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="C4" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="C5" />
+                        </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="4"
-                                Orientation="Horizontal"
-                                Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
-                        <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
-                                                             IconKind="DistanceKm" />
-                        <TextBlock Text="{Binding Path=DistanceKm, StringFormat=N1}"
-                                   VerticalAlignment="Center"/>
-                    </StackPanel>
+                        <StackPanel Grid.Column="0" 
+                                    Orientation="Horizontal">
+                            <gpxViewerCoreControls:GpxViewerIcon IconKind="{Binding Path=IconKind}"
+                                                                 Margin="4,0,4,0">
+                                <gpxViewerCoreControls:GpxViewerIcon.Style>
+                                    <Style TargetType="gpxViewerCoreControls:GpxViewerIcon"
+                                           BasedOn="{StaticResource {x:Type gpxViewerCoreControls:GpxViewerIcon}}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=HasError}" Value="True">
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </gpxViewerCoreControls:GpxViewerIcon.Style>
+                            </gpxViewerCoreControls:GpxViewerIcon>
+                            <TextBlock Text="{Binding Path=NodeText}"
+                                       VerticalAlignment="Center">
+                            </TextBlock>
+                        </StackPanel>
 
-                    <StackPanel Grid.Column="6"
-                                Orientation="Horizontal"
-                                Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
-                        <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
-                                                             IconKind="ElevationUpMeters" />
-                        <TextBlock Text="{Binding Path=ElevationUpMeters, StringFormat=N0}"
-                                   VerticalAlignment="Center"/>
-                    </StackPanel>
+                        <StackPanel Grid.Column="2"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding Path=TourFinishedVisibility}">
+                            <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
+                                                                 IconKind="Checked"/>
+                        </StackPanel>
 
-                    <StackPanel Grid.Column="8"
-                                Orientation="Horizontal"
-                                Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
-                        <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
-                                                             IconKind="ElevationDownMeters" />
-                        <TextBlock Text="{Binding Path=ElevationDownMeters, StringFormat=N0}"
-                                   VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Grid>
-            </HierarchicalDataTemplate>
-        </TreeView.ItemTemplate>
+                        <StackPanel Grid.Column="4"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
+                            <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
+                                                                 IconKind="DistanceKm" />
+                            <TextBlock Text="{Binding Path=DistanceKm, StringFormat=N1}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
 
-        <TreeView.ItemContainerStyle>
-            <Style TargetType="{x:Type TreeViewItem}"
-                   BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                <EventSetter Event="MouseDoubleClick" Handler="OnTreeViewItem_DoubleClick" />
-            </Style>
-        </TreeView.ItemContainerStyle>
-    </TreeView>
+                        <StackPanel Grid.Column="6"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
+                            <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
+                                                                 IconKind="ElevationUpMeters" />
+                            <TextBlock Text="{Binding Path=ElevationUpMeters, StringFormat=N0}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="8"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">
+                            <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
+                                                                 IconKind="ElevationDownMeters" />
+                            <TextBlock Text="{Binding Path=ElevationDownMeters, StringFormat=N0}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}"
+                       BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                    <EventSetter Event="MouseDoubleClick" Handler="OnTreeViewItem_DoubleClick" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
+    </DockPanel>
+
+
 
 </firlibMvvm:MvvmUserControl>
