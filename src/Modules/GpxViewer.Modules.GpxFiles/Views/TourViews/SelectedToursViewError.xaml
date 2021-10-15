@@ -18,6 +18,7 @@
                        Foreground="Red"
                        FontWeight="Bold" />
             <Button Content="Show Details"
+                    Command="{Binding Path=Command_ShowErrorDetails}"
                     HorizontalAlignment="Left"
                     Width="150" Margin="0,6,3,3" />
         </StackPanel>

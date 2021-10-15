@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using FirLib.Core.Patterns;
+using FirLib.Core.ViewServices;
 using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
@@ -49,7 +50,10 @@ namespace GpxViewer.Modules.GpxFiles.Views
             this.Command_ShowErrorDetails = new DelegateCommand(
                 () =>
                 {
-                    
+                    if (this.ErrorDetails == null) { return; }
+
+                    var srvErrorDialog = this.GetViewService<IErrorDialogService>();
+                    srvErrorDialog.ShowAsync(this.ErrorDetails);
                 }, 
                 () => this.ErrorDetails != null);
         }
