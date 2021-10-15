@@ -31,8 +31,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="RK GpxViewer"
-        Description="RK GpxViewer"
+        DisplayName="RK GPXviewer"
+        Description="A tool for displaying one or more gpx (GPS Exchange Format) files"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
