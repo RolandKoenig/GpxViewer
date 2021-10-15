@@ -23,6 +23,10 @@ namespace FirLib.Core.ViewServices
             {
                 return new WpfMessageBoxService(window);
             }
+            else if (viewServiceType == typeof(IErrorDialogService))
+            {
+                return new WpfErrorDialogService(window);
+            }
 
             return TryGetViewService((UIElement) window, viewServiceType);
         }

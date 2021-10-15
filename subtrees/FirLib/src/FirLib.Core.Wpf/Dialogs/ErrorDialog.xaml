@@ -4,15 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mvvm="clr-namespace:FirLib.Core.Patterns.Mvvm"
+        xmlns:draw="clr-namespace:System.Drawing;assembly=System.Drawing"
         xmlns:local="clr-namespace:FirLib.Core.Dialogs"
+        xmlns:localConv="clr-namespace:FirLib.Core.Converters"
         mc:Ignorable="d"
-        Title="ErrorDialog" Height="450" Width="800"
+        Title="Error" Height="450" Width="800"
         d:DataContext="{x:Static local:DesignData.ExceptionInfo}">
+    <mvvm:MvvmWindow.Resources>
+        <localConv:IconToImageSourceConverter x:Key="Conv_IconToImageSource" />
+    </mvvm:MvvmWindow.Resources>
+
     <Grid Margin="3">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="64" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Image Source="{Binding Source={x:Static draw:SystemIcons.Error},
+                                                 Converter={StaticResource Conv_IconToImageSource},
+                                                 Mode=OneWay}"
+                   VerticalAlignment="Top" 
+                   Margin="10" />
+        </Grid>
 
         <DockPanel Grid.Column="1"
                    LastChildFill="True">
@@ -29,17 +43,9 @@
 
             <StackPanel DockPanel.Dock="Bottom"
                         Orientation="Horizontal" FlowDirection="RightToLeft">
-                <StackPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="Width" Value="150" />
-                        <Setter Property="Margin" Value="3" />
-                    </Style>
-                </StackPanel.Resources>
-
                 <Button Content="Close" 
+                        Width="150" Margin="3"
                         Command="{Binding Path=Command_Close}"/>
-                <Button Content="Report Error"
-                        Command="{Binding Path=Command_ReportError}"/>
             </StackPanel>
 
             <TreeView ItemsSource="{Binding Path=ExceptionInfo.ChildNodes}"

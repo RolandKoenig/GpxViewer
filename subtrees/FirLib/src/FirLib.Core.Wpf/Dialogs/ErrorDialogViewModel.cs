@@ -15,14 +15,11 @@ namespace FirLib.Core.Dialogs
 
         public DelegateCommand Command_Close { get; }
 
-        public DelegateCommand Command_ReportError { get; }
-
         public ErrorDialogViewModel(ExceptionInfo exInfo)
         {
             this.ExceptionInfo = exInfo;
 
             this.Command_Close = new DelegateCommand(() => this.CloseWindow(true));
-            this.Command_ReportError = new DelegateCommand(() => throw new NotImplementedException());
         }
     }
 }
