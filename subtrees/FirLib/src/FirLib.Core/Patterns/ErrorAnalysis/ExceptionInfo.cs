@@ -50,6 +50,8 @@ namespace FirLib.Core.Patterns.ErrorAnalysis
         {
             yield return new DefaultExceptionAnalyzer();
             yield return new SystemIOExceptionAnalyzer();
+            yield return new AggregateExceptionAnalyzer();
+            yield return new FirLibExceptionsAnalyzer();
         }
 
         /// <summary>
