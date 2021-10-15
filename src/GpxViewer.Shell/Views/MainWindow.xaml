@@ -26,7 +26,7 @@
                 <MenuItem Header="Load Directory"
                           Command="{Binding Path=GpxViewerCommands.LoadDirectory}"
                           Icon="{x:Static gpxvCore:GpxViewerIconKind.LoadDirectory}"/>
-                <Separator />
+                <Separator Style="{DynamicResource HorizontalMenuSeparatorStyle}" />
 
                 <MenuItem Header="Save"
                           Command="{Binding Path=GpxViewerCommands.Save}"
@@ -34,7 +34,7 @@
                 <MenuItem Header="Save All"
                           Command="{Binding Path=GpxViewerCommands.SaveAll}"
                           Icon="{x:Static gpxvCore:GpxViewerIconKind.SaveAll}"/>
-                <Separator />
+                <Separator Style="{DynamicResource HorizontalMenuSeparatorStyle}" />
 
                 <MenuItem Header="Close" 
                           Command="{Binding Path=GpxViewerCommands.Close}"
@@ -42,7 +42,7 @@
                 <MenuItem Header="Close All" 
                           Command="{Binding Path=GpxViewerCommands.CloseAll}"
                           Icon="{x:Static gpxvCore:GpxViewerIconKind.CloseAll}"/>
-                <Separator />
+                <Separator Style="{DynamicResource HorizontalMenuSeparatorStyle}" />
 
                 <MenuItem Header="Recently Opened"
                           IsEnabled="{Binding Path=RecentlyOpenedAvailable}"
@@ -63,7 +63,7 @@
                         </Style>
                     </MenuItem.ItemContainerStyle>
                 </MenuItem>
-                <Separator />
+                <Separator Style="{DynamicResource HorizontalMenuSeparatorStyle}" />
 
                 <MenuItem Header="Exit"
                           Command="{Binding Path=Command_Exit}"/>

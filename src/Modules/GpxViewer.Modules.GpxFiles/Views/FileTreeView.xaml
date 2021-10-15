@@ -18,14 +18,55 @@
 
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
+            <MenuItem Command="{Binding Path=Command_LoadFile}"
+                      ToolTip="Load File">
+                <MenuItem.Header>
+                    <gpxViewerCoreControls:GpxViewerIcon IconKind="LoadGpxFile" />
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding Path=Command_LoadDirectory}"
+                      ToolTip="Load Directory">
+                <MenuItem.Header>
+                    <gpxViewerCoreControls:GpxViewerIcon IconKind="LoadDirectory" />
+                </MenuItem.Header>
+            </MenuItem>
+            <Separator Style="{DynamicResource VerticalMenuSeparatorStyle}"/>
+
+            <MenuItem Command="{Binding Path=Command_Save}"
+                      ToolTip="Save">
+                <MenuItem.Header>
+                    <gpxViewerCoreControls:GpxViewerIcon IconKind="Save" />
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding Path=Command_SaveAll}"
+                      ToolTip="Save All">
+                <MenuItem.Header>
+                    <gpxViewerCoreControls:GpxViewerIcon IconKind="SaveAll" />
+                </MenuItem.Header>
+            </MenuItem>
+            <Separator Style="{DynamicResource VerticalMenuSeparatorStyle}"/>
+
+            <MenuItem Command="{Binding Path=Command_Close}"
+                      ToolTip="Close">
+                <MenuItem.Header>
+                    <gpxViewerCoreControls:GpxViewerIcon IconKind="Close" />
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding Path=Command_CloseAll}"
+                      ToolTip="Close All">
+                <MenuItem.Header>
+                    <gpxViewerCoreControls:GpxViewerIcon IconKind="CloseAll" />
+                </MenuItem.Header>
+            </MenuItem>
+            <Separator Style="{DynamicResource VerticalMenuSeparatorStyle}"/>
+
             <MenuItem Command="{Binding Path=Command_DeselectAll}"
-                      ToolTip="Deselect all">
+                      ToolTip="Deselect All">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <gpxViewerCoreControls:GpxViewerIcon IconKind="ClearSelection" />
-                        <TextBlock Text="Deselect all"
-                                   VerticalAlignment="Center"
-                                   Margin="3,0,0,0"/>
+                        <TextBlock Text="Deselect All"
+                                   Margin="3,0,0,0" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>

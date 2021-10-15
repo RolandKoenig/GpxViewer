@@ -61,4 +61,29 @@
         </Setter>
     </Style>
 
+    <Style x:Key="VerticalMenuSeparatorStyle" TargetType="Separator">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Separator">
+                    <Border Background="{TemplateBinding Panel.Background}"
+                            Width="1" VerticalAlignment="Stretch"
+                            MaxHeight="15"
+                            Margin="0,3,0,3" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="HorizontalMenuSeparatorStyle" TargetType="Separator">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Separator">
+                    <Border Background="{TemplateBinding Panel.Background}"
+                            Height="1" HorizontalAlignment="Stretch"
+                            Margin="20, 3, 10, 3" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
