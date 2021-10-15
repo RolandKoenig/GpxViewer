@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FirLib.Core.Patterns;
 using FirLib.Core.Patterns.Mvvm;
+using FirLib.Core.Patterns.ObjectPooling;
 
 namespace GpxViewer.Core.ViewServices.AboutDialog
 {
@@ -77,6 +78,48 @@ namespace GpxViewer.Core.ViewServices.AboutDialog
             get
             {
                 return Environment.Version.ToString();
+            }
+        }
+
+        public string BasedOn
+        {
+            get
+            {
+                var strBuilder = PooledStringBuilders.Current.TakeStringBuilder(2048);
+                try
+                {
+                    strBuilder.AppendLine(
+                        "Prism: Prism is a framework for building loosely coupled, maintainable, and testable XAML applications in WPF, Xamarin Forms, and Uno / Win UI Applications");
+                    strBuilder.AppendLine("https://github.com/PrismLibrary/Prism");
+                    strBuilder.AppendLine();
+
+                    strBuilder.AppendLine(
+                        "Mapsui: Mapsui is a .NET Map component for WPF, Xamarin.Forms, Xamarin.Android, Xamarin.iOS and UWP");
+                    strBuilder.AppendLine("https://github.com/Mapsui/Mapsui");
+                    strBuilder.AppendLine();
+
+                    strBuilder.AppendLine(
+                        "Live-Charts: Simple, flexible, interactive & powerful charts, maps and gauges for .Net");
+                    strBuilder.AppendLine("https://github.com/Live-Charts/Live-Charts");
+                    strBuilder.AppendLine();
+
+                    strBuilder.AppendLine("MaterialDesignInXaml: Google's Material Design in XAML & WPF, for C# & VB.Net");
+                    strBuilder.AppendLine("https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit");
+                    strBuilder.AppendLine();
+
+                    strBuilder.AppendLine("Json.NET: Popular high-performance JSON framework for .NET");
+                    strBuilder.AppendLine("https://www.newtonsoft.com/json");
+                    strBuilder.AppendLine();
+
+                    strBuilder.AppendLine("FirLib: Utility library for most of my own open source applications");
+                    strBuilder.AppendLine("https://github.com/RolandKoenig/FirLib");
+
+                    return strBuilder.ToString();
+                }
+                finally
+                {
+                    PooledStringBuilders.Current.ReRegisterStringBuilder(strBuilder);
+                }
             }
         }
 
