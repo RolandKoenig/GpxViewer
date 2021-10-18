@@ -12,8 +12,8 @@
     Version="0.1.0.0" />
 
   <Properties>
-    <DisplayName>GpxViewer.Package</DisplayName>
-    <PublisherDisplayName>rolan</PublisherDisplayName>
+    <DisplayName>RK GPXviewer</DisplayName>
+    <PublisherDisplayName>RolandK</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
@@ -36,7 +36,7 @@
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png"  Square71x71Logo="Images\SmallTile.png" Square310x310Logo="Images\LargeTile.png"/>
         <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
@@ -45,7 +45,7 @@
             <uap:SupportedFileTypes>
               <uap:FileType>.gpx</uap:FileType>
             </uap:SupportedFileTypes>
-            <uap:DisplayName>Gpx File</uap:DisplayName>
+            <uap:DisplayName>GPX File</uap:DisplayName>
           </uap:FileTypeAssociation>
         </uap:Extension>
       </Extensions>
