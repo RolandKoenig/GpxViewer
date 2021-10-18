@@ -1,4 +1,4 @@
-# GpxViewer
+# GpxViewer <img src="media/GPXviewer.svg" width="32" />
 ## About
 GpxViewer is an application to view .gpx (GPS Exchange Format) files. I started
 developing it in preparation for a tour over the alps in summer 2021. Beside of that for me the

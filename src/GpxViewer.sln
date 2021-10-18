@@ -71,6 +71,8 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "GpxViewer.Package", "GpxVie
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "media", "media", "{691B2003-C5A6-4989-A66B-47E1C9F74630}"
 	ProjectSection(SolutionItems) = preProject
+		..\media\GPXviewer.ico = ..\media\GPXviewer.ico
+		..\media\GPXviewer.svg = ..\media\GPXviewer.svg
 		..\media\screenshot_01.png = ..\media\screenshot_01.png
 		..\media\screenshot_02.png = ..\media\screenshot_02.png
 	EndProjectSection

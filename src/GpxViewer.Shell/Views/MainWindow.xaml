@@ -14,7 +14,8 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     d:DataContext="{x:Static local:DesignData.MainWindowVM}"
     Style="{DynamicResource GpxViewerWindowStyle}"
-    Title="{Binding Title}" Height="350" Width="525">
+    Title="{Binding Title}" Height="350" Width="525"
+    Icon="/Assets/GPXviewer.ico">
 
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top"

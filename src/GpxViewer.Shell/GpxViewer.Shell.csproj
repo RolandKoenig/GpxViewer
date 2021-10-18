@@ -12,7 +12,12 @@
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1701;1702;1591</NoWarn>
+    <ApplicationIcon>..\..\media\GPXviewer.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="..\..\media\GPXviewer.ico" Link="Assets\GPXviewer.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="7.0.0" />
