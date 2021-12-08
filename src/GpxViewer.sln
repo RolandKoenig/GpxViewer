@@ -75,6 +75,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "media", "media", "{691B2003
 		..\media\GPXviewer.svg = ..\media\GPXviewer.svg
 		..\media\screenshot_01.png = ..\media\screenshot_01.png
 		..\media\screenshot_02.png = ..\media\screenshot_02.png
+		..\media\screenshot_03.png = ..\media\screenshot_03.png
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{149A88E3-4CE3-4540-944E-FC97577C55F6}"
