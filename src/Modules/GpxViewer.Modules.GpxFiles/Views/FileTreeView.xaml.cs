@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,26 @@ namespace GpxViewer.Modules.GpxFiles.Views
             if(this.DataContext is FileTreeViewModel viewModel)
             {
                 viewModel.NotifyFileTreeNodeDoubleClick(fileNodeVM);
+            }
+        }
+
+        private void OnTreeView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (sender is not TreeView treeView) { return; }
+            if (!(treeView.IsKeyboardFocusWithin || treeView.IsKeyboardFocused)) { return; }
+            if (this.DataContext is not FileTreeViewModel viewModel) { return; }
+
+            switch (e.Key)
+            {
+                case Key.Up:
+                    viewModel.NavigateUp();
+                    e.Handled = true;
+                    break;
+
+                case Key.Down:
+                    viewModel.NavigateDown();
+                    e.Handled = true;
+                    break;
             }
         }
     }

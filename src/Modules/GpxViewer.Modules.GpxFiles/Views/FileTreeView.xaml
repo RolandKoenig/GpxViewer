@@ -73,7 +73,8 @@
         </Menu>
 
         <TreeView ItemsSource="{Binding Path=TopLevelNodes}"
-                  Grid.IsSharedSizeScope="True">
+                  Grid.IsSharedSizeScope="True"
+                  KeyDown="OnTreeView_KeyDown">
             <behavior:Interaction.Behaviors>
                 <gpxvBehavior:BindableTreeViewSelectedItemBehavior SelectedItem="{Binding Path=SelectedNode, Mode=TwoWay}" />
             </behavior:Interaction.Behaviors>
@@ -154,6 +155,8 @@
                 <Style TargetType="{x:Type TreeViewItem}"
                        BasedOn="{StaticResource {x:Type TreeViewItem}}">
                     <EventSetter Event="MouseDoubleClick" Handler="OnTreeViewItem_DoubleClick" />
+                    <Setter Property="IsExpanded" 
+                            Value="{Binding IsExpanded, Mode=TwoWay}" />
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>

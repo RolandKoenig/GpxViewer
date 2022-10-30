@@ -14,6 +14,8 @@ namespace GpxViewer.Modules.GpxFiles.Views
 {
     internal class FileTreeNodeViewModel : GpxViewerViewModelBase
     {
+        private bool _isExpanded;
+
         public GpxFileRepositoryNode Model { get; }
 
         public string NodeText => this.Model.NodeText;
@@ -23,6 +25,12 @@ namespace GpxViewer.Modules.GpxFiles.Views
         public TransformedObservableCollection<FileTreeNodeViewModel, GpxFileRepositoryNode> ChildNodes { get; }
 
         public bool HasError => this.Model.HasError;
+
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set => this.SetProperty(ref _isExpanded, value);
+        }
 
         public GpxViewerIconKind IconKind
         {
