@@ -38,6 +38,8 @@ namespace GpxViewer.Core
 
         Error,
 
-        ClearSelection
+        ClearSelection,
+
+        Pin
     }
 }

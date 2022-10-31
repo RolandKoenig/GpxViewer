@@ -67,6 +67,18 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
+        public Visibility TourPlannedVisibility
+        {
+            get
+            {
+                if (this.Model.HasError) { return Visibility.Collapsed; }
+                
+                return this.Model.GetAssociatedToursDeep()?.All(actTour => actTour.RawTourExtensionData.State == GpxTrackState.Planned) ?? false
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+        }
+
         public FileTreeNodeViewModel(GpxFileRepositoryNode model)
         {
             this.Model = model;
@@ -79,6 +91,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
         {
             this.RaisePropertyChanged(nameof(this.NodeText));
             this.RaisePropertyChanged(nameof(this.TourFinishedVisibility));
+            this.RaisePropertyChanged(nameof(this.TourPlannedVisibility));
         }
     }
 }

@@ -121,6 +121,13 @@
                                                                  IconKind="Checked"/>
                         </StackPanel>
 
+                        <StackPanel Grid.Column="2"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding Path=TourPlannedVisibility}">
+                            <gpxViewerCoreControls:GpxViewerIcon VerticalAlignment="Center"
+                                                                 IconKind="Pin"/>
+                        </StackPanel>
+
                         <StackPanel Grid.Column="4"
                                     Orientation="Horizontal"
                                     Visibility="{Binding Path=TourStatsVisibility, Mode=OneTime}">

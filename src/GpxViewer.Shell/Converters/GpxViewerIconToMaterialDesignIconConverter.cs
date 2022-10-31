@@ -15,6 +15,7 @@ namespace GpxViewer.Shell.Converters
         /// <inheritdoc />
         public object? Convert(object value, Type targetType, object? parameter, CultureInfo? culture)
         {
+            
             var gpxViewerIcon = (GpxViewerIconKind) value;
             switch (gpxViewerIcon)
             {
@@ -65,6 +66,9 @@ namespace GpxViewer.Shell.Converters
 
                 case GpxViewerIconKind.ClearSelection:
                     return PackIconKind.SelectionOff;
+
+                case GpxViewerIconKind.Pin:
+                    return PackIconKind.Pin;
 
                 default:
                     return null;
