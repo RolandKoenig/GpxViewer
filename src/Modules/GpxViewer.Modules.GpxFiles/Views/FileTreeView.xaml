@@ -10,6 +10,7 @@
     xmlns:gpxViewerCoreControls="clr-namespace:GpxViewer.Core.Controls;assembly=GpxViewer.Core"
     xmlns:gpxvBehavior="clr-namespace:GpxViewer.Core.Behaviors;assembly=GpxViewer.Core"
     xmlns:local="clr-namespace:GpxViewer.Modules.GpxFiles.Views"
+    xmlns:res="clr-namespace:GpxViewer.Modules.GpxFiles.Properties"
     mc:Ignorable="d" 
     d:DesignHeight="300" d:DesignWidth="300"
     d:DataContext="{x:Static local:DesignData.FileTreeVM}"
@@ -61,11 +62,11 @@
             <Separator Style="{DynamicResource VerticalMenuSeparatorStyle}"/>
 
             <MenuItem Command="{Binding Path=Command_DeselectAll}"
-                      ToolTip="Deselect All">
+                      ToolTip="{x:Static res:Resources.FileTree_DeselectAll}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <gpxViewerCoreControls:GpxViewerIcon IconKind="ClearSelection" />
-                        <TextBlock Text="Deselect All"
+                        <TextBlock Text="{x:Static res:Resources.FileTree_DeselectAll}"
                                    Margin="3,0,0,0" />
                     </StackPanel>
                 </MenuItem.Header>
