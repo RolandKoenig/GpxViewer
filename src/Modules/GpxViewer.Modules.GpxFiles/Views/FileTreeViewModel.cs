@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using FirLib.Core;
 using FirLib.Core.Utils.Collections;
@@ -14,7 +13,6 @@ using GpxViewer.Core.ValueObjects;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
 using GpxViewer.Modules.GpxFiles.Logic;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace GpxViewer.Modules.GpxFiles.Views
 {
@@ -94,8 +92,34 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 () => this.SelectedNode != null);
         }
 
-        public void NavigateUp()
+        public void TryNavigateUp()
         {
+            static bool FindNodeBeforeSelectedNode(
+                FileTreeNodeViewModel selectedNode, 
+                ref FileTreeNodeViewModel? lastNode,
+                IEnumerable<FileTreeNodeViewModel> nodes)
+            {
+                foreach (var actNode in nodes)
+                {
+                    if (actNode == selectedNode)
+                    {
+                        return lastNode != null;
+                    }
+
+                    lastNode = actNode;
+
+                    if (actNode.IsExpanded)
+                    {
+                        if (FindNodeBeforeSelectedNode(selectedNode, ref lastNode, actNode.ChildNodes))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
+
             if (this.SelectedNode == null)
             {
                 this.SelectedNode = this.TopLevelNodes.FirstOrDefault();
@@ -109,8 +133,39 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
-        public void NavigateDown()
+        public void TryNavigateDown()
         {
+            static bool FindNodeAfterSelectedNode(
+                FileTreeNodeViewModel selectedNode, 
+                ref bool selectedNodeFound,
+                ref FileTreeNodeViewModel? followingNode,
+                IEnumerable<FileTreeNodeViewModel> nodes)
+            {
+                foreach (var actNode in nodes)
+                {
+                    if (selectedNodeFound)
+                    {
+                        followingNode = actNode;
+                        return true;
+                    }
+
+                    if (actNode == selectedNode)
+                    {
+                        selectedNodeFound = true;
+                    }
+                
+                    if (actNode.IsExpanded)
+                    {
+                        if (FindNodeAfterSelectedNode(selectedNode, ref selectedNodeFound, ref followingNode, actNode.ChildNodes))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
+
             if (this.SelectedNode == null)
             {
                 this.SelectedNode = this.TopLevelNodes.FirstOrDefault();
@@ -125,61 +180,18 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
-        private static bool FindNodeBeforeSelectedNode(
-            FileTreeNodeViewModel selectedNode, 
-            ref FileTreeNodeViewModel? lastNode,
-            IEnumerable<FileTreeNodeViewModel> nodes)
+        public void TryExpandSelectedNode()
         {
-            foreach (var actNode in nodes)
-            {
-                if (actNode == selectedNode)
-                {
-                    return lastNode != null;
-                }
+            if (this.SelectedNode == null) { return; }
 
-                lastNode = actNode;
-
-                if (actNode.IsExpanded)
-                {
-                    if (FindNodeBeforeSelectedNode(selectedNode, ref lastNode, actNode.ChildNodes))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            this.SelectedNode.IsExpanded = this.SelectedNode.ChildNodes.Count > 0;
         }
 
-        private static bool FindNodeAfterSelectedNode(
-            FileTreeNodeViewModel selectedNode, 
-            ref bool selectedNodeFound,
-            ref FileTreeNodeViewModel? followingNode,
-            IEnumerable<FileTreeNodeViewModel> nodes)
+        public void TryCollapseSelectedNode()
         {
-            foreach (var actNode in nodes)
-            {
-                if (selectedNodeFound)
-                {
-                    followingNode = actNode;
-                    return true;
-                }
+            if (this.SelectedNode == null) { return; }
 
-                if (actNode == selectedNode)
-                {
-                    selectedNodeFound = true;
-                }
-                
-                if (actNode.IsExpanded)
-                {
-                    if (FindNodeAfterSelectedNode(selectedNode, ref selectedNodeFound, ref followingNode, actNode.ChildNodes))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            this.SelectedNode.IsExpanded = false;
         }
 
         public IEnumerable<FileTreeNodeViewModel> EnumerateAllNodes(IEnumerable<FileTreeNodeViewModel> currentLevel)

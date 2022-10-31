@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using FirLib.Core.Patterns.Mvvm;
 
 namespace GpxViewer.Modules.GpxFiles.Views
@@ -38,7 +25,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
-        private void OnTreeView_KeyDown(object sender, KeyEventArgs e)
+        private void OnTreView_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (sender is not TreeView treeView) { return; }
             if (!(treeView.IsKeyboardFocusWithin || treeView.IsKeyboardFocused)) { return; }
@@ -47,13 +34,22 @@ namespace GpxViewer.Modules.GpxFiles.Views
             switch (e.Key)
             {
                 case Key.Up:
-                    viewModel.NavigateUp();
+                    viewModel.TryNavigateUp();
                     e.Handled = true;
                     break;
 
                 case Key.Down:
-                    viewModel.NavigateDown();
+                    viewModel.TryNavigateDown();
                     e.Handled = true;
+                    break;
+
+                case Key.Left:
+                    viewModel.TryCollapseSelectedNode();
+                    e.Handled = true;
+                    break;
+
+                case Key.Right:
+                    viewModel.TryExpandSelectedNode();
                     break;
             }
         }

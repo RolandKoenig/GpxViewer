@@ -74,7 +74,7 @@
 
         <TreeView ItemsSource="{Binding Path=TopLevelNodes}"
                   Grid.IsSharedSizeScope="True"
-                  KeyDown="OnTreeView_KeyDown">
+                  PreviewKeyDown="OnTreView_PreviewKeyDown">
             <behavior:Interaction.Behaviors>
                 <gpxvBehavior:BindableTreeViewSelectedItemBehavior SelectedItem="{Binding Path=SelectedNode, Mode=TwoWay}" />
             </behavior:Interaction.Behaviors>
