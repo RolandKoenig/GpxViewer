@@ -8,7 +8,7 @@
             xmlns:firlibMvvm="http://www.rolandk.de/firlib/patterns/mvvm"
             xmlns:local="clr-namespace:GpxViewer.Core.ViewServices.AboutDialog"
             mc:Ignorable="d"
-            Title="About" 
+            Title="{x:Static local:AboutDialogWindowResources.Dialog_Title}" 
             Style="{DynamicResource GpxViewerWindowStyle}"
             Width="800" Height="450">
     <Window.DataContext>
@@ -20,7 +20,7 @@
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                         FlowDirection="RightToLeft">
                 <Button Width="100" Margin="3" 
-                        Content="Close"
+                        Content="{x:Static local:AboutDialogWindowResources.Button_Close}"
                         Command="{Binding Path=Command_Close}" />
             </StackPanel>
 

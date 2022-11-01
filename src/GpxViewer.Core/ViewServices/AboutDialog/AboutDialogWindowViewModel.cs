@@ -1,19 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
-using System.Text;
-using System.Threading.Tasks;
 using FirLib.Core.Patterns;
 using FirLib.Core.Patterns.Mvvm;
 using FirLib.Core.Patterns.ObjectPooling;
+using GpxViewer.Core.Utils;
 
 namespace GpxViewer.Core.ViewServices.AboutDialog
 {
     internal class AboutDialogWindowViewModel : ViewModelBase
     {
+        [LocalizableCategory(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Category_Name))]
+        [LocalizableDisplayName(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Property_Name))]
         public string Name
         {
             get
@@ -23,6 +26,12 @@ namespace GpxViewer.Core.ViewServices.AboutDialog
             }
         }
 
+        [LocalizableCategory(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Category_Name))]
+        [LocalizableDisplayName(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Property_Version))]
         public string Version
         {
             get
@@ -32,6 +41,12 @@ namespace GpxViewer.Core.ViewServices.AboutDialog
             }
         }
 
+        [LocalizableCategory(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Category_Name))]
+        [LocalizableDisplayName(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Property_Description))]
         public string Description
         {
             get
@@ -41,11 +56,23 @@ namespace GpxViewer.Core.ViewServices.AboutDialog
             }
         }
 
+        [LocalizableCategory(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Category_Name))]
+        [LocalizableDisplayName(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Property_Homepage))]
         public string Homepage
         {
             get => "https://github.com/RolandKoenig/GpxViewer";
         }
 
+        [LocalizableCategory(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Category_Name))]
+        [LocalizableDisplayName(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Property_Author))]
         public string Author
         {
             get
@@ -55,6 +82,12 @@ namespace GpxViewer.Core.ViewServices.AboutDialog
             }
         }
 
+        [LocalizableCategory(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Category_Name))]
+        [LocalizableDisplayName(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Property_Copyright))]
         public string Copyright
         {
             get
@@ -64,6 +97,12 @@ namespace GpxViewer.Core.ViewServices.AboutDialog
             }
         }
 
+        [LocalizableCategory(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Category_Name))]
+        [LocalizableDisplayName(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Property_TargetFramework))]
         public string TargetFramework
         {
             get
@@ -73,6 +112,12 @@ namespace GpxViewer.Core.ViewServices.AboutDialog
             }
         }
 
+        [LocalizableCategory(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Category_Name))]
+        [LocalizableDisplayName(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Property_NetFrameworkVersion))]
         public string NetFrameworkVersion
         {
             get
@@ -81,6 +126,12 @@ namespace GpxViewer.Core.ViewServices.AboutDialog
             }
         }
 
+        [LocalizableCategory(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Category_Name))]
+        [LocalizableDisplayName(
+            typeof(AboutDialogWindowResources),
+            nameof(AboutDialogWindowResources.Property_BasedOn))]
         public string BasedOn
         {
             get

@@ -30,12 +30,21 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="ViewServices\AboutDialog\AboutDialogWindowResources.Designer.cs">
+      <DependentUpon>AboutDialogWindowResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="GpxExtensions\GpxTrackStateResources.resx">
       <LastGenOutput>GpxTrackStateResources.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ViewServices\AboutDialog\AboutDialogWindowResources.resx">
+      <LastGenOutput>AboutDialogWindowResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
 
