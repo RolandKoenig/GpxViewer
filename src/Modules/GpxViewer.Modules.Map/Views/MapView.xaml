@@ -26,10 +26,10 @@
                     Style="{DynamicResource MapOverlayStyle}"
                     Margin="{StaticResource MapPanelMargin}"
                     Orientation="Horizontal">
-            <Button Content="Reset Camera" 
+            <Button Content="{x:Static local:MapViewResources.Map_ResetCamera}" 
                     Margin="{StaticResource MapPanelContentMargin}"
                     Command="{Binding Path=Command_ResetCamera}" />
-            <Button Content="Focus Selected"
+            <Button Content="{x:Static local:MapViewResources.Map_FocusSelected}"
                     Margin="{StaticResource MapPanelContentMargin}" 
                     Command="{Binding Path=Command_FocusSelectedTour}"/>
         </StackPanel>

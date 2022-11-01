@@ -37,4 +37,19 @@
     <ProjectReference Include="..\GpxViewer.Modules.GpxFiles\GpxViewer.Modules.GpxFiles.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\MapViewResources.Designer.cs">
+      <DependentUpon>MapViewResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\MapViewResources.resx">
+      <LastGenOutput>MapViewResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
