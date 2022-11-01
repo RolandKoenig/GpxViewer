@@ -24,4 +24,19 @@
     <ProjectReference Include="..\..\subtrees\FirLib\src\FirLib.Formats.Gpx\FirLib.Formats.Gpx.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="GpxExtensions\GpxTrackStateResources.Designer.cs">
+      <DependentUpon>GpxTrackStateResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="GpxExtensions\GpxTrackStateResources.resx">
+      <LastGenOutput>GpxTrackStateResources.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

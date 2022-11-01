@@ -9,7 +9,6 @@
     xmlns:gpxvCore="clr-namespace:GpxViewer.Core;assembly=GpxViewer.Core"
     xmlns:gpxvControls="clr-namespace:GpxViewer.Core.Controls;assembly=GpxViewer.Core"
     xmlns:local="clr-namespace:GpxViewer.Shell.Views"
-    xmlns:res="clr-namespace:GpxViewer.Shell.Properties"
     mc:Ignorable="d"
     WindowState="Maximized"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -21,32 +20,32 @@
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top"
               Style="{StaticResource MainMenuStyle}">
-            <MenuItem Header="{x:Static res:Resources.MainMenu_File}">
-                <MenuItem Header="{x:Static res:Resources.MainMenu_LoadFile}"
+            <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_File}">
+                <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_LoadFile}"
                           Command="{Binding Path=GpxViewerCommands.LoadFile}"
                           Icon="{x:Static gpxvCore:GpxViewerIconKind.LoadGpxFile}" />
-                <MenuItem Header="{x:Static res:Resources.MainMenu_LoadDirectory}"
+                <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_LoadDirectory}"
                           Command="{Binding Path=GpxViewerCommands.LoadDirectory}"
                           Icon="{x:Static gpxvCore:GpxViewerIconKind.LoadDirectory}"/>
                 <Separator Style="{DynamicResource HorizontalMenuSeparatorStyle}" />
 
-                <MenuItem Header="{x:Static res:Resources.MainMenu_Save}"
+                <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_Save}"
                           Command="{Binding Path=GpxViewerCommands.Save}"
                           Icon="{x:Static gpxvCore:GpxViewerIconKind.Save}"/>
-                <MenuItem Header="{x:Static res:Resources.MainMenu_SaveAll}"
+                <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_SaveAll}"
                           Command="{Binding Path=GpxViewerCommands.SaveAll}"
                           Icon="{x:Static gpxvCore:GpxViewerIconKind.SaveAll}"/>
                 <Separator Style="{DynamicResource HorizontalMenuSeparatorStyle}" />
 
-                <MenuItem Header="{x:Static res:Resources.MainMenu_Close}" 
+                <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_Close}" 
                           Command="{Binding Path=GpxViewerCommands.Close}"
                           Icon="{x:Static gpxvCore:GpxViewerIconKind.Close}"/>
-                <MenuItem Header="{x:Static res:Resources.MainMenu_CloseAll}" 
+                <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_CloseAll}" 
                           Command="{Binding Path=GpxViewerCommands.CloseAll}"
                           Icon="{x:Static gpxvCore:GpxViewerIconKind.CloseAll}"/>
                 <Separator Style="{DynamicResource HorizontalMenuSeparatorStyle}" />
 
-                <MenuItem Header="{x:Static res:Resources.MainMenu_RecentlyOpened}"
+                <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_RecentlyOpened}"
                           IsEnabled="{Binding Path=RecentlyOpenedAvailable}"
                           ItemsSource="{Binding Path=RecentlyOpened}">
                     <MenuItem.ItemTemplate>
@@ -67,19 +66,19 @@
                 </MenuItem>
                 <Separator Style="{DynamicResource HorizontalMenuSeparatorStyle}" />
 
-                <MenuItem Header="{x:Static res:Resources.MainMenu_Exit}"
+                <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_Exit}"
                           Command="{Binding Path=Command_Exit}"/>
             </MenuItem>
-            <MenuItem Header="{x:Static res:Resources.MainMenu_Skin}">
-                <MenuItem Header="{x:Static res:Resources.MainMenu_SkinDark}"
+            <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_Skin}">
+                <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_SkinDark}"
                           Command="{Binding Path=Command_SetSkin}"
                           CommandParameter="Dark"/>
-                <MenuItem Header="{x:Static res:Resources.MainMenu_SkinLight}"
+                <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_SkinLight}"
                           Command="{Binding Path=Command_SetSkin}"
                           CommandParameter="Light"/>
             </MenuItem>
-            <MenuItem Header="{x:Static res:Resources.MainMenu_Help}">
-                <MenuItem Header="{x:Static res:Resources.MainMenu_HelpAbout}"
+            <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_Help}">
+                <MenuItem Header="{x:Static local:MainWindowResources.MainMenu_HelpAbout}"
                           Command="{Binding Path=Command_ShowAboutDialog}" />
             </MenuItem>
         </Menu>
@@ -100,7 +99,7 @@
                 </Grid.RowDefinitions>
 
                 <GroupBox Grid.Row="0" 
-                          Header="{x:Static res:Resources.Group_Files}">
+                          Header="{x:Static local:MainWindowResources.Group_Files}">
                     <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_FILE_TREE}" />
                 </GroupBox>
 
@@ -108,7 +107,7 @@
                               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
                 <GroupBox Grid.Row="2"
-                          Header="{x:Static res:Resources.Group_SelectedTour}">
+                          Header="{x:Static local:MainWindowResources.Group_SelectedTour}">
                     <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_TOUR_INFO}" />
                 </GroupBox>
             </Grid>
@@ -131,7 +130,7 @@
                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
                     <GroupBox Grid.Row="2"
-                              Header="{x:Static res:Resources.Group_ElevationProfile}">
+                              Header="{x:Static local:MainWindowResources.Group_ElevationProfile}">
                         <ContentControl prism:RegionManager.RegionName="{x:Static gpxvCore:GpxViewerConstants.REGION_ELEVATION_PROFILE}" />
                     </GroupBox>
                 </Grid>

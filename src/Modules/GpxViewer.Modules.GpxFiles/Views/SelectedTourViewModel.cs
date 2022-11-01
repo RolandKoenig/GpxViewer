@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GpxViewer.Core.GpxExtensions;
+﻿using GpxViewer.Core.GpxExtensions;
 using GpxViewer.Core.Patterns;
+using GpxViewer.Core.Utils;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
-using PropertyTools.DataAnnotations;
 
 namespace GpxViewer.Modules.GpxFiles.Views
 {
@@ -16,7 +10,12 @@ namespace GpxViewer.Modules.GpxFiles.Views
     {
         private ILoadedGpxFileTourInfo _tour;
 
-        [Category("Metadata")]
+        [LocalizableCategory(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Category_Metadata))]
+        [LocalizableDisplayName(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Property_Name))]
         public string Name
         {
             get => _tour.RawTrackOrRoute.Name ?? string.Empty;
@@ -33,7 +32,12 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
-        [Category("Metadata")]
+        [LocalizableCategory(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Category_Metadata))]
+        [LocalizableDisplayName(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Property_Description))]
         public string Description
         {
             get => _tour.RawTrackOrRoute.Description ?? string.Empty;
@@ -50,7 +54,12 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
-        [Category("Metadata")]
+        [LocalizableCategory(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Category_Metadata))]
+        [LocalizableDisplayName(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Property_State))]
         public GpxTrackState State
         {
             get => _tour.RawTourExtensionData.State;
@@ -67,21 +76,30 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
-        [Category("Metrics")]
+        [LocalizableCategory(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Category_Metrics))]
+        [LocalizableDisplayName(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Property_DistanceKm))]
         public string DistanceKm => _tour.DistanceKm.ToString("N1");
 
-        [Category("Metrics")]
+        [LocalizableCategory(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Category_Metrics))]
+        [LocalizableDisplayName(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Property_ElevationUpMeters))]
         public string ElevationUpMeters => _tour.ElevationUpMeters.ToString("N0");
 
-        [Category("Metrics")]
+        [LocalizableCategory(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Category_Metrics))]
+        [LocalizableDisplayName(
+            typeof(SelectedToursViewResources),
+            nameof(SelectedToursViewResources.Property_ElevationDownMeters))]
         public string ElevationDownMeters => _tour.ElevationDownMeters.ToString("N0");
 
-        [Category("Metrics")]
-        public int CountSegments => _tour.CountSegments;
-
-        [Category("Metrics")]
-        public int CountWaypoints => _tour.CountWaypointsWithinSegments;
-        
         public SelectedTourViewModel(ILoadedGpxFileTourInfo tour)
         {
             _tour = tour;
