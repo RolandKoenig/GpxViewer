@@ -13,17 +13,17 @@
                     Margin="3">
             <StackPanel Orientation="Horizontal"
                         Margin="2">
-                <TextBlock Text="Distance: " />
+                <TextBlock Text="{x:Static local:ElevationProfileViewResources.Tooltip_Distance}" />
                 <TextBlock x:Name="CtrlDistance" />
                 <TextBlock Margin="2,0,0,0" 
-                           Text="km" />
+                           Text="{x:Static local:ElevationProfileViewResources.Tooltip_Km}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                         Margin="2">
-                <TextBlock Text="Elevation: " />
+                <TextBlock Text="{x:Static local:ElevationProfileViewResources.Tooltip_Elevation}" />
                 <TextBlock x:Name="CtrlElevation" />
                 <TextBlock Margin="2,0,0,0"
-                           Text="m" />
+                           Text="{x:Static local:ElevationProfileViewResources.Tooltip_M}" />
             </StackPanel>
         </StackPanel>
     </Border>
