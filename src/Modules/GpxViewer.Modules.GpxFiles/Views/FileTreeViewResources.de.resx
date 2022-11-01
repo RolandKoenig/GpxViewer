@@ -120,4 +120,22 @@
   <data name="FileTree_DeselectAll" xml:space="preserve">
     <value>Auswahl zurücksetzen</value>
   </data>
+  <data name="Tool_Close" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="Tool_CloseAll" xml:space="preserve">
+    <value>Alles schließen</value>
+  </data>
+  <data name="Tool_LoadDirectory" xml:space="preserve">
+    <value>Ordner öffnen</value>
+  </data>
+  <data name="Tool_LoadFile" xml:space="preserve">
+    <value>Datei öffnen</value>
+  </data>
+  <data name="Tool_Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="Tool_SaveAll" xml:space="preserve">
+    <value>Alles speichern</value>
+  </data>
 </root>

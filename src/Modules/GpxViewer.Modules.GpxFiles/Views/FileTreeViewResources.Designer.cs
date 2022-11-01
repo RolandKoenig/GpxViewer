@@ -68,5 +68,59 @@ namespace GpxViewer.Modules.GpxFiles.Views {
                 return ResourceManager.GetString("FileTree_DeselectAll", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Tool_Close {
+            get {
+                return ResourceManager.GetString("Tool_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close All.
+        /// </summary>
+        public static string Tool_CloseAll {
+            get {
+                return ResourceManager.GetString("Tool_CloseAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load Directory.
+        /// </summary>
+        public static string Tool_LoadDirectory {
+            get {
+                return ResourceManager.GetString("Tool_LoadDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load File.
+        /// </summary>
+        public static string Tool_LoadFile {
+            get {
+                return ResourceManager.GetString("Tool_LoadFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Tool_Save {
+            get {
+                return ResourceManager.GetString("Tool_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SaveAll.
+        /// </summary>
+        public static string Tool_SaveAll {
+            get {
+                return ResourceManager.GetString("Tool_SaveAll", resourceCulture);
+            }
+        }
     }
 }

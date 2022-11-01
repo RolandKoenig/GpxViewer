@@ -7,6 +7,7 @@ using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
 using GpxViewer.Modules.GpxFiles.Logic;
 using GpxViewer.Modules.GpxFiles.Views;
+using GpxViewer.Modules.GpxFiles.Views.TourViews;
 using Prism.Ioc;
 using Prism.Regions;
 

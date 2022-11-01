@@ -123,6 +123,15 @@
   <data name="Category_Metrics" xml:space="preserve">
     <value>Metriken</value>
   </data>
+  <data name="Grid_Waypoints_Elevation" xml:space="preserve">
+    <value>Höhe (m)</value>
+  </data>
+  <data name="Grid_Waypoints_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Load_Error_Show_Details" xml:space="preserve">
+    <value>Details anzeigen</value>
+  </data>
   <data name="Property_Description" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
@@ -140,5 +149,11 @@
   </data>
   <data name="Property_State" xml:space="preserve">
     <value>Status</value>
+  </data>
+  <data name="Tab_Properties" xml:space="preserve">
+    <value>Eigenschaften</value>
+  </data>
+  <data name="Tab_Waypoints" xml:space="preserve">
+    <value>Wegpunkte</value>
   </data>
 </root>

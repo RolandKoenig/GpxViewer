@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FakeItEasy;
+﻿using FakeItEasy;
 using FirLib.Core.Patterns.Messaging;
 using FirLib.Formats.Gpx;
 using FirLib.Formats.Gpx.Metadata;
@@ -39,25 +34,6 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 return new FileTreeViewModel(
                     gpxFileRepo,
                     A.Fake<IGpxViewerCommands>());
-            }
-        }
-
-        public static SelectedToursViewModel SelectedToursVM_Normal
-        {
-            get
-            {
-                var result = new SelectedToursViewModel();
-                return result;
-            }
-        }
-
-        public static SelectedToursViewModel SelectedToursVM_Error
-        {
-            get
-            {
-                var result = new SelectedToursViewModel();
-                result.ErrorTextCompact = "Some error happened!";
-                return result;
             }
         }
     }

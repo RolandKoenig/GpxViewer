@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GpxViewer.Modules.GpxFiles.Views {
+namespace GpxViewer.Modules.GpxFiles.Views.TourViews {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace GpxViewer.Modules.GpxFiles.Views {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GpxViewer.Modules.GpxFiles.Views.SelectedToursViewResources", typeof(SelectedToursViewResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GpxViewer.Modules.GpxFiles.Views.TourViews.SelectedToursViewResources", typeof(SelectedToursViewResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -75,6 +75,33 @@ namespace GpxViewer.Modules.GpxFiles.Views {
         public static string Category_Metrics {
             get {
                 return ResourceManager.GetString("Category_Metrics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elevation (m).
+        /// </summary>
+        public static string Grid_Waypoints_Elevation {
+            get {
+                return ResourceManager.GetString("Grid_Waypoints_Elevation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Grid_Waypoints_Name {
+            get {
+                return ResourceManager.GetString("Grid_Waypoints_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Details.
+        /// </summary>
+        public static string Load_Error_Show_Details {
+            get {
+                return ResourceManager.GetString("Load_Error_Show_Details", resourceCulture);
             }
         }
         
@@ -129,6 +156,24 @@ namespace GpxViewer.Modules.GpxFiles.Views {
         public static string Property_State {
             get {
                 return ResourceManager.GetString("Property_State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Properties.
+        /// </summary>
+        public static string Tab_Properties {
+            get {
+                return ResourceManager.GetString("Tab_Properties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waypoints.
+        /// </summary>
+        public static string Tab_Waypoints {
+            get {
+                return ResourceManager.GetString("Tab_Waypoints", resourceCulture);
             }
         }
     }

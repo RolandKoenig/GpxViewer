@@ -1,12 +1,11 @@
 ﻿<firlibMvvm:MvvmUserControl 
-    x:Class="GpxViewer.Modules.GpxFiles.Views.SelectedToursView"
+    x:Class="GpxViewer.Modules.GpxFiles.Views.TourViews.SelectedToursView"
     x:ClassModifier="internal"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:GpxViewer.Modules.GpxFiles.Views"
-    xmlns:localTourViews="clr-namespace:GpxViewer.Modules.GpxFiles.Views.TourViews"
+    xmlns:local="clr-namespace:GpxViewer.Modules.GpxFiles.Views.TourViews"
     xmlns:firlibMvvm="http://www.rolandk.de/firlib/patterns/mvvm"
     xmlns:prism="http://prismlibrary.com/"             
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -15,8 +14,8 @@
     d:DesignWidth="300" d:DesignHeight="200">
 
     <Grid>
-        <localTourViews:SelectedToursViewNormal Visibility="{Binding Path=SelectedToursNormalViewVisibility}" />
-        <localTourViews:SelectedToursViewError Visibility="{Binding Path=SelectedToursErrorViewVisibility}" />
+        <local:SelectedToursViewNormal Visibility="{Binding Path=SelectedToursNormalViewVisibility}" />
+        <local:SelectedToursViewError Visibility="{Binding Path=SelectedToursErrorViewVisibility}" />
     </Grid>
 
 </firlibMvvm:MvvmUserControl>

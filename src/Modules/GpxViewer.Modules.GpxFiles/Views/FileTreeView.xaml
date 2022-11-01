@@ -19,13 +19,13 @@
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Command="{Binding Path=Command_LoadFile}"
-                      ToolTip="Load File">
+                      ToolTip="{x:Static local:FileTreeViewResources.Tool_LoadFile}">
                 <MenuItem.Header>
                     <gpxViewerCoreControls:GpxViewerIcon IconKind="LoadGpxFile" />
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding Path=Command_LoadDirectory}"
-                      ToolTip="Load Directory">
+                      ToolTip="{x:Static local:FileTreeViewResources.Tool_LoadDirectory}">
                 <MenuItem.Header>
                     <gpxViewerCoreControls:GpxViewerIcon IconKind="LoadDirectory" />
                 </MenuItem.Header>
@@ -33,13 +33,13 @@
             <Separator Style="{DynamicResource VerticalMenuSeparatorStyle}"/>
 
             <MenuItem Command="{Binding Path=Command_Save}"
-                      ToolTip="Save">
+                      ToolTip="{x:Static local:FileTreeViewResources.Tool_Save}">
                 <MenuItem.Header>
                     <gpxViewerCoreControls:GpxViewerIcon IconKind="Save" />
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding Path=Command_SaveAll}"
-                      ToolTip="Save All">
+                      ToolTip="{x:Static local:FileTreeViewResources.Tool_SaveAll}">
                 <MenuItem.Header>
                     <gpxViewerCoreControls:GpxViewerIcon IconKind="SaveAll" />
                 </MenuItem.Header>
@@ -47,13 +47,13 @@
             <Separator Style="{DynamicResource VerticalMenuSeparatorStyle}"/>
 
             <MenuItem Command="{Binding Path=Command_Close}"
-                      ToolTip="Close">
+                      ToolTip="{x:Static local:FileTreeViewResources.Tool_Close}">
                 <MenuItem.Header>
                     <gpxViewerCoreControls:GpxViewerIcon IconKind="Close" />
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding Path=Command_CloseAll}"
-                      ToolTip="Close All">
+                      ToolTip="{x:Static local:FileTreeViewResources.Tool_CloseAll}">
                 <MenuItem.Header>
                     <gpxViewerCoreControls:GpxViewerIcon IconKind="CloseAll" />
                 </MenuItem.Header>

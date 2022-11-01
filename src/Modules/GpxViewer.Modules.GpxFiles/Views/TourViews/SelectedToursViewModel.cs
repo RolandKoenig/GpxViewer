@@ -9,7 +9,7 @@ using GpxViewer.Core.Patterns;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
 
-namespace GpxViewer.Modules.GpxFiles.Views
+namespace GpxViewer.Modules.GpxFiles.Views.TourViews
 {
     internal class SelectedToursViewModel : GpxViewerViewModelBase
     {
@@ -20,7 +20,7 @@ namespace GpxViewer.Modules.GpxFiles.Views
         {
             get
             {
-                if (this.SelectedTours.Count == 1) { return Visibility.Visible; }
+                if (SelectedTours.Count == 1) { return Visibility.Visible; }
                 return Visibility.Collapsed;
             }
         }
@@ -29,9 +29,9 @@ namespace GpxViewer.Modules.GpxFiles.Views
         {
             get
             {
-                if (this.SelectedTours.Count > 0) { return Visibility.Collapsed; }
+                if (SelectedTours.Count > 0) { return Visibility.Collapsed; }
 
-                if (!string.IsNullOrEmpty(this.ErrorTextCompact)) { return Visibility.Visible; }
+                if (!string.IsNullOrEmpty(ErrorTextCompact)) { return Visibility.Visible; }
                 else { return Visibility.Collapsed; }
             }
         }
@@ -44,49 +44,49 @@ namespace GpxViewer.Modules.GpxFiles.Views
 
         public SelectedToursViewModel()
         {
-            this.SelectedTours = new ObservableCollection<SelectedTourViewModel>();
-            this.SelectedFileWaypoints = new ObservableCollection<ILoadedGpxFileWaypointInfo>();
+            SelectedTours = new ObservableCollection<SelectedTourViewModel>();
+            SelectedFileWaypoints = new ObservableCollection<ILoadedGpxFileWaypointInfo>();
 
-            this.Command_ShowErrorDetails = new DelegateCommand(
+            Command_ShowErrorDetails = new DelegateCommand(
                 () =>
                 {
-                    if (this.ErrorDetails == null) { return; }
+                    if (ErrorDetails == null) { return; }
 
-                    var srvErrorDialog = this.GetViewService<IErrorDialogService>();
-                    srvErrorDialog.ShowAsync(this.ErrorDetails);
-                }, 
-                () => this.ErrorDetails != null);
+                    var srvErrorDialog = GetViewService<IErrorDialogService>();
+                    srvErrorDialog.ShowAsync(ErrorDetails);
+                },
+                () => ErrorDetails != null);
         }
 
         private void OnMessageReceived(MessageGpxFileRepositoryNodeSelectionChanged message)
         {
-            this.SelectedTours.Clear();
-            this.SelectedFileWaypoints.Clear();
-            this.ErrorTextCompact = string.Empty;
-            this.ErrorDetails = null;
+            SelectedTours.Clear();
+            SelectedFileWaypoints.Clear();
+            ErrorTextCompact = string.Empty;
+            ErrorDetails = null;
 
             if (message.SelectedNodes != null)
             {
-                foreach(var actSelectedNode in message.SelectedNodes)
+                foreach (var actSelectedNode in message.SelectedNodes)
                 {
                     if (actSelectedNode.HasError)
                     {
                         var errorDetails = actSelectedNode.GetErrorDetails();
                         if (errorDetails != null)
                         {
-                            this.ErrorTextCompact = errorDetails.Message;
-                            this.ErrorDetails = errorDetails;
+                            ErrorTextCompact = errorDetails.Message;
+                            ErrorDetails = errorDetails;
                         }
                         else
                         {
-                            this.ErrorTextCompact = "Unknown error";
+                            ErrorTextCompact = "Unknown error";
                         }
                         continue;
                     }
 
                     foreach (var actTour in actSelectedNode.GetAssociatedToursDeep())
                     {
-                        this.SelectedTours.Add(new SelectedTourViewModel(actTour));
+                        SelectedTours.Add(new SelectedTourViewModel(actTour));
                     }
 
                     var associatedGpxFile = actSelectedNode.GetAssociatedGpxFile();
@@ -94,17 +94,17 @@ namespace GpxViewer.Modules.GpxFiles.Views
                     {
                         foreach (var actWaypoint in associatedGpxFile.Waypoints)
                         {
-                            this.SelectedFileWaypoints.Add(actWaypoint);
+                            SelectedFileWaypoints.Add(actWaypoint);
                         }
                     }
                 }
             }
 
-            this.RaisePropertyChanged(nameof(this.SelectedToursNormalViewVisibility));
-            this.RaisePropertyChanged(nameof(this.SelectedToursErrorViewVisibility));
-            this.RaisePropertyChanged(nameof(this.ErrorDetails));
-            this.RaisePropertyChanged(nameof(this.ErrorTextCompact));
-            this.Command_ShowErrorDetails.RaiseCanExecuteChanged();
+            RaisePropertyChanged(nameof(SelectedToursNormalViewVisibility));
+            RaisePropertyChanged(nameof(SelectedToursErrorViewVisibility));
+            RaisePropertyChanged(nameof(ErrorDetails));
+            RaisePropertyChanged(nameof(ErrorTextCompact));
+            Command_ShowErrorDetails.RaiseCanExecuteChanged();
         }
     }
 }

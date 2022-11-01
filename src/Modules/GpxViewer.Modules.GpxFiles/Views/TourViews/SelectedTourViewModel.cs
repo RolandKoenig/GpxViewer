@@ -4,7 +4,7 @@ using GpxViewer.Core.Utils;
 using GpxViewer.Modules.GpxFiles.Interface.Messages;
 using GpxViewer.Modules.GpxFiles.Interface.Model;
 
-namespace GpxViewer.Modules.GpxFiles.Views
+namespace GpxViewer.Modules.GpxFiles.Views.TourViews
 {
     internal class SelectedTourViewModel : GpxViewerViewModelBase
     {

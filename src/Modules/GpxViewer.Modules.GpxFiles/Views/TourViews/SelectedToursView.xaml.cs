@@ -1,7 +1,6 @@
-﻿using System.Windows.Controls;
-using FirLib.Core.Patterns.Mvvm;
+﻿using FirLib.Core.Patterns.Mvvm;
 
-namespace GpxViewer.Modules.GpxFiles.Views
+namespace GpxViewer.Modules.GpxFiles.Views.TourViews
 {
     internal partial class SelectedToursView : MvvmUserControl
     {

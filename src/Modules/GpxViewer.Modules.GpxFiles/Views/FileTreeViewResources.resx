@@ -120,4 +120,22 @@
   <data name="FileTree_DeselectAll" xml:space="preserve">
     <value>Deselect All</value>
   </data>
+  <data name="Tool_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Tool_CloseAll" xml:space="preserve">
+    <value>Close All</value>
+  </data>
+  <data name="Tool_LoadDirectory" xml:space="preserve">
+    <value>Load Directory</value>
+  </data>
+  <data name="Tool_LoadFile" xml:space="preserve">
+    <value>Load File</value>
+  </data>
+  <data name="Tool_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Tool_SaveAll" xml:space="preserve">
+    <value>SaveAll</value>
+  </data>
 </root>

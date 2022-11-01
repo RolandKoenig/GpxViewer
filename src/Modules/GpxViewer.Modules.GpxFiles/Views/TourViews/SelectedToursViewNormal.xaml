@@ -7,7 +7,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:prop="http://propertytools.org/wpf"
         xmlns:firlibMvvm="http://www.rolandk.de/firlib/patterns/mvvm"
-        xmlns:local="clr-namespace:GpxViewer.Modules.GpxFiles.Views"
+        xmlns:local="clr-namespace:GpxViewer.Modules.GpxFiles.Views.TourViews"
         mc:Ignorable="d" 
         d:DesignHeight="450" d:DesignWidth="800"
         d:DataContext="{x:Static local:DesignData.SelectedToursVM_Normal}">
@@ -29,11 +29,11 @@
                          Style="{DynamicResource MaterialDesignTabRadioButton}"
                          Margin="4" 
                          IsChecked="True" 
-                         Content="Properties"/>
+                         Content="{x:Static local:SelectedToursViewResources.Tab_Properties}"/>
             <RadioButton x:Name="rbTab2" 
                          Style="{DynamicResource MaterialDesignTabRadioButton}"
                          Margin="4"
-                         Content="Waypoints"/>
+                         Content="{x:Static local:SelectedToursViewResources.Tab_Waypoints}"/>
         </StackPanel>
 
         <Grid Grid.Row="1">
@@ -47,10 +47,12 @@
                           AutoGenerateColumns="False"
                           SelectionMode="Single">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="250" Header="Name"
+                        <DataGridTextColumn Width="250" 
+                                            Header="{x:Static local:SelectedToursViewResources.Grid_Waypoints_Name}"
                                             IsReadOnly="True"
                                             Binding="{Binding Path=RawWaypointData.Name}" />
-                        <DataGridTextColumn Width="150" Header="Elevation (m)"
+                        <DataGridTextColumn Width="150" 
+                                            Header="{x:Static local:SelectedToursViewResources.Grid_Waypoints_Elevation}"
                                             IsReadOnly="True"
                                             Binding="{Binding Path=RawWaypointData.Elevation, StringFormat=F0}" />
                     </DataGrid.Columns>

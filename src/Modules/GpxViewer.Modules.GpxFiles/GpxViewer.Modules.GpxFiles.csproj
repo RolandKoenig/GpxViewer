@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\SelectedToursViewResources.Designer.cs">
+    <Compile Update="Views\TourViews\SelectedToursViewResources.Designer.cs">
       <DependentUpon>SelectedToursViewResources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\SelectedToursViewResources.resx">
+    <EmbeddedResource Update="Views\TourViews\SelectedToursViewResources.resx">
       <LastGenOutput>SelectedToursViewResources.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
