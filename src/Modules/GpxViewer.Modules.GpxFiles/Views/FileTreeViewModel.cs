@@ -207,6 +207,38 @@ namespace GpxViewer.Modules.GpxFiles.Views
             }
         }
 
+        /// <summary>
+        /// Iterates through all nodes currently loaded into the file tree.
+        /// The given iteration actions gets the current node, it's parent nodes and returns a continuation flag. Return
+        /// true to continue iterating, return false to stop.
+        /// </summary>
+        /// <param name="iterateAction"></param>
+        public void IterateAllNodes(Func<FileTreeNodeViewModel, Stack<FileTreeNodeViewModel>, bool> iterateAction)
+        {
+            static bool IterateAllNodesInner(
+                Func<FileTreeNodeViewModel, Stack<FileTreeNodeViewModel>, bool> iterateActionInner,
+                IEnumerable<FileTreeNodeViewModel> currentLevel,
+                Stack<FileTreeNodeViewModel> currentStack)
+            {
+                foreach (var actNode in currentLevel)
+                {
+                    var doContinue = iterateActionInner(actNode, currentStack);
+                    if (!doContinue) { return doContinue; }
+
+                    currentStack.Push(actNode);
+                    doContinue = IterateAllNodesInner(iterateActionInner, actNode.ChildNodes, currentStack);
+                    currentStack.Pop();
+
+                    if (!doContinue) { return doContinue; }
+                }
+
+                return true;
+            }
+
+            var stack = new Stack<FileTreeNodeViewModel>(4);
+            IterateAllNodesInner(iterateAction, this.TopLevelNodes, stack);
+        }
+
         public void NotifyFileTreeNodeDoubleClick(FileTreeNodeViewModel nodeViewModel)
         {
             base.Messenger.Publish(
@@ -350,16 +382,30 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 return;
             }
 
-            var correspondingNode = this.EnumerateAllNodes(this.TopLevelNodes)
-                .FirstOrDefault(x =>
-                {
-                    var currentFile = x.Model.GetAssociatedGpxFile();
-                    if (currentFile == null) { return false; }
+            var foundNode = false;
+            this.IterateAllNodes((actNode, actParentNodes) =>
+            {
+                var currentFile = actNode.Model.GetAssociatedGpxFile();
+                if (currentFile == null) { return true; }
 
-                    return currentFile.Tours.Contains(message.TourToSelect);
-                });
-            
-            this.SelectedNode = correspondingNode;
+                if (currentFile.Tours.Contains(message.TourToSelect))
+                {
+                    foundNode = true;
+                    foreach (var actParentNode in actParentNodes)
+                    {
+                        actParentNode.IsExpanded = true;
+                    }
+                    this.SelectedNode = actNode;
+                    return false;
+                }
+
+                return true;
+            });
+
+            if (!foundNode)
+            {
+                this.SelectedNode = null;
+            }
         }
 
         private void OnGpxFileRepository_SelectedNodeChanged(object? sender, EventArgs e)
