@@ -342,6 +342,26 @@ namespace GpxViewer.Modules.GpxFiles.Views
             message.SaveTasks.Add(this.OnCommand_SaveAll_ExecuteAsync());
         }
 
+        private void OnMessageReceived(MessageSelectGpxTourRequest message)
+        {
+            if (message.TourToSelect == null)
+            {
+                this.SelectedNode = null;
+                return;
+            }
+
+            var correspondingNode = this.EnumerateAllNodes(this.TopLevelNodes)
+                .FirstOrDefault(x =>
+                {
+                    var currentFile = x.Model.GetAssociatedGpxFile();
+                    if (currentFile == null) { return false; }
+
+                    return currentFile.Tours.Contains(message.TourToSelect);
+                });
+            
+            this.SelectedNode = correspondingNode;
+        }
+
         private void OnGpxFileRepository_SelectedNodeChanged(object? sender, EventArgs e)
         {
             var newlySelectedNode = _repoGpxFiles.SelectedNode;

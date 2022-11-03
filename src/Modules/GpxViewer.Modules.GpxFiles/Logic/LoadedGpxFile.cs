@@ -12,6 +12,8 @@ namespace GpxViewer.Modules.GpxFiles.Logic
     {
         public GpxFile RawGpxFile { get; }
 
+        public string FileName { get; }
+
         public List<LoadedGpxFileTourInfo> Tours { get; }
 
         public List<LoadedGpxFileWaypointInfo> Waypoints { get; }
@@ -22,8 +24,9 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
         public bool ContentsChanged { get; set; }
 
-        public LoadedGpxFile(GpxFile gpxFile)
+        public LoadedGpxFile(string fileName, GpxFile gpxFile)
         {
+            this.FileName = fileName;
             this.RawGpxFile = gpxFile;
 
             this.Waypoints = new List<LoadedGpxFileWaypointInfo>(gpxFile.Waypoints.Count);

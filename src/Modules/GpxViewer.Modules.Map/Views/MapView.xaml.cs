@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 using FirLib.Core;
 using FirLib.Core.Infrastructure;
 using FirLib.Core.Patterns.Mvvm;
+using GpxViewer.Modules.Map.Util;
+using Mapsui.Geometries;
 using Mapsui.Layers;
 using Mapsui.Rendering.Skia;
 using Mapsui.Utilities;
@@ -16,6 +15,8 @@ namespace GpxViewer.Modules.Map.Views
 {
     internal partial class MapView : MvvmUserControl
     {
+        private DateTimeOffset _lastMouseDownTimestamp;
+
         public MapView()
         {
             this.InitializeComponent();
@@ -111,6 +112,34 @@ namespace GpxViewer.Modules.Map.Views
                 case "":
                     this.ApplyViewSettings(viewModel.ViewSettings);
                     break;
+            }
+        }
+
+        private void OnCtrlMap_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _lastMouseDownTimestamp = DateTimeOffset.UtcNow;
+        }
+
+        private void OnCtrlMap_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            // Is this actually a "click"
+            if (DateTimeOffset.UtcNow - _lastMouseDownTimestamp > TimeSpan.FromMilliseconds(300)) { return; } 
+
+            if (this.DataContext is not MapViewModel viewModel) { return; }
+
+            var mousePosition = e.GetPosition(this.CtrlMap);
+
+            var clickInfo = this.CtrlMap.GetMapInfo(
+                new Point(mousePosition.X, mousePosition.Y),
+                1);
+
+            if (clickInfo.Feature?.Geometry is GpxViewerLineString lineString)
+            {
+                viewModel.OnGpxTourSelected(lineString.Tour);
+            }
+            else
+            {
+                viewModel.OnGpxTourSelected(null);
             }
         }
     }

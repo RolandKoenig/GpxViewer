@@ -30,9 +30,11 @@ namespace GpxViewer.Modules.GpxFiles.Logic
 
             try
             {
-                _gpxFile = new LoadedGpxFile(GpxFile.Deserialize(
-                    filePath.Path, 
-                    GpxFileDeserializationMethod.Compatibility));
+                _gpxFile = new LoadedGpxFile(
+                    Path.GetFileName(filePath.Path),
+                    GpxFile.Deserialize(
+                        filePath.Path, 
+                        GpxFileDeserializationMethod.Compatibility));
             }
             catch (Exception e)
             {
@@ -43,10 +45,10 @@ namespace GpxViewer.Modules.GpxFiles.Logic
             this.InitializeProperties();
         }
 
-        public GpxFileRepositoryNodeFile(GpxFile gpxFile, FileOrDirectoryPath filePath)
+        public GpxFileRepositoryNodeFile(string fileName, GpxFile gpxFile, FileOrDirectoryPath filePath)
         {
             this.FilePath = filePath;
-            _gpxFile = new LoadedGpxFile(gpxFile);
+            _gpxFile = new LoadedGpxFile(fileName, gpxFile);
 
             this.InitializeProperties();
         }

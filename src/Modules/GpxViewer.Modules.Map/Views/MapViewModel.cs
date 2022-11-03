@@ -60,11 +60,13 @@ namespace GpxViewer.Modules.Map.Views
             this.ViewSettings = new MapViewSettings(_config);
 
             _layerLoadedGpxFiles = new MemoryLayer();
+            _layerLoadedGpxFiles.IsMapInfoLayer = true;
             _layerLoadedGpxFilesProvider = new MemoryProvider();
             _layerLoadedGpxFiles.DataSource = _layerLoadedGpxFilesProvider;
             _loadedTours = new List<ILoadedGpxFileTourInfo>();
 
             _layerSelectedGpxFiles = new MemoryLayer();
+            _layerSelectedGpxFiles.IsMapInfoLayer = true;
             _layerSelectedGpxFilesProvider = new MemoryProvider();
             _layerSelectedGpxFiles.DataSource = _layerSelectedGpxFilesProvider;
             _selectedTours = new List<ILoadedGpxFileTourInfo>();
@@ -115,6 +117,12 @@ namespace GpxViewer.Modules.Map.Views
             this.AdditionalMapLayers.Add(_layerSelectedGpxFiles);
             this.AdditionalMapLayers.Add(_layerLoadedGpxFiles);
             this.AdditionalMapLayers.Add(_layerPoints);
+        }
+
+        public void OnGpxTourSelected(ILoadedGpxFileTourInfo? selectedTour)
+        {
+            this.Messenger.Publish(
+                new MessageSelectGpxTourRequest(selectedTour));
         }
 
         /// <inheritdoc />

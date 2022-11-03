@@ -19,7 +19,9 @@
 
     <Grid>
         <maps:MapControl x:Name="CtrlMap" 
-                         RenderMode="Skia" />
+                         RenderMode="Skia" 
+                         MouseDown="OnCtrlMap_MouseDown"
+                         MouseUp="OnCtrlMap_MouseUp"/>
 
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left"
                     Background="#AAAAAAAA"

@@ -27,9 +27,9 @@ namespace GpxViewer.Modules.GpxFiles.Views
                 });
 
                 var gpxFileRepo = new GpxFileRepository(A.Fake<IFirLibMessagePublisher>());
-                gpxFileRepo.AddTopLevelNode(new GpxFileRepositoryNodeFile(gpxFile, new FileOrDirectoryPath("DummyPath")));
-                gpxFileRepo.AddTopLevelNode(new GpxFileRepositoryNodeFile(gpxFile, new FileOrDirectoryPath("DummyPath")));
-                gpxFileRepo.AddTopLevelNode(new GpxFileRepositoryNodeFile(gpxFile, new FileOrDirectoryPath("DummyPath")));
+                gpxFileRepo.AddTopLevelNode(new GpxFileRepositoryNodeFile("Dummy.gpx", gpxFile, new FileOrDirectoryPath("DummyPath")));
+                gpxFileRepo.AddTopLevelNode(new GpxFileRepositoryNodeFile("Dummy.gpx", gpxFile, new FileOrDirectoryPath("DummyPath")));
+                gpxFileRepo.AddTopLevelNode(new GpxFileRepositoryNodeFile("Dummy.gpx", gpxFile, new FileOrDirectoryPath("DummyPath")));
 
                 return new FileTreeViewModel(
                     gpxFileRepo,
